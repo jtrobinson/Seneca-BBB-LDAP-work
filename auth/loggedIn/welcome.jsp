@@ -1,6 +1,7 @@
 <HTML> 
 <HEAD><TITLE>Welcome</TITLE></HEAD>  
 <BODY>
+<%@ include file="seneca_header.jsp"%>
 <br><br>
 <%
 if(session.getAttribute("theName")!=null && session.getAttribute("theName")!="")

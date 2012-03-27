@@ -1,2 +1,3 @@
-<div align="center"><img src="SenecaLogo.jpg"/><br></div> 
+<div align="center"><img src="img/SenecaLogo.jpg"/><br></div> 
+
 
