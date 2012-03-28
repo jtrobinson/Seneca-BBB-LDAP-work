@@ -46,8 +46,6 @@ Author: Fred Dixon <ffdixon@bigbluebutton.org>
 HashMap<String, HashMap> allMeetings = new HashMap<String, HashMap>();
 HashMap<String, String> meeting;
 
-// String welcome = "<br>Welcome to %%CONFNAME%%!<br><br>For help see our <a href=\"event:http://www.bigbluebutton.org/content/videos\"><u>tutorial videos</u></a>.<br><br>To join the voice bridge for this meeting:<br>  (1) click the headset icon in the upper-left, or<br>  (2) dial xxx-xxx-xxxx (toll free:1-xxx-xxx-xxxx) and enter conference ID: %%CONFNUM%%.<br><br>";
-
 String welcome = "<br>Welcome to <b>%%CONFNAME%%</b>!<br><br>To understand how BigBlueButton works see our <a href=\"event:http://www.bigbluebutton.org/content/videos\"><u>tutorial videos</u></a>.<br><br>To join the audio bridge click the headset icon (upper-left hand corner). <b>You can mute yourself in the Listeners window.</b>";
 
 //
@@ -62,6 +60,7 @@ allMeetings.put( "ENGL-2013: Research Methods in English", meeting );	// The tit
 	meeting.put("voiceBridge", 	"72013");			// The extension number for the voice bridge (use if connected to phone system)
 	meeting.put("logoutURL", 	"/demo/demo3.jsp");  // The logout URL (use if you want to return to your pages)
 
+/* // Removing all extra meetings temporarily.
 meeting = new HashMap<String, String>();
 allMeetings.put( "ENGL-2213: Drama Production I", meeting );
 	meeting.put("welcomeMsg", 	welcome);
@@ -134,7 +133,7 @@ allMeetings.put( "Virtual Office Hours - Tony Weiss", meeting );
 	meeting.put("viewerPW", 	"student123");
 	meeting.put("voiceBridge", 	"70003");
 	meeting.put("logoutURL", 	"/demo/demo3.jsp");
-
+*/
 
 meeting = null;
 
