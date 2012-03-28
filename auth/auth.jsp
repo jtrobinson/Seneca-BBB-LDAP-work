@@ -7,7 +7,7 @@
 	 String name = request.getParameter( "username" );
  	 String paswd = request.getParameter( "password" ) ;
    
-    if (name.equalsIgnoreCase("root") && paswd.equalsIgnoreCase("root"))
+    if (name.equalsIgnoreCase("viewer") && paswd.equalsIgnoreCase("viewer"))
         {
 	   
  	    session.setAttribute( "theName",  name);
