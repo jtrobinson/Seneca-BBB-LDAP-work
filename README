@@ -1,4 +1,6 @@
 Seneca LDAP implementation for BigBlueButton
 March 2012 Seneca College
 
-Note: To appear in the API demos, the "demo" folder must be copied to /var/lib/tomcat6/webapps/demo (you may need to sudo yourself some permissions first)
+To appear in the API demos, the "demo" folder must be copied to /var/lib/tomcat6/webapps/demo (you may need to sudo yourself some permissions first)
+
+You may need to add the commons-lang-2.5 package to use the LDAP example. Find it here: http://www.classnotfound.com/package.html?jarId=64581
