@@ -1,3 +1,5 @@
+<jsp:useBean id="ldap" class="ldap.LDAPAuthenticate" scope="session"/>
+
 <html>
 <head>
 </head>
@@ -8,7 +10,7 @@
 <table width="300px" align="center" style="border:1px solid #000000;background-color:#efefef;">
 <tr><td colspan=2></td></tr>
 <tr><td colspan=2> </td></tr>
-  <tr>
+ 	<tr>
   <td><b>Login Name</b></td>
   <td><input type="text" name="username" value=""></td>
   </tr>

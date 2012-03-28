@@ -11,7 +11,7 @@ public class LDAPTester {
 		System.out.print("Enter username: ");
 		String username = kbdIn.nextLine();
 		while (!username.equals("exit")) {
-			ldap.search(username);
+			System.out.println(ldap.search(username));
 			
 			if (ldap.getAuthenticated())
 				System.out.println(ldap.getTitle());

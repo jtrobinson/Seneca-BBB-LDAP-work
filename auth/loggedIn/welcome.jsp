@@ -1,3 +1,5 @@
+<jsp:useBean id="ldap" class="ldap.LDAPAuthenticate" scope="session"/>
+
 <HTML> 
 <HEAD><TITLE>Welcome</TITLE></HEAD>  
 <BODY>

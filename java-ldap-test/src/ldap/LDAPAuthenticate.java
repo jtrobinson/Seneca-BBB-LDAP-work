@@ -40,8 +40,8 @@ public class LDAPAuthenticate {
 			//Using factory get an instance of document builder
 			DocumentBuilder db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
 			//parse using builder to get DOM representation of the XML file
-			Document dom = db.parse("config.xml");
-			
+			//Document dom = db.parse("WEB-INF/config.xml");
+			Document dom = db.parse(Thread.currentThread().getContextClassLoader().getResourceAsStream("config.xml"));
 			//get the root element
 			Element docEle = dom.getDocumentElement();
 			
@@ -93,7 +93,7 @@ public class LDAPAuthenticate {
 	public boolean search(String u) {
 		username = u;
 		u = "(&(uid="+u+"))"; // format the username
-		
+		username = o;
 		try {
 			NamingEnumeration<SearchResult> results = ldapContext.search("o="+o, u, searchCtrl);
 			
@@ -120,7 +120,7 @@ public class LDAPAuthenticate {
 			authenticated = true;
 			return true;
 		} catch (NamingException e) {
-			System.out.println("search for username on ldap failed.");
+			//System.out.println("search for username on ldap failed.");
 		} catch (Exception e) {
 			
 		}
@@ -128,6 +128,10 @@ public class LDAPAuthenticate {
 		authenticated = false;
 		
 		return false;
+	}
+	
+	public String getUserName() {
+		return username;
 	}
 	
 	public boolean getAuthenticated() {

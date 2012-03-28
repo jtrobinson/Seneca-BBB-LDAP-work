@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<config>
+	<ldap>
+		<url>ldap://dssy.senecac.on.ca/</url>
+		<security-authentication>none</security-authentication>
+		<o>sene.ca</o>
+	</ldap>
+</config>
