@@ -8,7 +8,17 @@ import javax.naming.directory.DirContext;
 import javax.naming.directory.SearchControls;
 import javax.naming.directory.SearchResult;
 import javax.naming.NamingException;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
@@ -23,12 +33,48 @@ public class LDAPAuthenticate {
 	private String ou;
 	
 	public LDAPAuthenticate() {
+		String url = "";
+		String security = "";
+		
+		try {
+			//Using factory get an instance of document builder
+			DocumentBuilder db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+			//parse using builder to get DOM representation of the XML file
+			Document dom = db.parse("config.xml");
+			
+			//get the root element
+			Element docEle = dom.getDocumentElement();
+			
+			NodeList ldapConfig = docEle.getElementsByTagName("ldap").item(0).getChildNodes();
+			for (int i=0; i<ldapConfig.getLength(); i++) {
+				if (ldapConfig.item(i).getNodeName().equals("url")) {
+					url = ldapConfig.item(i).getFirstChild().getNodeValue();
+				} else if (ldapConfig.item(i).getNodeName().equals("security-authentication")) {
+					security = ldapConfig.item(i).getFirstChild().getNodeValue();
+				} else if (ldapConfig.item(i).getNodeName().equals("o")) {
+					o = ldapConfig.item(i).getFirstChild().getNodeValue();
+				}
+			}
+		} catch (ParserConfigurationException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (SAXException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		
+
+		
 		env = new Hashtable<Object, Object>();
 		env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
 		
 		// specify where the ldap server is running
-		env.put(Context.PROVIDER_URL, "ldap://dssy.senecac.on.ca/");
-		env.put(Context.SECURITY_AUTHENTICATION, "none");
+		env.put(Context.PROVIDER_URL, url);
+		env.put(Context.SECURITY_AUTHENTICATION, security);
 		
 		// Create the initial directory context
 		try {
@@ -49,7 +95,7 @@ public class LDAPAuthenticate {
 		u = "(&(uid="+u+"))"; // format the username
 		
 		try {
-			NamingEnumeration<SearchResult> results = ldapContext.search("o=sene.ca", u, searchCtrl);
+			NamingEnumeration<SearchResult> results = ldapContext.search("o="+o, u, searchCtrl);
 			
 			if (!results.hasMore()) // search failed
 				throw new Exception();

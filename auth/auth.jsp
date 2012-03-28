@@ -1,8 +1,5 @@
 <%
 
-  
-
-
   if(request.getParameter( "username" ) != null && request.getParameter( "password" ) != null){
 	 String name = request.getParameter( "username" );
  	 String paswd = request.getParameter( "password" ) ;
