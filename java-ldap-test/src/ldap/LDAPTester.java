@@ -5,21 +5,21 @@ import java.util.Scanner;
 public class LDAPTester {
 	
 	public static void main(String [] args) {
-		LDAPAuthenticate ldap = new LDAPAuthenticate();
+		NoWebLDAP ldap = new NoWebLDAP();
 		
 		Scanner kbdIn = new Scanner(System.in);
-		System.out.print("Enter username: ");
-		String username = kbdIn.nextLine();
-		while (!username.equals("exit")) {
-			System.out.println(ldap.search(username));
+		//System.out.print("Enter username: ");
+		//String username = kbdIn.nextLine();
+		//while (!username.equals("exit")) {
+			System.out.println(ldap.search("chad.pilkey"));
 			
-			if (ldap.getAuthenticated())
+			/*if (ldap.getAuthenticated())
 				System.out.println(ldap.getTitle());
 			else
-				System.out.println("Username not found");
+				System.out.println("Username not found");*/
 			
-			System.out.print("Enter username: ");
-			username = kbdIn.nextLine();
-		};
+			//System.out.print("Enter username: ");
+			//username = kbdIn.nextLine();
+		//};
 	}
 }

@@ -7,11 +7,8 @@
 <%@ include file="seneca_header.jsp"%>
 <br><br>
 <%
-if(session.getAttribute("theName")!=null && session.getAttribute("theName")!="")
-{
-String user = session.getAttribute("theName").toString();
-}else{
-    response.sendRedirect("../login.jsp");	
+if(ldap.getAuthenticated().equals("true")) {
+    //response.sendRedirect("../login.jsp");	
 }
 
 
@@ -19,7 +16,7 @@ String user = session.getAttribute("theName").toString();
 <%@ include file="bbb_api.jsp"%>
 
 <% 
-String user = session.getAttribute("theName").toString();
+String user = ldap.getUID();
 //
 // We're going to define some sample courses (meetings) below.  This API exampe shows how you can create a login page for a course. 
 // The password below are not available to users as they are compiled on the server.

@@ -23,25 +23,27 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 
 public class LDAPAuthenticate {
-	private String username;
-	private boolean authenticated;
+	private String authenticated;
 	private Hashtable<Object, Object> env;
-	private DirContext ldapContext;
-	private SearchControls searchCtrl; 
+	private DirContext ldapContextNone;
+	private SearchControls searchCtrl;
+	private String url;
 	private String o;
-	private String title;
 	private String ou;
+	private String uid;
+	private boolean logout;
 	
 	public LDAPAuthenticate() {
-		String url = "";
-		String security = "";
+		authenticated = "false";
+		logout = false;
+		//String security = "";
 		
 		try {
 			//Using factory get an instance of document builder
 			DocumentBuilder db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
 			//parse using builder to get DOM representation of the XML file
 			//Document dom = db.parse("WEB-INF/config.xml");
-			Document dom = db.parse(Thread.currentThread().getContextClassLoader().getResourceAsStream("config.xml"));
+			Document dom = db.parse(Thread.currentThread().getContextClassLoader().getResourceAsStream("../config.xml"));
 			//get the root element
 			Element docEle = dom.getDocumentElement();
 			
@@ -49,8 +51,8 @@ public class LDAPAuthenticate {
 			for (int i=0; i<ldapConfig.getLength(); i++) {
 				if (ldapConfig.item(i).getNodeName().equals("url")) {
 					url = ldapConfig.item(i).getFirstChild().getNodeValue();
-				} else if (ldapConfig.item(i).getNodeName().equals("security-authentication")) {
-					security = ldapConfig.item(i).getFirstChild().getNodeValue();
+				//} else if (ldapConfig.item(i).getNodeName().equals("security-authentication")) {
+				//	security = ldapConfig.item(i).getFirstChild().getNodeValue();
 				} else if (ldapConfig.item(i).getNodeName().equals("o")) {
 					o = ldapConfig.item(i).getFirstChild().getNodeValue();
 				}
@@ -65,80 +67,111 @@ public class LDAPAuthenticate {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		
-
 		
 		env = new Hashtable<Object, Object>();
 		env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
 		
 		// specify where the ldap server is running
 		env.put(Context.PROVIDER_URL, url);
-		env.put(Context.SECURITY_AUTHENTICATION, security);
+		env.put(Context.SECURITY_AUTHENTICATION, "none");
 		
 		// Create the initial directory context
 		try {
-			ldapContext = new InitialDirContext(env);
+			ldapContextNone = new InitialDirContext(env);
 		} catch (NamingException e) {
-			System.out.println("LDAP server not found");
+
 		}
 		
 		searchCtrl = new SearchControls();
 		searchCtrl.setSearchScope(SearchControls.SUBTREE_SCOPE);
-		
-		username = "";
-		authenticated = false;
 	}
 	
-	public boolean search(String u) {
-		username = u;
-		u = "(&(uid="+u+"))"; // format the username
-		username = o;
-		try {
-			NamingEnumeration<SearchResult> results = ldapContext.search("o="+o, u, searchCtrl);
-			
-			if (!results.hasMore()) // search failed
-				throw new Exception();
-			
-			SearchResult sr = results.next();
-			
-			Attributes at = sr.getAttributes();
-			
-			ou = ((sr.getName().split(","))[1].split("="))[1]; // grab the ou (either Student or Employee)
-			
-			if (ou.equals("Employee"))
-				title = (String) at.get("title").get(0);
-			else
-				title = ou;
-				
-			
-			/*NamingEnumeration<String> ids = at.getIDs(); // outputs all the possible attribute names
-			while (ids.hasMore()) {
-				System.out.println(ids.next());
-			}*/
-			
-			authenticated = true;
-			return true;
-		} catch (NamingException e) {
-			//System.out.println("search for username on ldap failed.");
-		} catch (Exception e) {
-			
-		}
+	public boolean search(String user, String pass) {
+		search(user);
 		
-		authenticated = false;
+		if (authenticated.equals("true") && user.equals(uid)) {
+			try {
+				env = new Hashtable<Object, Object>();
+				env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
+				
+				// specify where the ldap server is running
+				env.put(Context.PROVIDER_URL, url);
+				//env.put(Context.SECURITY_AUTHENTICATION, "none");
+				env.put(Context.SECURITY_AUTHENTICATION, "simple");
+				env.put(Context.SECURITY_PRINCIPAL, "uid="+uid+", ou="+ou+", o="+o);
+				env.put(Context.SECURITY_CREDENTIALS, pass);
+				
+				// this command will throw an exception if the password is incorrect
+				DirContext ldapContext = new InitialDirContext(env);
+				
+				NamingEnumeration<SearchResult> results = ldapContext.search("o="+o, "(&(uid="+user+"))", searchCtrl);
+				
+				if (!results.hasMore()) // search failed
+					throw new Exception();
+				
+				//SearchResult sr = results.next();
+				
+				//Attributes at = sr.getAttributes();
+				
+				authenticated = "true";
+				return true;
+			} catch (NamingException e) {
+				//System.out.println("search for username on ldap failed.");
+			} catch (Exception e) {
+				
+			}
+		}
+		authenticated = "failed";
 		
 		return false;
 	}
 	
-	public String getUserName() {
-		return username;
+	public boolean search(String user) {
+		
+		if (ldapContextNone!=null) { // if the initial context was created fine
+			try {
+				NamingEnumeration<SearchResult> results = ldapContextNone.search("o="+o, "(&(uid="+user+"))", searchCtrl);
+				
+				if (!results.hasMore()) // search failed
+					throw new Exception();
+				
+				SearchResult sr = results.next();
+				Attributes at = sr.getAttributes();
+				
+				ou = ((sr.getName().split(","))[1].split("="))[1];
+				uid = at.get("uid").toString().split(": ")[1];
+				
+				authenticated = "true";
+				return true;
+			} catch (NamingException e) {
+				//System.out.println("search for username on ldap failed.");
+			} catch (Exception e) {
+				
+			}
+		}
+		
+		authenticated = "failed";
+		
+		return false;
 	}
 	
-	public boolean getAuthenticated() {
+	public String getUID() {
+		return uid;
+	}
+	
+	public String getAuthenticated() {
 		return authenticated;
 	}
 	
-	public String getTitle() {
-		return title;
+	public void resetAuthenticated() {
+		authenticated = "false";
+	}
+	
+	public boolean isLogout() {
+		return logout;
+	}
+	
+	public void setLogout(boolean l) {
+		logout = l;
 	}
 }

@@ -1,7 +1,10 @@
+<jsp:useBean id="ldap" class="ldap.LDAPAuthenticate" scope="session"/>
 <%@page import="java.util.*" %>
 
-<%session.invalidate();
-  response.sendRedirect("../login.jsp?logout=102921983");
+<%
+	ldap.resetAuthenticated();
+	ldap.setLogout(true);
+	response.sendRedirect("../login.jsp");
  %>
 
 
