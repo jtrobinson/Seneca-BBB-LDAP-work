@@ -78,7 +78,7 @@ public class NoWebLDAP {
 		//env.put(Context.SECURITY_AUTHENTICATION, "none");
 		env.put(Context.SECURITY_AUTHENTICATION, "simple");
 		env.put(Context.SECURITY_PRINCIPAL, "uid=capilkey, ou=Student, o="+o);
-		env.put(Context.SECURITY_CREDENTIALS, "h)rse!@#");
+		env.put(Context.SECURITY_CREDENTIALS, passwordgoeshere);
 		// Create the initial directory context
 		try {
 			ldapContext = new InitialDirContext(env);
