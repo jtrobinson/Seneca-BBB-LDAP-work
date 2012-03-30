@@ -109,10 +109,12 @@ public class LDAPAuthenticate {
 				if (!results.hasMore()) // search failed
 					throw new Exception();
 				
-				//SearchResult sr = results.next();
+				SearchResult sr = results.next();
 				
-				//Attributes at = sr.getAttributes();
+				Attributes at = sr.getAttributes();
 				
+				cn = at.get("cn").toString().split(": ")[1];
+
 				authenticated = "true";
 				return true;
 			} catch (NamingException e) {

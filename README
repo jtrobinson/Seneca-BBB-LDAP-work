@@ -11,7 +11,7 @@ To get the login app to work you must run these two commands from within the rep
 > sudo service nginx restart
 
 Then run:
-> such cp -r auth /var/lib/tomcat6/webapps
+> sudo cp -r auth /var/lib/tomcat6/webapps
 you'll have to do this everytime you update a jsp page.
 
 If you modify the java files in java-ldap-test you have to copy the contents of the class files from the bin directory to auth/WEB-INF/classes directory manually. You then have to run:
