@@ -10,10 +10,45 @@ To get the login app to work you must run these two commands from within the rep
 > sudo cp auth.nginx /etc/bigbluebutton/nginx
 > sudo service nginx restart
 
-Then run:
-> sudo cp -r auth /var/lib/tomcat6/webapps
-you'll have to do this everytime you update a jsp page.
+***NEW***
+I have completely changed the way the auth app works. I've figured out a way to create an actual web project within Eclipse. In order to set up the Eclipse project you have to follow the following steps:
 
-If you modify the java files in java-ldap-test you have to copy the contents of the class files from the bin directory to auth/WEB-INF/classes directory manually. You then have to run:
-> sudo service tomcat6 restart
-to get tomcat to see your changes.
+1. Run these commands to allow Eclipse access to tomcat
+> sudo apt-get install tomcat6
+> cd /usr/share/tomcat6
+> sudo ln -s /var/lib/tomcat6/conf conf
+> sudo ln -s /etc/tomcat6/policy.d/03catalina.policy conf/catalina.policy
+> sudo ln -s /var/log/tomcat6 log
+> sudo chmod -R 777 /usr/share/tomcat6/conf
+
+2. Install the required Eclipse plugins
+> In Eclipse go to Help->Install New Sofware->Work with->Galileo Update Site
+> Select the complete package "Web,XML,Java EE Development", expand the option and deselect "PHP Development Tools" and "Rich Ajax Platform"
+> Select Next->Finish
+> Wait for the plugins to install
+
+3. Set up Eclipse environment
+> In Eclipse go to Window->Preferences->Server->Runtime Environments->Add...
+> Select Apache Tomcatv6.0
+> Click Next
+> Under "Tomcat installation directory" click Browse->navigate to->"/usr/share/tomcat6"
+> Click Finish
+
+4. Setting up the server
+> In a terminal window type "sudo service tomcat6 stop"
+> In Eclipse go to Windows->Show View->Servers
+> Find where the Servers view was placed and if there's no "Tomcat v6.0 Server" entry right-click the view and select New->Server
+> Select the server that you created in step 3
+
+5. Setting up the project
+> Switch to the Java EE perspective
+> Select File->New->Dynamic Web Project
+> Name it whatever you want and set the Directory to the auth directory in your ldap repo
+> Click finish
+
+6. Running your project
+> In the Servers view click the green play button
+> In a browser navigate to "http://142.204.133.31/auth/login.jsp"
+> Ta-da
+
+No more file moving or copying of files just start and stop the server from within Eclipse when you want to make a change. 
