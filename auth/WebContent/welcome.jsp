@@ -8,7 +8,7 @@
 <br><br>
 <%
 if(!ldap.getAuthenticated().equals("true")) {
-    response.sendRedirect("../login.jsp");	
+    response.sendRedirect(".login.jsp");	
 }
 
 %>

@@ -4,7 +4,7 @@
 	if(request.getParameter( "username" ) != null && request.getParameter( "password" ) != null){
 		
 		if (ldap.search(request.getParameter( "username" ),request.getParameter( "password"))) {
-			response.sendRedirect("loggedIn/welcome.jsp");
+			response.sendRedirect("welcome.jsp");
 		} else {
 			response.sendRedirect("login.jsp");	
 		}

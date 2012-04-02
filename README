@@ -6,9 +6,8 @@ To appear in the API demos, the "demo" folder must be copied to /var/lib/tomcat6
 You may need to add the commons-lang-2.5 package to use the LDAP example. Find it here: http://www.classnotfound.com/package.html?jarId=64581
 
 
-To get the login app to work you must run these two commands from within the repo directory.
-> sudo cp auth.nginx /etc/bigbluebutton/nginx
-> sudo service nginx restart
+To get the auth app to work you must run this shell script from within the repo directory
+> ./setup.sh
 
 ***NEW***
 I have completely changed the way the auth app works. I've figured out a way to create an actual web project within Eclipse. In order to set up the Eclipse project you have to follow the following steps:
@@ -47,6 +46,8 @@ I have completely changed the way the auth app works. I've figured out a way to 
 > Click finish
 
 6. Running your project
+> Double click on your server in the Servers view
+> Find the Ports section in the "Tomcat v6.0 Server at localhost" file and change the admin port to 8000 and the HTTP/1.1 port to 8087
 > In the Servers view click the green play button
 > In a browser navigate to "http://142.204.133.31/auth/login.jsp"
 > Ta-da

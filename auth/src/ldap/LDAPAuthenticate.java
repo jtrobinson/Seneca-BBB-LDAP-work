@@ -2,6 +2,7 @@ package ldap;
 
 import javax.naming.Context;
 import javax.naming.NamingEnumeration;
+import javax.naming.directory.Attribute;
 import javax.naming.directory.Attributes;
 import javax.naming.directory.InitialDirContext;
 import javax.naming.directory.DirContext;
@@ -115,6 +116,11 @@ public class LDAPAuthenticate {
 				SearchResult sr = results.next();
 				Attributes at = sr.getAttributes();
 				cn = at.get("cn").toString().split(": ")[1];
+				
+				//prints out all possible attributes
+			//	for(NamingEnumeration i = at.getAll(); i.hasMore(); ) {
+			//		System.out.println((Attribute) i.next());
+			//	}
 				
 				authenticated = "true";
 				return true;
