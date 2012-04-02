@@ -45,5 +45,5 @@
 		</html>
 <%
 	} else
-		response.sendRedirect("loggedIn/welcome.jsp");
+		response.sendRedirect("welcome.jsp");
 %>

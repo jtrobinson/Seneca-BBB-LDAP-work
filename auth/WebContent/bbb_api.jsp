@@ -194,6 +194,7 @@ public String getJoinURL(String username, String meetingID, String record, Strin
 			+ checksum("create" + create_parameters + salt); 
 		doc = parseXml( postURL( url, xml_param ) );
 	} catch (Exception e) {
+		System.out.println("Found the error");
 		e.printStackTrace();
 	}
 
@@ -540,6 +541,7 @@ public String getMetaData( Map<String, String> metadata ) {
 	
 	if ( metadata!=null ){
 		for(String metakey : metadata.keySet()){
+			System.out.println(metakey + " : " + metadata.get(metakey));
 			metadata_params = metadata_params + "&meta_" + urlEncode(metakey) + "=" + urlEncode(metadata.get(metakey));
 		}
 	}
