@@ -33,6 +33,7 @@ public class LDAPAuthenticate {
 	private String ou;
 	private String uid;
 	private String cn;
+	private String title;
 	private boolean logout;
 	
 	public LDAPAuthenticate() {
@@ -117,6 +118,9 @@ public class LDAPAuthenticate {
 				Attributes at = sr.getAttributes();
 				cn = at.get("cn").toString().split(": ")[1];
 				
+				if (ou.equals("Employee")) {
+					title = at.get("title").toString().split(": ")[1];
+				}
 				//prints out all possible attributes
 			//	for(NamingEnumeration i = at.getAll(); i.hasMore(); ) {
 			//		System.out.println((Attribute) i.next());
@@ -172,6 +176,14 @@ public class LDAPAuthenticate {
 		return cn;
 	}
 	
+	public String getTitle() {
+		return title;
+	}
+	
+	public String getOU() {
+		return ou;
+	}
+	
 	public String getAuthenticated() {
 		return authenticated;
 	}
@@ -185,6 +197,11 @@ public class LDAPAuthenticate {
 	}
 	
 	public void setLogout(boolean l) {
+		if (true) reset();
 		logout = l;
+	}
+	
+	private void reset() {
+		ou = uid = cn = title = null;
 	}
 }
