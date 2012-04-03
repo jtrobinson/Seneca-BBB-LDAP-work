@@ -24,6 +24,8 @@ String user = ldap.getCN();
 HashMap<String, HashMap> allMeetings = new HashMap<String, HashMap>();
 HashMap<String, String> meeting;
 
+out.println(getMeetings());
+
 // String welcome = "<br>Welcome to %%CONFNAME%%!<br><br>For help see our <a href=\"event:http://www.bigbluebutton.org/content/videos\"><u>tutorial videos</u></a>.<br><br>To join the voice bridge for this meeting:<br>  (1) click the headset icon in the upper-left, or<br>  (2) dial xxx-xxx-xxxx (toll free:1-xxx-xxx-xxxx) and enter conference ID: %%CONFNUM%%.<br><br>";
 
 String welcome = "<br>Welcome to <b>%%CONFNAME%%</b>!<br><br>This is a Test Web Conferencing Session prepared for Seneca College.<br><br>To join the audio bridge click the headset icon (upper-left hand corner). <b>You can mute yourself in the Listeners window.</b>";
