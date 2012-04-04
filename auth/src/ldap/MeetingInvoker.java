@@ -13,6 +13,33 @@ import redis.clients.jedis.JedisPool;
 public class MeetingInvoker {
 	JedisPool redisPool;
 
+	private Meeting extractMeeting(String rawMeeting){
+		return MeetingApplication.extractMeeting(rawMeeting);
+	}
+	
+	public ArrayList <Meeting> invokeUsersMeetings(String presenterKey){
+		Jedis jedis = MeetingApplication.dbConnect();
+		ArrayList <String> dataList = new ArrayList <String> ();
+		ArrayList <Meeting> meetingList = new ArrayList <Meeting> ();
+		
+		if (jedis.type(presenterKey) == "hash" && jedis.hexists(presenterKey, "meeting*")){
+			// Goes through each meeting in the current hash
+			for (int i = 1; i <= jedis.hlen(presenterKey); i++){
+				// Extracts the meeting data string from the current meeting
+				String rawMeeting = jedis.hget(presenterKey, "meeting"+i);
+				dataList.add(rawMeeting);
+			}
+		}
+		
+		Collections.sort(dataList);
+		
+		for (int i = 0; i < dataList.size(); i++){
+			dataList.set(i, StringUtils.removeStart(dataList.get(i), String.valueOf(Meeting.PROF_SYMBOL)));
+			meetingList.add(extractMeeting(dataList.get(i)));
+		}
+		return meetingList;
+	}
+	
 	public ArrayList <Meeting> invokeAllMeetings(){
 		// Create an ArrayList for lectures and one for ordinary meetings
 		Jedis jedis = MeetingApplication.dbConnect();
@@ -47,7 +74,7 @@ public class MeetingInvoker {
 		
 		// Convert all meetings to Meeting objects, ready to return them
 		for (int i = 0; i < lectureList.size(); i++){
-			allSortedMeetings.add(MeetingApplication.extractMeeting(lectureList.get(i)));
+			allSortedMeetings.add(extractMeeting(lectureList.get(i)));
 		}
 		
 		return allSortedMeetings;

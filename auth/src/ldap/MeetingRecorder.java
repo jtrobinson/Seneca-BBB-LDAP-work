@@ -12,10 +12,14 @@ import redis.clients.jedis.JedisPool;
 
 public class MeetingRecorder {
 
+	private String compressMeeting(Meeting meeting){
+		return MeetingApplication.compressMeeting(meeting);
+	}
+	
 	public void saveMeeting(String presenterKey, Meeting meeting){
 		Jedis jedis = MeetingApplication.dbConnect();
 		Boolean newMeeting = true;
-		String dataString = MeetingApplication.compressMeeting(meeting);
+		String dataString = compressMeeting(meeting);
 		// Checks for the existence of the presenterKey and that the key refers to a hash
 		if (jedis.exists(presenterKey) && jedis.type(presenterKey) == "hash"){
 			// Goes through all meetings associated with the presenterKey and compares the names
