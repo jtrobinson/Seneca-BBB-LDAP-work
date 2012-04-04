@@ -39,16 +39,15 @@ public class LDAPAuthenticate {
 	public LDAPAuthenticate() {
 		authenticated = "false";
 		logout = false;
-		url = "ldap://dssy.senecac.on.ca/";
-		o = "sene.ca";
+		
 		//String security = "";
-		/*
+		
 		try {
 			//Using factory get an instance of document builder
 			DocumentBuilder db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
 			//parse using builder to get DOM representation of the XML file
 			//Document dom = db.parse("WEB-INF/config.xml");
-			Document dom = db.parse(Thread.currentThread().getContextClassLoader().getResourceAsStream("../config.xml"));
+			Document dom = db.parse(Thread.currentThread().getContextClassLoader().getResourceAsStream("config.xml"));
 			//get the root element
 			Element docEle = dom.getDocumentElement();
 			
@@ -72,7 +71,7 @@ public class LDAPAuthenticate {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		*/
+		
 		env = new Hashtable<Object, Object>();
 		env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
 		
