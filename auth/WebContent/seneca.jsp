@@ -35,7 +35,7 @@ Author: Fred Dixon <ffdixon@bigbluebutton.org>
 </head>
 <body>
 
-<%@ include file="loggedIn/bbb_api.jsp"%>
+<%@ include file="bbb_api.jsp"%>
 
 <% 
 

@@ -8,7 +8,7 @@
 <br><br>
 <%
 if(!ldap.getAuthenticated().equals("true")) {
-    response.sendRedirect(".login.jsp");	
+    response.sendRedirect("login.jsp");	
 }
 
 %>
@@ -16,6 +16,7 @@ if(!ldap.getAuthenticated().equals("true")) {
 
 <% 
 String user = ldap.getCN();
+String Ou = ldap.getOU();
 //
 // We're going to define some sample courses (meetings) below.  This API exampe shows how you can create a login page for a course. 
 // The password below are not available to users as they are compiled on the server.
@@ -69,7 +70,7 @@ if (request.getParameterMap().isEmpty()) {
 <br/>
 <h2 align="center">Join a Lecture (password required)</h2>
 
-<p style='font-size:23px'>Welcome <b><span style='color:green;'><%= user%></b> <p>
+<p style='font-size:23px'>Welcome <b><span style='color:green;'><%= user%></b> as <%=Ou%> <p>
 </div>
 <FORM NAME="form1" METHOD="GET">
 <table cellpadding="5" cellspacing="5" style="width: 400px; " align="center">
