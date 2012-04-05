@@ -1,5 +1,3 @@
-// This class is on it's way to obsolescence
-
 package ldap;
 // If redis packages are not working, make sure jedis-2.0.0.jar is included in the Build Path
 import ldap.Meeting;

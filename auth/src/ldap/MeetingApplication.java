@@ -2,7 +2,7 @@ package ldap;
 
 /* Add these lines to create.jsp right at the top:
  	<jsp:useBean id="meetingApplication" class="ldap.MeetingApplication" scope="session"/>
-	<%@ include file="MeetingApplication.jsp"%>
+	<%@ include file="meeting_api.jsp"%>
  */
 
 import ldap.Meeting;
