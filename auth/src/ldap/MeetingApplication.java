@@ -1,9 +1,15 @@
 package ldap;
 
+/* Add these lines to create.jsp right at the top:
+ 	<jsp:useBean id="meetingApplication" class="ldap.MeetingApplication" scope="session"/>
+	<%@ include file="MeetingApplication.jsp"%>
+ */
+
 import ldap.Meeting;
 import ldap.MeetingRecorder;
 import ldap.MeetingInvoker;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -11,6 +17,15 @@ import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
 public class MeetingApplication {
+	
+	private char PROF_SYMBOL = '#';
+	private char EMP_SYMBOL = '&';
+	private char STUDENT_SYMBOL = '$';
+	private char DELIMITER = '~';
+	
+	ArrayList <String[]> lectures;
+	ArrayList <String[]> meetings;
+	
 	public static Jedis dbConnect(){
 		String serverIP = "127.0.0.1";
 		JedisPool redisPool = new JedisPool(serverIP, 6379);
@@ -25,47 +40,52 @@ public class MeetingApplication {
 		return null;
 	}
 	
-	public void saveMeeting(String presenterKey, Meeting meeting){
-		MeetingRecorder mr = new MeetingRecorder();
-		mr.saveMeeting(presenterKey, meeting);
+	public String[] decompress(String rawData){
+		String components[] = StringUtils.split(rawData, DELIMITER);
+		return components;
+	}
+	
+	public ArrayList <String[]> getLectures(){
+		return lectures;
+	}
+	
+	public ArrayList <String[]> getMeetings(){
+		return meetings;
 	}
 	
 	public void loadAllMeetings(){
-		MeetingInvoker mi = new MeetingInvoker();
-		mi.invokeAllMeetings();
-	}
-	
-	// CONVERSION METHODS
-	// ------------------
-	
-	// Converts a Meeting object to a Redis-friendly data string
-	public static String compressMeeting(Meeting meeting){
-		StringBuilder sb = new StringBuilder();
-		if (meeting.lecture)
-			sb.append(Meeting.PROF_SYMBOL);
-		sb.append(meeting.name);
-		sb.append(Meeting.DELIMITER);
+		// Create an ArrayList for lectures and one for ordinary meetings
+		Jedis jedis = dbConnect();
+		ArrayList <String> lectureList = new ArrayList <String> ();
+		ArrayList <String> meetingList = new ArrayList <String> ();
+		ArrayList <String[]> allSortedMeetings = new ArrayList <String[]> ();
 		
-		sb.append(meeting.modPass);
-		sb.append(Meeting.DELIMITER);
+		// Goes through all keys in Redis
+		for (String eachKey : jedis.keys("*")){
+			// Checks if the current key is a hash, and if it contains any meetings
+			if (jedis.type(eachKey) == "hash" && jedis.hexists(eachKey, "meeting*")){
+				// Goes through each meeting in the current hash
+				for (int i = 1; i <= jedis.hlen(eachKey); i++){
+					// Extracts the meeting data string from the current meeting
+					String rawMeeting = jedis.hget(eachKey, "meeting"+i);
+					// Adds the data string to either lectureList or meetingList depending on the presence of the PROF_SYMBOL
+					if (rawMeeting.charAt(0) == PROF_SYMBOL)
+						lectureList.add(rawMeeting);
+					else
+						meetingList.add(rawMeeting);
+				}
+			}
+		}
+		// Sort the lecture and meeting lists alphabetically
+		Collections.sort(lectureList);
+		Collections.sort(meetingList);
 		
-		sb.append(meeting.viewPass);
-		sb.append(Meeting.DELIMITER);
-		
-		sb.append(meeting.allowGuests.toString());
-		sb.append(Meeting.DELIMITER);
-		
-		sb.append(meeting.recordable.toString());
-		
-		String dataString = sb.toString();
-		return dataString;
-	}
-	
-	// Converts a data string from Redis to a Meeting object
-	public static Meeting extractMeeting(String rawMeeting)
-	{
-		String components[] = StringUtils.split(rawMeeting, Meeting.DELIMITER);
-		Meeting meeting = new Meeting(components);
-		return meeting;
+		// Populate the instance variables lectures and meetings with all the available lectures and general meetings, respectively
+		for (int i = 0; i < lectureList.size(); i++){
+			lectures.add(decompress(lectureList.get(i)));
+		}
+		for (int i = 0; i < meetingList.size(); i++){
+			meetings.add(decompress(meetingList.get(i)));
+		}
 	}
 }
