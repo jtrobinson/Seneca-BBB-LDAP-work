@@ -58,7 +58,6 @@ public class MeetingApplication {
 		Jedis jedis = dbConnect();
 		ArrayList <String> lectureList = new ArrayList <String> ();
 		ArrayList <String> meetingList = new ArrayList <String> ();
-		ArrayList <String[]> allSortedMeetings = new ArrayList <String[]> ();
 		
 		// Goes through all keys in Redis
 		for (String eachKey : jedis.keys("*")){
@@ -76,6 +75,40 @@ public class MeetingApplication {
 				}
 			}
 		}
+		// Sort the lecture and meeting lists alphabetically
+		Collections.sort(lectureList);
+		Collections.sort(meetingList);
+		
+		// Populate the instance variables lectures and meetings with all the available lectures and general meetings, respectively
+		for (int i = 0; i < lectureList.size(); i++){
+			lectures.add(decompress(lectureList.get(i)));
+		}
+		for (int i = 0; i < meetingList.size(); i++){
+			meetings.add(decompress(meetingList.get(i)));
+		}
+	}
+	
+	public void loadMeetingsByUser(String presenterKey){
+		// Create an ArrayList for lectures and one for ordinary meetings
+		Jedis jedis = dbConnect();
+		ArrayList <String> lectureList = new ArrayList <String> ();
+		ArrayList <String> meetingList = new ArrayList <String> ();
+		
+
+		// Checks if the current key is a hash, and if it contains any meetings
+		if (jedis.type(presenterKey) == "hash" && jedis.hexists(presenterKey, "meeting*")){
+			// Goes through each meeting in the current hash
+			for (int i = 1; i <= jedis.hlen(presenterKey); i++){
+				// Extracts the meeting data string from the current meeting
+				String rawMeeting = jedis.hget(presenterKey, "meeting"+i);
+				// Adds the data string to either lectureList or meetingList depending on the presence of the PROF_SYMBOL
+				if (rawMeeting.charAt(0) == PROF_SYMBOL)
+					lectureList.add(rawMeeting);
+				else
+					meetingList.add(rawMeeting);
+			}
+		}
+		
 		// Sort the lecture and meeting lists alphabetically
 		Collections.sort(lectureList);
 		Collections.sort(meetingList);
