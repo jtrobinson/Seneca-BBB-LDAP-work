@@ -1,6 +1,3 @@
-<jsp:useBean id="meetingApplication" class="ldap.MeetingApplication" scope="session"/>
-<%@ include file="meeting_api.jsp"%>
-
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@page import="org.w3c.dom.*, javax.xml.parsers.*" %>
@@ -162,6 +159,7 @@ function onCheck()
            
            if( session.getAttribute( "fail" )!= null){
             String fail = (String) session.getAttribute( "fail" );
+            session.removeAttribute("fail");
            if(fail.equals("1")){
            out.print("<div style='color:red' align='center'> Please fill all the fields!</div>");
            }else if(fail.equals("2")){
@@ -170,6 +168,7 @@ function onCheck()
            out.print("<div style='color:red' align='center'> Viewer's password and Confirmation must match!</div>");
            }
            }
+          
            %>
         </td>
      </tr>
