@@ -160,7 +160,7 @@ public class MeetingApplication {
 	}
 
 	// Gets a list of available courses for lecture creation from the config.xml
-	public ArrayList <String> processCourseList(){
+	public ArrayList<String> processCourseList(){
 		ArrayList <String> courses = new ArrayList <String> ();
 		try{
 			//Using factory get an instance of document builder
