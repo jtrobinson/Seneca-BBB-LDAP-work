@@ -1,3 +1,4 @@
+
 <!--
 XX
 BigBlueButton - http://www.bigbluebutton.org
@@ -46,8 +47,7 @@ with BigBlueButton; if not, If not, see <http://www.gnu.org/licenses/>.
 	 	float:left;
 	 	width:100px;
 	 	text-align:right;
-
-	
+		margin-right:5px;
 	 }
 	 #formcreate div{
 		margin-bottom:5px;
@@ -64,9 +64,7 @@ with BigBlueButton; if not, If not, see <http://www.gnu.org/licenses/>.
 		float:left;
 	 }
 	 .ui-jqgrid{
-		font-size:0.7em;
-		margin-left:300px;
-		
+		font-size:0.7em
 	}
 	label.error{
 		float: none; 
@@ -83,7 +81,7 @@ with BigBlueButton; if not, If not, see <http://www.gnu.org/licenses/>.
 <%@ include file="bbb_api.jsp"%>
 <%@ page import="java.util.regex.*"%>
 
-<%@ include file="seneca_header.jsp"%>
+<%@ include file="auth_header.jsp"%>
 
 <%
 	if (request.getParameterMap().isEmpty()) {
@@ -91,19 +89,20 @@ with BigBlueButton; if not, If not, see <http://www.gnu.org/licenses/>.
 		// Assume we want to create a meeting
 		//
 %>
-
+	
 
 	
 
+	<h3 align='center'>Recorded Sessions for <span style='color:green' /><%=ldap.getCN() %></span></h3>
 	<select id="actionscmb" name="actions" onchange="recordedAction(this.value);">
 		<option value="novalue" selected>Actions...</option>
 		<option value="publish">Publish</option>
 		<option value="unpublish">Unpublish</option>
 		<option value="delete">Delete</option>
 	</select>
-	<table id="recordgrid" ></table>
-	<div id="pager"></div> <br />
-	<h6 align="center">Note: New recordings will appear in the above list after processing.  Refresh your browser to update the list.</h6><br/>
+	<table id="recordgrid"></table>
+	<div id="pager"></div> 
+	<p>Note: New recordings will appear in the above list after processing.  Refresh your browser to update the list.</p>
 	<script>
 	function onChangeMeeting(meetingID){
 		isRunningMeeting(meetingID);
@@ -143,7 +142,7 @@ with BigBlueButton; if not, If not, see <http://www.gnu.org/licenses/>.
 	function sendRecordingAction(recordID,action){
 		$.ajax({
 			type: "GET",
-			url: 'demo10_helper.jsp',
+			url: 'recordings_helper.jsp',
 			data: "command="+action+"&recordID="+recordID,
 			dataType: "xml",
 			cache: false,
@@ -160,7 +159,7 @@ with BigBlueButton; if not, If not, see <http://www.gnu.org/licenses/>.
 	function isRunningMeeting(meetingID) {
 		$.ajax({
 			type: "GET",
-			url: 'demo10_helper.jsp',
+			url: 'recordings_helper.jsp',
 			data: "command=isRunning&meetingID="+meetingID,
 			dataType: "xml",
 			cache: false,
@@ -188,7 +187,7 @@ with BigBlueButton; if not, If not, see <http://www.gnu.org/licenses/>.
 		$("#formcreate").validate();
 		$("#meetingID option[value='English 101']").attr("selected","selected");
 		jQuery("#recordgrid").jqGrid({
-			 url: "demo10_helper.jsp?command=getRecords&meetingID=" ,
+			url: "recordings_helper.jsp?command=getRecords",
 			datatype: "xml",
 			height: 150,
 			loadonce: true,
@@ -254,7 +253,6 @@ Error: getJoinURL() failed
 	}
 %> 
 
-<p align="center"> <a href="seneca.jsp">Back to Seneca Session</a></p> 
 
 </body>
 </html>
