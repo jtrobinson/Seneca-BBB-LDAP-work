@@ -39,7 +39,9 @@ function onCheck()
     window.location.replace("create.jsp?isLecture="+isCheckedLecture);
     
 <%   String check = (String) request.getParameter("isLecture"); 
+     String isLecture = "true";
      session.setAttribute( "isChecked", check );
+     session.setAttribute("isLecture", isLecture);
     
 %>
 
@@ -89,7 +91,7 @@ function onCheck()
        if( title.equals("Support Staff") && checked.equals("true") ){
              // if you are professor and you checked is Lecture you see drop down list of lectures
         		out.println("<tr height='30'><td align='center'>");
-                out.println("<select>");
+                out.println(" <span style='color:red'>*</span><select name='courses'>");
  
       try{     
 			// Parinsg courses from XML file
@@ -116,25 +118,25 @@ function onCheck()
          e.printStackTrace();
        }
                 out.println("</select></td>");
-                out.println("<td>Section <input type='text' size='5' maxlength='5'</td></tr>");
+                out.println("<td>Section <input type='text' size='5' maxlength='5' name='section' /></td></tr>");
        }else{
          // else user sees a textbox with name of the lecture
-         out.println("<tr height='30'> <td height='50'>Name of Meeting:</td><td>   <input type='text' id='meetingName' name='meetingName' size='60'/></td> </tr>");
+         out.println("<tr height='30'> <td height='50'>Name of Meeting:  <span style='color:red'>*</span></td><td>   <input type='text' id='meetingName' name='meetingName' size='60'/></td> </tr>");
        }
    
 %>
  
      </tr><tr>
-     <td>Moderator Password</td><td>   <input type="text" id="mPwd" name="mPwd" /></td>
+     <td>Moderator Password <span style='color:red'>*</span></td><td>   <input type="text" id="mPwd" name="mPwd" /></td>
      </tr>
      <tr >
-     <td>Confirm Mod. Password</td><td>   <input type="text" id="mPwdre"  name="mPwdre"/></td>
+     <td>Confirm Mod. Password  <span style='color:red'>*</span></td><td>   <input type="text" id="mPwdre"  name="mPwdre"/></td>
      </tr>
      <tr >
-     <td>Viewer Password</td><td>      <input type="text" id="vPwd" name="vPwd"/></td>
+     <td>Viewer Password  <span style='color:red'>*</span></td><td>      <input type="text" id="vPwd" name="vPwd"/></td>
      </tr>
      <tr>
-     <td>Confirm View. Password</td><td>   <input type="text" id="vPwdre" name="vPwdre" /></td>
+     <td>Confirm View. Password  <span style='color:red'>*</span></td><td>   <input type="text" id="vPwdre" name="vPwdre" /></td>
      </tr>
     
 <% 
@@ -164,7 +166,7 @@ function onCheck()
             String fail = (String) session.getAttribute( "fail" );
             session.removeAttribute("fail");
            if(fail.equals("1")){
-           out.print("<div style='color:red' align='center'> Please fill all the fields!</div>");
+           out.print("<div style='color:red' align='center'> Please fill all the  Required Fields!</div>");
            }else if(fail.equals("2")){
            out.print("<div style='color:red' align='center'> Presenter's password and Confirmation must match!</div>");
            }else if(fail.equals("3")){
@@ -174,6 +176,9 @@ function onCheck()
           
            %>
         </td>
+     </tr>
+     <tr>
+         <td> <span style='color:red'>*</span> - Required Field</td>
      </tr>
     </form>
     </div>
