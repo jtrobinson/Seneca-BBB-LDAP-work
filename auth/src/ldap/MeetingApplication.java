@@ -1,13 +1,10 @@
 package ldap;
 
 /* Add these lines to create.jsp right at the top:
- 	<jsp:useBean id="meetingApplication" class="ldap.MeetingApplication" scope="session"/>
-	<%@ include file="meeting_api.jsp"%>
+<jsp:useBean id="meetingApplication" class="ldap.MeetingApplication" scope="session"/>
+<%@ include file="meeting_api.jsp"%>
  */
 
-import ldap.Meeting;
-import ldap.MeetingRecorder;
-import ldap.MeetingInvoker;
 import java.util.ArrayList;
 import java.util.Collections;
 

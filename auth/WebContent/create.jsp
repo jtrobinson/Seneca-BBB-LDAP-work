@@ -1,5 +1,5 @@
 <jsp:useBean id="meetingApplication" class="ldap.MeetingApplication" scope="session"/>
-	<%@ include file="meeting_api.jsp"%>
+<%@ include file="meeting_api.jsp"%>
 
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -125,13 +125,13 @@ function onCheck()
 %>
  
      </tr><tr>
-     <td>Presenter's Password</td><td>   <input type="text" id="mPwd" name="mPwd" /></td>
+     <td>Moderator Password</td><td>   <input type="text" id="mPwd" name="mPwd" /></td>
      </tr>
      <tr >
-     <td>Confirm Pres. Password</td><td>   <input type="text" id="mPwdre"  name="mPwdre"/></td>
+     <td>Confirm Mod. Password</td><td>   <input type="text" id="mPwdre"  name="mPwdre"/></td>
      </tr>
      <tr >
-     <td>Viewers Password</td><td>      <input type="text" id="vPwd" name="vPwd"/></td>
+     <td>Viewer Password</td><td>      <input type="text" id="vPwd" name="vPwd"/></td>
      </tr>
      <tr>
      <td>Confirm View. Password</td><td>   <input type="text" id="vPwdre" name="vPwdre" /></td>

@@ -1,5 +1,7 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.Collections"%>
+<%@page import="java.util.Date"%>
+<%@page import="java.text.SimpleDateFormat"%>
 <%@page import="org.apache.commons.lang.StringUtils"%>
 <%@page import="redis.clients.jedis.*" language="java" %>
 
@@ -27,22 +29,35 @@
 	// COMPRESSION AND EXTRACTION
 	// --------------------------
 	
+	public String compressMeeting(String meetingName, String modPass, String viewPass, String allowGuests, String recordable){
+		return compressMeeting(meetingName, modPass, viewPass, Boolean.parseBoolean(allowGuests), Boolean.parseBoolean(recordable));
+	}
+			
 	public String compressMeeting(String meetingName, String modPass, String viewPass, Boolean allowGuests, Boolean recordable){
 		StringBuilder sb = new StringBuilder();
 		
+		// Meeting Name
 		sb.append(meetingName);
 		sb.append(DELIMITER);
 		
+		// Moderator Password
 		sb.append(modPass);
 		sb.append(DELIMITER);
 		
+		// Viewer Password
 		sb.append(viewPass);
 		sb.append(DELIMITER);
 		
+		// Guests Allowed (True/False)
 		sb.append(allowGuests.toString());
 		sb.append(DELIMITER);
 		
+		// Recordable (True/False)
 		sb.append(recordable.toString());
+		sb.append(DELIMITER);
+		
+		// Date Last Edited
+		sb.append(new java.util.Date());
 		
 		String dataString = sb.toString();
 		return dataString;
