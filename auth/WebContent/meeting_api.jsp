@@ -81,7 +81,7 @@
 		Boolean newMeeting = true;
 		String dataString = compressMeeting(meetingName, modPass, viewPass, allowGuests, recordable);
 		// Checks for the existence of the presenterKey and that the key refers to a hash
-		if (jedis.exists(presenterKey) && jedis.type(presenterKey) == "hash"){
+		//if (jedis.exists(presenterKey) && jedis.type(presenterKey) == "hash"){
 			// Goes through all meetings associated with the presenterKey and compares the names
 			for (int i = 1; i <= jedis.hlen(presenterKey); i++){
 				//Meeting oldMeeting = MeetingApplication.extractMeeting(jedis.hget(presenterKey, "meeting"+i));
@@ -94,7 +94,7 @@
 			if (newMeeting){
 				jedis.hset(presenterKey, "meeting"+(jedis.hlen(presenterKey)+1), dataString);
 			} // Save new meeting
-		} // Presenter checking		
+		//} // Presenter checking		
 	}
 
 	// -- SAVING

@@ -24,9 +24,9 @@ import redis.clients.jedis.JedisPool;
 
 public class MeetingApplication {
 	
-	private char PROF_SYMBOL = '#';
-	private char EMP_SYMBOL = '&';
-	private char STUDENT_SYMBOL = '$';
+	private final static char PROF_SYMBOL = '#';
+	private final static char EMP_SYMBOL = '&';
+	private final static char STUDENT_SYMBOL = '$';
 	private char DELIMITER = '~';
 	
 	ArrayList <String[]> lectures;
@@ -85,6 +85,9 @@ public class MeetingApplication {
 		Collections.sort(lectureList);
 		Collections.sort(meetingList);
 		
+		lectures = new ArrayList<String[]>();
+		meetings = new ArrayList<String[]>();
+		
 		// Populate the instance variables lectures and meetings with all the available lectures and general meetings, respectively
 		for (int i = 0; i < lectureList.size(); i++){
 			lectures.add(decompress(lectureList.get(i)));
@@ -130,14 +133,16 @@ public class MeetingApplication {
 		Jedis jedis = dbConnect();
 		ArrayList <String> lectureList = new ArrayList <String> ();
 		ArrayList <String> meetingList = new ArrayList <String> ();
-		
+		System.out.println("presenterKey: " + presenterKey);
 
 		// Checks if the current key is a hash, and if it contains any meetings
-		if (jedis.type(presenterKey) == "hash" && jedis.hexists(presenterKey, "meeting*")){
+		if (jedis.type(presenterKey).equals("hash")){
+			System.out.println("inside");
 			// Goes through each meeting in the current hash
 			for (int i = 1; i <= jedis.hlen(presenterKey); i++){
 				// Extracts the meeting data string from the current meeting
 				String rawMeeting = jedis.hget(presenterKey, "meeting"+i);
+				System.out.println("rawMeeting : " + rawMeeting);
 				// Adds the data string to either lectureList or meetingList depending on the presence of the PROF_SYMBOL
 				if (rawMeeting.charAt(0) == PROF_SYMBOL)
 					lectureList.add(rawMeeting);
@@ -149,6 +154,9 @@ public class MeetingApplication {
 		// Sort the lecture and meeting lists alphabetically
 		Collections.sort(lectureList);
 		Collections.sort(meetingList);
+		
+		lectures = new ArrayList<String[]>();
+		meetings = new ArrayList<String[]>();
 		
 		// Populate the instance variables lectures and meetings with all the available lectures and general meetings, respectively
 		for (int i = 0; i < lectureList.size(); i++){
@@ -181,5 +189,59 @@ public class MeetingApplication {
 			e.printStackTrace();
 		}
 		return courses;
+	}
+	
+	public String getUserMeetingsXML(String uid) {
+		System.out.println("uid: " + uid);
+		
+		String newXMLdoc = "<meetings>";
+		
+		loadMeetingsByUser(uid);	
+		
+		System.out.println("lect: "+ lectures.size());
+		System.out.println("meet: "+ meetings.size());
+		
+		newXMLdoc += convertMeetingList(getLectures(), "Lecture");
+		newXMLdoc += convertMeetingList(getMeetings(), "Meeting");
+
+		newXMLdoc += "</meetings>";
+		System.out.println("num meetings : " + meetings.size());
+		
+		System.out.println(newXMLdoc);
+		
+		return newXMLdoc;
+	}
+	
+	private String convertMeetingList(ArrayList<String[]> meetings, String type) {
+		String convMeetings = "";
+		
+		/*	Each meeting follows the format
+			course-uid
+			modpass
+			viewpass
+			guests allowed
+			recorded
+			date
+		 */
+		for (String[] meet : meetings) {
+			
+			// not implemented yet
+			//String [] parts = meet[0].split("-");
+			
+			convMeetings += "<meeting>";
+			
+			convMeetings += "<meetingID>" + meet[0] + "</meetingID>";
+			convMeetings += "<type>" + type + "</type>";
+			convMeetings += "<name>" + meet[0] + "</name>";
+			convMeetings += "<modPass>" + meet[1] + "</modPass>";
+			convMeetings += "<viewPass>" + meet[2] + "</viewPass>";
+			convMeetings += "<guests>" + meet[3] + "</guests>";
+			convMeetings += "<recorded>" + meet[4] + "</recorded>";
+			convMeetings += "<date>" + meet[5] + "</date>";
+			
+			convMeetings += "</meeting>";
+		}
+		
+		return convMeetings;
 	}
 }

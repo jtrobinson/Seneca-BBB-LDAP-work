@@ -92,16 +92,13 @@ function onCheck()
         		out.println("<tr height='30'><td align='center'>");
                 out.println(" <span style='color:red'>*</span><select name='courses'>");
                 
-                meetingApplication.foo();
+                ArrayList <String> courseList = meetingApplication.processCourseList();
                 
-                //meetingApplication.processCourseList();
-                //ArrayList <String> courseList = meetingApplication.processCourseList();
                 
-                /*
                 for (String courseName : meetingApplication.processCourseList()){
                 	out.println("<option>" + courseName + "</option>");	
                 }
-                */
+                
 
                 out.println("</select></td>");
                 out.println("<td>Section <input type='text' size='5' maxlength='5' name='section' /></td></tr>");

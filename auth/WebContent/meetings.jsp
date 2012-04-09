@@ -80,7 +80,7 @@ with BigBlueButton; if not, If not, see <http://www.gnu.org/licenses/>.
 <%@ include file="bbb_api.jsp"%>
 <%@ page import="java.util.regex.*"%>
 
-<%@ include file="seneca_header.jsp"%>
+<%@ include file="auth_header.jsp"%>
 
 <%
 	if (request.getParameterMap().isEmpty()) {
@@ -177,7 +177,7 @@ with BigBlueButton; if not, If not, see <http://www.gnu.org/licenses/>.
 			},
 			pager : '#pager',
 			emptyrecords: "Nothing to display",
-			multiselect: true,
+			multiselect: false,
 			caption: "Your Meetings",
 			loadComplete: function(){
 				$("#meetinggrid").trigger("reloadGrid");

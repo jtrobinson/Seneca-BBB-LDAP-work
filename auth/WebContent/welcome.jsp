@@ -1,10 +1,7 @@
-<jsp:useBean id="ldap" class="ldap.LDAPAuthenticate" scope="session"/>
-
 <HTML> 
 <HEAD><TITLE>Welcome</TITLE></HEAD>  
 <BODY>
-<div align='right'><a href="logout.jsp"><b>Logout</b></a></div>
-<%@ include file="seneca_header.jsp"%>
+<%@ include file="auth_header.jsp"%>
 <br><br>
 <%
 if(!ldap.getAuthenticated().equals("true")) {
