@@ -1,4 +1,3 @@
-
 <!--
 XX
 BigBlueButton - http://www.bigbluebutton.org
@@ -37,7 +36,7 @@ with BigBlueButton; if not, If not, see <http://www.gnu.org/licenses/>.
 	<script src="js/grid.locale-en.js" type="text/javascript"></script>
 	<script src="js/jquery.jqGrid.min.js" type="text/javascript"></script>
 	<script src="js/jquery.xml2json.js" type="text/javascript"></script>
-	<title>Recording Meeting Demo</title>
+	<title>Manage Your Meetings</title>
 	<style type="text/css">
 	 #formcreate{
 		margin-bottom:30px;
@@ -81,74 +80,68 @@ with BigBlueButton; if not, If not, see <http://www.gnu.org/licenses/>.
 <%@ include file="bbb_api.jsp"%>
 <%@ page import="java.util.regex.*"%>
 
-<%@ include file="auth_header.jsp"%>
+<%@ include file="seneca_header.jsp"%>
 
 <%
 	if (request.getParameterMap().isEmpty()) {
 		//
-		// Assume we want to create a meeting
+		// Assume we want to see a list of meetings
 		//
-%>
-	
+%>	
 
-	
-
-	<h3 align='center'>Recorded Sessions for <span style='color:green' /><%=ldap.getCN() %></span></h3>
+	<h3>Manage Meetings</h3>
 	<select id="actionscmb" name="actions" onchange="recordedAction(this.value);">
 		<option value="novalue" selected>Actions...</option>
-		<option value="publish">Publish</option>
-		<option value="unpublish">Unpublish</option>
+		<option value="start">Start</option>
+		<option value="edit">Edit</option>
 		<option value="delete">Delete</option>
 	</select>
-	<table id="recordgrid"></table>
+	<table id="meetinggrid"></table>
 	<div id="pager"></div> 
-	<p>Note: New recordings will appear in the above list after processing.  Refresh your browser to update the list.</p>
+	<p>Note: New meetings will appear in the above list after processing.  Refresh your browser to update the list.</p>
 	<script>
-	function onChangeMeeting(meetingID){
-		isRunningMeeting(meetingID);
-	}
 	function recordedAction(action){
 		if(action=="novalue"){
 			return;
 		}
 		
-		var s = jQuery("#recordgrid").jqGrid('getGridParam','selarrrow');
+		var s = jQuery("#meetinggrid").jqGrid('getGridParam','selarrrow');
 		if(s.length==0){
 			alert("Select at least one row");
 			$("#actionscmb").val("novalue");
 			return;
 		}
-		var recordid="";
+		var meetingid="";
 		for(var i=0;i<s.length;i++){
-			var d = jQuery("#recordgrid").jqGrid('getRowData',s[i]);
-			recordid+=d.id;
+			var d = jQuery("#meetinggrid").jqGrid('getRowData',s[i]);
+			meetingid+=d.id;
 			if(i!=s.length-1)
-				recordid+=",";
+				meetingid+=",";
 		}
-		if(action=="delete"){
-			var answer = confirm ("Are you sure to delete the selected recordings?");
+		if(action=="delete"){ 
+			var answer = confirm ("Are you sure to delete the selected meeting?");
 			if (answer)
-				sendRecordingAction(recordid,action);
+				sendRecordingAction(meetingid,action);
 			else{
 				$("#actionscmb").val("novalue");
 				return;
 			}
 		}else{
-			sendRecordingAction(recordid,action);
+			sendRecordingAction(meetingid,action);
 		}
 		$("#actionscmb").val("novalue");
 	}
 	
-	function sendRecordingAction(recordID,action){
+	function sendRecordingAction(meetingID,action){
 		$.ajax({
 			type: "GET",
-			url: 'recordings_helper.jsp',
-			data: "command="+action+"&recordID="+recordID,
+			url: 'mettings_helper.jsp',
+			data: "command="+action+"&meetingID="+meetingID,
 			dataType: "xml",
 			cache: false,
 			success: function(xml) {
 				window.location.reload(true);
-				$("#recordgrid").trigger("reloadGrid");
+				$("#meetinggrid").trigger("reloadGrid");
 			},
 			error: function() {
 				alert("Failed to connect to API.");
@@ -156,64 +149,38 @@ with BigBlueButton; if not, If not, see <http://www.gnu.org/licenses/>.
 		});
 	}
 	
-	function isRunningMeeting(meetingID) {
-		$.ajax({
-			type: "GET",
-			url: 'recordings_helper.jsp',
-			data: "command=isRunning&meetingID="+meetingID,
-			dataType: "xml",
-			cache: false,
-			success: function(xml) {
-				response = $.xml2json(xml);
-				if(response.running=="true"){
-					$("#meta_description").val("An active session exists for "+meetingID+". This session is being recorded.");
-					$("#meta_description").attr("readonly","readonly");
-					$("#meta_description").attr("disabled","disabled");
-				}else{
-					$("#meta_description").val("");
-					$("#meta_description").removeAttr("readonly");
-					$("#meta_description").removeAttr("disabled");
-				}
-				
-			},
-			error: function() {
-				alert("Failed to connect to API.");
-			}
-		});
-	}
-	var meetingID="English 101,English 102,English 103,English 104,English 105,English 106,English 107,English 108,English 109,OOP344";
 	$(document).ready(function(){
-		isRunningMeeting("English 232");
 		$("#formcreate").validate();
 		$("#meetingID option[value='English 101']").attr("selected","selected");
-		jQuery("#recordgrid").jqGrid({
-			url: "recordings_helper.jsp?command=getRecords",
+		jQuery("#meetinggrid").jqGrid({
+			url: "meetings_helper.jsp?command=getMeetings",
 			datatype: "xml",
-			height: 150,
+			height: 300,
 			loadonce: true,
 			sortable: true,
-			colNames:['Id','Course','Description', 'Date Recorded', 'Published', 'Playback', 'Length'],
+			colNames:['Id','Type','Name','Moderator Pass', 'Viewer Pass', 'Guests', 'Recorded', 'Date Last Edited'],
 			colModel:[
-				{name:'id',index:'id', width:50, hidden:true, xmlmap: "recordID"},
-				{name:'course',index:'course', width:150, xmlmap: "name", sortable:true},
-				{name:'description',index:'description', width:300, xmlmap: "description",sortable: true},
-				{name:'daterecorded',index:'daterecorded', width:200, xmlmap: "startTime", sortable: true},
-				{name:'published',index:'published', width:80, xmlmap: "published", sortable:true },
-				{name:'playback',index:'playback', width:150, xmlmap:"playback", sortable:false},
-				{name:'length',index:'length', width:80, xmlmap:"length", sortable:true}
+				{name:'id',index:'id', width:50, hidden:true, xmlmap: "meetingID"},
+				{name:'type',index:'type', width:150, xmlmap: "type", sortable:true},
+				{name:'name',index:'name', width:150, xmlmap: "name", sortable:true},
+				{name:'modpass',index:'modpass', width:100, xmlmap: "modPass",sortable: true},
+				{name:'viewpass',index:'viewpass', width:100, xmlmap: "viewPass",sortable: true},
+				{name:'guests',index:'guests', width:80, xmlmap: "guests", sortable:true },
+				{name:'recorded',index:'recorded', width:80, xmlmap: "recorded", sortable:true },
+				{name:'date',index:'date', width:200, xmlmap: "date", sortable: true},
 			],
 			xmlReader: {
-				root : "recordings",
-				row: "recording",
+				root : "meetings",
+				row: "meeting",
 				repeatitems:false,
-				id: "recordID"
+				id: "meetingID"
 			},
 			pager : '#pager',
 			emptyrecords: "Nothing to display",
 			multiselect: true,
-			caption: "Recorded Sessions",
+			caption: "Your Meetings",
 			loadComplete: function(){
-				$("#recordgrid").trigger("reloadGrid");
+				$("#meetinggrid").trigger("reloadGrid");
 			}
 		});
 	});
@@ -252,6 +219,7 @@ Error: getJoinURL() failed
 		}
 	}
 %> 
+
 
 
 </body>

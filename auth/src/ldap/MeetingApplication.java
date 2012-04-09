@@ -94,6 +94,37 @@ public class MeetingApplication {
 		}
 	}
 	
+	/*
+	 * This function receives user ID and returns formatted recording string for the recordings.jsp
+	 */
+	public String getRecordingString(String userId){
+	   String  s = " "; // temporary recording string
+	  
+	  
+		  loadMeetingsByUser(userId);
+		  
+		  ArrayList<String[]> lectures = getLectures();
+		  ArrayList<String[]> meetings = getMeetings();
+	   
+		  //getting meeting id which is 0 elementof the array
+		   for (String[] lecture : lectures){
+			   s+= lecture[0]+",";
+		   }
+		   
+		   for (String[] meeting : meetings){
+			   s+=meeting[0]+",";
+			   
+		   }
+		   
+		   
+		   // getting rid of last comma
+		   String recordingString = s.substring(0, s.length()-1 );
+		   
+		   System.out.println("here we are recording string!");
+	   
+	   return recordingString;
+	}
+	
 	public void loadMeetingsByUser(String presenterKey){
 		// Create an ArrayList for lectures and one for ordinary meetings
 		Jedis jedis = dbConnect();
