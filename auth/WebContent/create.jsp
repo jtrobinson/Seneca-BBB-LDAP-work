@@ -80,7 +80,6 @@ function onCheck()
       position = "Guest";
       }
       
-      
       if(title.equals("Support Staff")){
       // if you are logged in as prof you have checkbox which allows you to  create a lecture
          out.println("<tr height='30'><td colspan='2'> Create a Lecture ? <input type='checkbox' id='check' name='check' onClick='onCheck()'");
@@ -92,31 +91,18 @@ function onCheck()
              // if you are professor and you checked is Lecture you see drop down list of lectures
         		out.println("<tr height='30'><td align='center'>");
                 out.println(" <span style='color:red'>*</span><select name='courses'>");
- 
-      try{     
-			// Parinsg courses from XML file
-  			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-  				DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
- 				 Document doc = docBuilder.parse("http://localhost/auth/courseList.xml");
+                
+                meetingApplication.foo();
+                
+                //meetingApplication.processCourseList();
+                //ArrayList <String> courseList = meetingApplication.processCourseList();
+                
+                /*
+                for (String courseName : meetingApplication.processCourseList()){
+                	out.println("<option>" + courseName + "</option>");	
+                }
+                */
 
-  				
-  // FOR XML PARSING
-  				Element  element = doc.getDocumentElement(); 
- // NodeList personNodes = element.getChildNodes(); 
-  /*for (int i=0; i<personNodes.getLength(); i++){
-  Node emp = personNodes.item(i);
-  if (isTextNode(emp))
-  continue;*/
-  				NodeList nl = element.getChildNodes(); 
- 	          for (int j=0; j<nl.getLength(); j++ ){
- 							 Node node = nl.item(j);
-				  						if ( node.getNodeName().equals("course")) 
-  				 			out.println("<option>" + node.getFirstChild().getNodeValue() + "</option>");
-       			} 
-       }catch(Exception e){
-         System.out.println("Exception is thrown");
-         e.printStackTrace();
-       }
                 out.println("</select></td>");
                 out.println("<td>Section <input type='text' size='5' maxlength='5' name='section' /></td></tr>");
        }else{

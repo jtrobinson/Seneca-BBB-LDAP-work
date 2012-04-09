@@ -67,7 +67,8 @@
 		// Here goes code when everything is VALID
 		String dataString = compressMeeting(meetingName, mPwd, vPwd, allowGuests, recordable);
 		out.println("DEBUG: Data string is: " + dataString);
-  	
+  		out.println("DEBUG: User ID is: " + ldap.getUID());
+  		saveMeeting(ldap.getUID(), meetingName, mPwd, vPwd, allowGuests, recordable);
   	}
 
 %>

@@ -5,10 +5,19 @@ package ldap;
 <%@ include file="meeting_api.jsp"%>
  */
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
 import org.apache.commons.lang.StringUtils;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
@@ -117,5 +126,29 @@ public class MeetingApplication {
 		for (int i = 0; i < meetingList.size(); i++){
 			meetings.add(decompress(meetingList.get(i)));
 		}
+	}
+
+	// Gets a list of available courses for lecture creation from the config.xml
+	public ArrayList <String> processCourseList(){
+		ArrayList <String> courses = new ArrayList <String> ();
+		try{
+			//Using factory get an instance of document builder
+			DocumentBuilder db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+			//parse using builder to get DOM representation of the XML file
+			Document dom = db.parse(Thread.currentThread().getContextClassLoader().getResourceAsStream("config.xml"));
+			//get the root element
+			Element docEle = dom.getDocumentElement();
+			
+			NodeList courseList = docEle.getElementsByTagName("courseList").item(0).getChildNodes();
+			for (int i=0; i<courseList.getLength(); i++) {
+				if (courseList.item(i).getNodeName().equals("course")) {
+					courses.add(courseList.item(i).getFirstChild().getNodeValue());
+				} 
+			}
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		return courses;
 	}
 }

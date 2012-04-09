@@ -75,7 +75,7 @@
 	
 	// -- COMPRESSION, EXTRACTION
 	
-	
+	// SAVING TO REDIS
 	public void saveMeeting(String presenterKey, String meetingName, String modPass, String viewPass, Boolean allowGuests, Boolean recordable){
 		Jedis jedis = dbConnect();
 		Boolean newMeeting = true;
@@ -96,6 +96,8 @@
 			} // Save new meeting
 		} // Presenter checking		
 	}
+
+	// -- SAVING
 
 	/* // This method may be obsolete with it's inclusion in MeetingApplication.java
 	public ArrayList <String[]> loadAllMeetings(){
