@@ -98,7 +98,7 @@
 	// -- SAVING
 
 	// DELETING A MEETING
-	public void deleteMeeting(String presenterKey, String meetingName){
+	public String deleteMeeting(String presenterKey, String meetingName){
 		Jedis jedis = dbConnect();
 		System.out.println("Survived initializing Jedis");
 		try {
@@ -146,6 +146,8 @@
 			e.printStackTrace();
 		}
 		System.out.println("Exiting deleteMeeting");
+		
+		return "<response><returncode>SUCCESS</returncode><deleted>true</deleted></response>";
 	}
 	// -- DELETING
 %>

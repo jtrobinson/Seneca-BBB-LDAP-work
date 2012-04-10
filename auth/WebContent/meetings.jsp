@@ -105,19 +105,17 @@ with BigBlueButton; if not, If not, see <http://www.gnu.org/licenses/>.
 			return;
 		}
 		
-		var s = jQuery("#meetinggrid").jqGrid('getGridParam','selarrrow');
-		if(s.length==0){
-			alert("Select at least one row");
+		var s = jQuery("#meetinggrid").jqGrid('getGridParam','selrow');
+		if(s == null){
+			alert("Select a row");
 			$("#actionscmb").val("novalue");
 			return;
 		}
 		var meetingid="";
-		for(var i=0;i<s.length;i++){
-			var d = jQuery("#meetinggrid").jqGrid('getRowData',s[i]);
-			meetingid+=d.id;
-			if(i!=s.length-1)
-				meetingid+=",";
-		}
+		var d = jQuery("#meetinggrid").jqGrid('getRowData',s);
+		meetingid+=d.id;
+		meetingid.replace(/\s/g, "+");
+		
 		if(action=="delete"){ 
 			var answer = confirm ("Are you sure to delete the selected meeting?");
 			if (answer)
@@ -126,6 +124,12 @@ with BigBlueButton; if not, If not, see <http://www.gnu.org/licenses/>.
 				$("#actionscmb").val("novalue");
 				return;
 			}
+		}else if(action=="start"){
+			window.open('meetings_create.jsp?command=start&meetingID='+meetingid+
+														  "&modpass="+d.modpass+
+														  "&viewpass="+d.viewpass+
+														  "&recorded="+d.recorded,
+					  '_blank');
 		}else{
 			sendRecordingAction(meetingid,action);
 		}
@@ -135,7 +139,7 @@ with BigBlueButton; if not, If not, see <http://www.gnu.org/licenses/>.
 	function sendRecordingAction(meetingID,action){
 		$.ajax({
 			type: "GET",
-			url: 'mettings_helper.jsp',
+			url: 'meetings_helper.jsp',
 			data: "command="+action+"&meetingID="+meetingID,
 			dataType: "xml",
 			cache: false,

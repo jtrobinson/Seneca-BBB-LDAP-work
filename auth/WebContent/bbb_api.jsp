@@ -149,7 +149,7 @@ public String getJoinMeetingURL(String username, String meetingID, String passwo
 //
 //  Note this meeting will use username for meetingID
 
-public String getJoinURL(String username, String meetingID, String record, String welcome, Map<String, String> metadata, String xml) {
+public String getJoinURL(String username, String meetingID, String record, String welcome, String modpass, String viewpass, Map<String, String> metadata, String xml) {
 	String base_url_create = BigBlueButtonURL + "api/create?";
 	String base_url_join = BigBlueButtonURL + "api/join?";
 
@@ -182,7 +182,7 @@ public String getJoinURL(String username, String meetingID, String record, Strin
 
 	String create_parameters = "name=" + urlEncode(meetingID)
 		+ "&meetingID=" + urlEncode(meetingID) + welcome_param + voiceBridge_param
-		+ "&attendeePW=ap&moderatorPW=mp"
+		+ "&attendeePW=" + viewpass + "&moderatorPW=" + modpass
 		+ "&record=" + record + getMetaData( metadata );
 
 
@@ -206,7 +206,7 @@ public String getJoinURL(String username, String meetingID, String record, Strin
 		//  
 
 		String join_parameters = "meetingID=" + urlEncode(meetingID)
-			+ "&fullName=" + urlEncode(username) + "&password=mp";
+			+ "&fullName=" + urlEncode(username) + "&password=" + modpass;
 
 		return base_url_join + join_parameters + "&checksum="
 			+ checksum("join" + join_parameters + salt);
@@ -271,10 +271,10 @@ public String getJoinURLXML(String username, String meetingID, String welcome, S
 //
 // getJoinURLViewer() -- Get the URL to join a meeting as viewer
 //
-public String getJoinURLViewer(String username, String meetingID) {
+public String getJoinURLViewer(String username, String meetingID, String password) {
 	String base_url_join = BigBlueButtonURL + "api/join?";
 	String join_parameters = "meetingID=" + urlEncode(meetingID)
-		+ "&fullName=" + urlEncode(username) + "&password=ap";
+		+ "&fullName=" + urlEncode(username) + "&password=" + password;
 
 	return base_url_join + join_parameters + "&checksum="
 		+ checksum("join" + join_parameters + salt);

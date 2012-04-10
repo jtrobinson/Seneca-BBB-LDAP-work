@@ -122,8 +122,6 @@ public class MeetingApplication {
 		   
 		   // getting rid of last comma
 		   String recordingString = s.substring(0, s.length()-1 );
-		   
-		   System.out.println("here we are recording string!");
 	   
 	   return recordingString;
 	}
@@ -133,16 +131,14 @@ public class MeetingApplication {
 		Jedis jedis = dbConnect();
 		ArrayList <String> lectureList = new ArrayList <String> ();
 		ArrayList <String> meetingList = new ArrayList <String> ();
-		System.out.println("presenterKey: " + presenterKey);
 
 		// Checks if the current key is a hash, and if it contains any meetings
 		if (jedis.type(presenterKey).equals("hash")){
-			System.out.println("inside");
 			// Goes through each meeting in the current hash
 			for (int i = 1; i <= jedis.hlen(presenterKey); i++){
 				// Extracts the meeting data string from the current meeting
 				String rawMeeting = jedis.hget(presenterKey, "meeting"+i);
-				System.out.println("rawMeeting : " + rawMeeting);
+				
 				// Adds the data string to either lectureList or meetingList depending on the presence of the PROF_SYMBOL
 				if (rawMeeting.charAt(0) == PROF_SYMBOL)
 					lectureList.add(rawMeeting);
@@ -193,26 +189,26 @@ public class MeetingApplication {
 	}
 	
 	public String getUserMeetingsXML(String uid) {
-		System.out.println("uid: " + uid);
+		//System.out.println("uid: " + uid);
 		
-		String newXMLdo = "<allmeetings>\n";
-		newXMLdo += "\t<request>true</request>\n";
-		newXMLdo += "\t<meetings>\n";
+		String newXMLdoc = "<allmeetings>\n";
+		newXMLdoc += "\t<request>true</request>\n";
+		newXMLdoc += "\t<meetings>\n";
 		
 		loadMeetingsByUser(uid);	
 		
-		System.out.println("lect: "+ lectures.size());
-		System.out.println("meet: "+ meetings.size());
+		//System.out.println("lect: "+ lectures.size());
+		//System.out.println("meet: "+ meetings.size());
 		
-		newXMLdo += convertMeetingList(getLectures(), "Lecture");
-		newXMLdo += convertMeetingList(getMeetings(), "Meeting");
+		newXMLdoc += convertMeetingList(getLectures(), "Lecture");
+		newXMLdoc += convertMeetingList(getMeetings(), "Meeting");
 
-		newXMLdo += "\t</meetings>\n</allmeetings>";
-		System.out.println("num meetings : " + meetings.size());
+		newXMLdoc += "\t</meetings>\n</allmeetings>";
+		//System.out.println("num meetings : " + meetings.size());
 		
-		System.out.println(newXMLdo);
+		//System.out.println(newXMLdoc);
 		
-		return newXMLdo;
+		return newXMLdoc;
 	}
 	
 	private String convertMeetingList(ArrayList<String[]> meetings, String type) {
@@ -228,14 +224,14 @@ public class MeetingApplication {
 		 */
 		for (String[] meet : meetings) {
 			
-			// not implemented yet
-			//String [] parts = meet[0].split("-");
+			
+			String [] parts = meet[0].split("\\^");
 			
 			convMeetings += "\t\t<meeting>\n";
 			
 			convMeetings += "\t\t\t<meetingid>" + meet[0] + "</meetingid>\n";
 			convMeetings += "\t\t\t<type>" + type + "</type>\n";
-			convMeetings += "\t\t\t<name>" + meet[0] + "</name>\n";
+			convMeetings += "\t\t\t<name>" + parts[0] + "</name>\n";
 			convMeetings += "\t\t\t<modpass>" + meet[1] + "</modpass>\n";
 			convMeetings += "\t\t\t<viewpass>" + meet[2] + "</viewpass>\n";
 			convMeetings += "\t\t\t<guests>" + meet[3] + "</guests>\n";
