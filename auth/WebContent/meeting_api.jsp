@@ -99,45 +99,41 @@
 
 	// -- SAVING
 
-	/* // This method may be obsolete with it's inclusion in MeetingApplication.java
-	public ArrayList <String[]> loadAllMeetings(){
-		// Create an ArrayList for lectures and one for ordinary meetings
+	// DELETING A MEETING
+	public void deleteMeeting(String presenterKey, String meetingName){
 		Jedis jedis = dbConnect();
-		ArrayList <String> lectureList = new ArrayList <String> ();
-		ArrayList <String> meetingList = new ArrayList <String> ();
-		ArrayList <String[]> allSortedMeetings = new ArrayList <String[]> ();
-		
-		// Goes through all keys in Redis
-		for (String eachKey : jedis.keys("*")){
-			// Checks if the current key is a hash, and if it contains any meetings
-			if (jedis.type(eachKey) == "hash" && jedis.hexists(eachKey, "meeting*")){
-				// Goes through each meeting in the current hash
-				for (int i = 1; i <= jedis.hlen(eachKey); i++){
-					// Extracts the meeting data string from the current meeting
-					String rawMeeting = jedis.hget(eachKey, "meeting"+i);
-					// Adds the data string to either lectureList or meetingList depending on the presence of the PROF_SYMBOL
-					if (rawMeeting.charAt(0) == PROF_SYMBOL)
-						lectureList.add(rawMeeting);
-					else
-						meetingList.add(rawMeeting);
+		try {
+			// Find the number of meetings for this presenter
+			Integer numMeetings = jedis.hlen(presenterKey).intValue();
+			Integer target = 0;
+			int position = 1;
+			Boolean found = false;
+			while (!found || position <= numMeetings){
+				// Find the meeting that matches that name				
+				if (extractName(presenterKey, "meeting"+position, jedis) == meetingName){
+					// Save which "position" that meeting is at (meeting1, meeting2....)
+					target = position;
+				}
+				position++;
+			}
+			if (target > 0){
+				// If meeting position == number of meetings, just flat-out delete it
+				if (target == numMeetings){
+					jedis.hdel(presenterKey, "meeting"+numMeetings);
+				}
+				// Else, copy meeting(n+1) into meeting(n) until meeting(n+1) doesn't exist, and then delete meeting(n+1)
+				else{
+					for (position = target; position < numMeetings; position++){
+						String nextMeeting = jedis.hget(presenterKey, "meeting"+(position+1));
+						jedis.hset(presenterKey, "meeting"+position, nextMeeting);
+					}
+					jedis.hdel(presenterKey, "meeting"+numMeetings);
 				}
 			}
 		}
-		// Sort the lecture and meeting lists alphabetically
-		Collections.sort(lectureList);
-		Collections.sort(meetingList);
-		
-		// Add the sorted "ordinary meetings" to the end of the sorted lecture list.
-		for (int i = 0; i < meetingList.size(); i++){
-			lectureList.add(meetingList.get(i));
+		catch (Exception e){
+			e.printStackTrace();
 		}
-		
-		// Convert all meetings to Meeting objects, ready to return them
-		for (int i = 0; i < lectureList.size(); i++){
-			allSortedMeetings.add(decompress(lectureList.get(i)));
-		}
-		
-		return allSortedMeetings;
 	}
-	*/
+	// -- DELETING
 %>
