@@ -10,6 +10,7 @@
 	private char EMP_SYMBOL = '&';
 	private char STUDENT_SYMBOL = '$';
 	private char DELIMITER = '~';
+	private char NAME_DELIMITER = '-';
 	
 	public static Jedis dbConnect(){
 		String serverIP = "127.0.0.1";

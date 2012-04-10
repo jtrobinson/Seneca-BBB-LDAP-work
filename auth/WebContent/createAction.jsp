@@ -36,6 +36,10 @@
          recordable = true;
       }
    
+    boolean lecture = false;
+      if(check != null){
+      	lecture = true;
+      }
     String section = request.getParameter("section");
 
 
@@ -65,9 +69,27 @@
 	else{
  		out.println(" Valid! Saving to Redis!");
 		// Here goes code when everything is VALID
-		String dataString = compressMeeting(meetingName, mPwd, vPwd, allowGuests, recordable);
+		
+  		StringBuilder sb = new StringBuilder();
+  		// If the meeting is actually a lecture, build the name as "#COURSENAME-SECTION-PRESENTERNAME"
+  		// If the meeting is NOT a lecture, build the name as "#MEETINGNAME-PRESENTERNAME"
+  		if (lecture){
+  			sb.append(PROF_SYMBOL);
+  			sb.append(meetingName);
+  			sb.append(NAME_DELIMITER);
+  			sb.append(section);
+  		}
+  		else{
+  			sb.append(meetingName);
+  		}
+  		sb.append(NAME_DELIMITER);
+  		sb.append(ldap.getCN());
+  		
+  		meetingName = sb.toString();
+  		
+  		String dataString = compressMeeting(meetingName, mPwd, vPwd, allowGuests, recordable);
 		out.println("DEBUG: Data string is: " + dataString);
-  		out.println("DEBUG: User ID is: " + ldap.getUID());
+		
   		saveMeeting(ldap.getUID(), meetingName, mPwd, vPwd, allowGuests, recordable);
   	}
 
