@@ -1,0 +1,15 @@
+<allmeetings>
+	<request>true</request>
+	<meetings>
+		<meeting>
+			<meetingid>test</meetingid>
+			<type>Meeting</type>
+			<name>test</name>
+			<modpass>test</modpass>
+			<viewpass>test</viewpass>
+			<guests>false</guests>
+			<recorded>false</recorded>
+			<date>Mon Apr 09 17:27:34 EDT 2012</date>
+		</meeting>
+	</meetings>
+</allmeetings>

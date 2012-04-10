@@ -194,7 +194,9 @@ public class MeetingApplication {
 	public String getUserMeetingsXML(String uid) {
 		System.out.println("uid: " + uid);
 		
-		String newXMLdoc = "<meetings>";
+		String newXMLdoc = "<allmeetings>\n";
+		newXMLdoc += "\t<request>true</request>\n";
+		newXMLdoc += "\t<meetings>\n";
 		
 		loadMeetingsByUser(uid);	
 		
@@ -204,7 +206,7 @@ public class MeetingApplication {
 		newXMLdoc += convertMeetingList(getLectures(), "Lecture");
 		newXMLdoc += convertMeetingList(getMeetings(), "Meeting");
 
-		newXMLdoc += "</meetings>";
+		newXMLdoc += "\t</meetings>\n</allmeetings>";
 		System.out.println("num meetings : " + meetings.size());
 		
 		System.out.println(newXMLdoc);
@@ -228,18 +230,18 @@ public class MeetingApplication {
 			// not implemented yet
 			//String [] parts = meet[0].split("-");
 			
-			convMeetings += "<meeting>";
+			convMeetings += "\t\t<meeting>\n";
 			
-			convMeetings += "<meetingID>" + meet[0] + "</meetingID>";
-			convMeetings += "<type>" + type + "</type>";
-			convMeetings += "<name>" + meet[0] + "</name>";
-			convMeetings += "<modPass>" + meet[1] + "</modPass>";
-			convMeetings += "<viewPass>" + meet[2] + "</viewPass>";
-			convMeetings += "<guests>" + meet[3] + "</guests>";
-			convMeetings += "<recorded>" + meet[4] + "</recorded>";
-			convMeetings += "<date>" + meet[5] + "</date>";
+			convMeetings += "\t\t\t<meetingid>" + meet[0] + "</meetingid>\n";
+			convMeetings += "\t\t\t<type>" + type + "</type>\n";
+			convMeetings += "\t\t\t<name>" + meet[0] + "</name>\n";
+			convMeetings += "\t\t\t<modpass>" + meet[1] + "</modpass>\n";
+			convMeetings += "\t\t\t<viewpass>" + meet[2] + "</viewpass>\n";
+			convMeetings += "\t\t\t<guests>" + meet[3] + "</guests>\n";
+			convMeetings += "\t\t\t<recorded>" + meet[4] + "</recorded>\n";
+			convMeetings += "\t\t\t<date>" + meet[5] + "</date>\n";
 			
-			convMeetings += "</meeting>";
+			convMeetings += "\t\t</meeting>\n";
 		}
 		
 		return convMeetings;

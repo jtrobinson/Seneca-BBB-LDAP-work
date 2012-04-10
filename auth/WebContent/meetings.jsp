@@ -150,35 +150,38 @@ with BigBlueButton; if not, If not, see <http://www.gnu.org/licenses/>.
 	}
 	
 	$(document).ready(function(){
-		$("#formcreate").validate();
-		$("#meetingID option[value='English 101']").attr("selected","selected");
+		
 		jQuery("#meetinggrid").jqGrid({
 			url: "meetings_helper.jsp?command=getMeetings",
 			datatype: "xml",
 			height: 300,
+			rowNum: 20,
 			loadonce: true,
 			sortable: true,
+			autowidth: false,
 			colNames:['Id','Type','Name','Moderator Pass', 'Viewer Pass', 'Guests', 'Recorded', 'Date Last Edited'],
 			colModel:[
-				{name:'id',index:'id', width:50, hidden:true, xmlmap: "meetingID"},
-				{name:'type',index:'type', width:150, xmlmap: "type", sortable:true},
-				{name:'name',index:'name', width:150, xmlmap: "name", sortable:true},
-				{name:'modpass',index:'modpass', width:100, xmlmap: "modPass",sortable: true},
-				{name:'viewpass',index:'viewpass', width:100, xmlmap: "viewPass",sortable: true},
-				{name:'guests',index:'guests', width:80, xmlmap: "guests", sortable:true },
-				{name:'recorded',index:'recorded', width:80, xmlmap: "recorded", sortable:true },
-				{name:'date',index:'date', width:200, xmlmap: "date", sortable: true},
+				{name:'id',index:'id', width:50, hidden:true, xmlmap: "meetingid"},
+				{name:'type',index:'type', width:150, xmlmap: "type"},
+				{name:'name',index:'name', width:150, xmlmap: "name"},
+				{name:'modpass',index:'modpass', width:100, xmlmap: "modpass",sortable: false},
+				{name:'viewpass',index:'viewpass', width:100, xmlmap: "viewpass",sortable: false},
+				{name:'guests',index:'guests', width:80, xmlmap: "guests", sortable:false},
+				{name:'recorded',index:'recorded', width:80, xmlmap: "recorded", sortable:false},
+				{name:'date',index:'date', width:200, xmlmap: "date"},
 			],
 			xmlReader: {
 				root : "meetings",
 				row: "meeting",
 				repeatitems:false,
-				id: "meetingID"
+				id: "meetingid"
 			},
 			pager : '#pager',
 			emptyrecords: "Nothing to display",
-			multiselect: false,
 			caption: "Your Meetings",
+			sortname: 'type',
+			sortorder: "desc",
+			viewrecords: true,
 			loadComplete: function(){
 				$("#meetinggrid").trigger("reloadGrid");
 			}
