@@ -76,7 +76,7 @@
   		if (lecture){
   			sb.append(PROF_SYMBOL);
   			sb.append(meetingName);
-  			sb.append(NAME_DELIMITER);
+  			sb.append("-");
   			sb.append(section);
   		}
   		else{

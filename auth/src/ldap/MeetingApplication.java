@@ -161,6 +161,7 @@ public class MeetingApplication {
 		// Populate the instance variables lectures and meetings with all the available lectures and general meetings, respectively
 		for (int i = 0; i < lectureList.size(); i++){
 			lectures.add(decompress(lectureList.get(i)));
+			lectures.get(i)[0] = StringUtils.removeStart(lectures.get(i)[0], String.valueOf(PROF_SYMBOL));
 		}
 		for (int i = 0; i < meetingList.size(); i++){
 			meetings.add(decompress(meetingList.get(i)));
