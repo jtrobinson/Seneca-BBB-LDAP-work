@@ -91,10 +91,10 @@ with BigBlueButton; if not, If not, see <http://www.gnu.org/licenses/>.
 %>
 	
 
-	
+	<div align='center'>
 
-	<h3 align='center'>Recorded Sessions for <span style='color:green' /><%=ldap.getCN() %></span></h3>
-	<select id="actionscmb" name="actions" onchange="recordedAction(this.value);">
+	<h3>Recorded Sessions for <span style='color:green' /><%=ldap.getCN() %></span></h3>
+	<select id="actionscmb" name="actions" onchange="recordedAction(this.value);" >
 		<option value="novalue" selected>Actions...</option>
 		<option value="publish">Publish</option>
 		<option value="unpublish">Unpublish</option>
@@ -103,6 +103,7 @@ with BigBlueButton; if not, If not, see <http://www.gnu.org/licenses/>.
 	<table id="recordgrid"></table>
 	<div id="pager"></div> 
 	<p>Note: New recordings will appear in the above list after processing.  Refresh your browser to update the list.</p>
+	</div>
 	<script>
 	function onChangeMeeting(meetingID){
 		isRunningMeeting(meetingID);

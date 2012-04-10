@@ -1,6 +1,5 @@
 <jsp:useBean id="ldap" class="ldap.LDAPAuthenticate" scope="session"/>
 <jsp:useBean id="meets" class="ldap.MeetingApplication" scope="session"/>
-e
 <%@ page contentType="text/xml" %>
 <%@ page trimDirectiveWhitespaces="true" %>
 <%@ include file="bbb_api.jsp" %>
