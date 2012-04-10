@@ -10,7 +10,7 @@ e
 	<running><%= isMeetingRunning(request.getParameter("meetingID")) %></running>
 </response>
 <% } else if(request.getParameter("command").equals("getMeetings")){%>
-	<% System.out.println(meets.getUserMeetingsXML(ldap.getUID())); %>
+	<%= meets.getUserMeetingsXML(ldap.getUID()) %>
 <% } else if(request.getParameter("command").equals("start")){ %>
 	<%    %>
 <% } else if(request.getParameter("command").equals("edit")){%>

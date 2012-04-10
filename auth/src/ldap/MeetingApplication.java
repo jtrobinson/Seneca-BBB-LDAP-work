@@ -194,24 +194,24 @@ public class MeetingApplication {
 	public String getUserMeetingsXML(String uid) {
 		System.out.println("uid: " + uid);
 		
-		String newXMLdoc = "<allmeetings>\n";
-		newXMLdoc += "\t<request>true</request>\n";
-		newXMLdoc += "\t<meetings>\n";
+		String newXMLdo = "<allmeetings>\n";
+		newXMLdo += "\t<request>true</request>\n";
+		newXMLdo += "\t<meetings>\n";
 		
 		loadMeetingsByUser(uid);	
 		
 		System.out.println("lect: "+ lectures.size());
 		System.out.println("meet: "+ meetings.size());
 		
-		newXMLdoc += convertMeetingList(getLectures(), "Lecture");
-		newXMLdoc += convertMeetingList(getMeetings(), "Meeting");
+		newXMLdo += convertMeetingList(getLectures(), "Lecture");
+		newXMLdo += convertMeetingList(getMeetings(), "Meeting");
 
-		newXMLdoc += "\t</meetings>\n</allmeetings>";
+		newXMLdo += "\t</meetings>\n</allmeetings>";
 		System.out.println("num meetings : " + meetings.size());
 		
-		System.out.println(newXMLdoc);
+		System.out.println(newXMLdo);
 		
-		return newXMLdoc;
+		return newXMLdo;
 	}
 	
 	private String convertMeetingList(ArrayList<String[]> meetings, String type) {
