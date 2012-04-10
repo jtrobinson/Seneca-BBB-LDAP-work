@@ -67,7 +67,7 @@
   	        response.sendRedirect("create.jsp?isLecture=true");
 	}
 	else{
- 		out.println(" Valid! Saving to Redis!");
+ 		out.print(" Valid! Saving to Redis! <br >");
 		// Here goes code when everything is VALID
 		
   		StringBuilder sb = new StringBuilder();
@@ -88,9 +88,13 @@
   		meetingName = sb.toString();
   		
   		String dataString = compressMeeting(meetingName, mPwd, vPwd, allowGuests, recordable);
-		out.println("DEBUG: Data string is: " + dataString);
+		out.print("DEBUG: Data string is: " + dataString + "<br >");
 		
   		saveMeeting(ldap.getUID(), meetingName, mPwd, vPwd, allowGuests, recordable);
+  		
+  		out.print("DEBUG: Deleting entry 'a' <br >");
+  		deleteMeeting(ldap.getUID(), "a");
+  		// EAC150
   	}
 
 %>

@@ -81,21 +81,18 @@
 		Jedis jedis = dbConnect();
 		Boolean newMeeting = true;
 		String dataString = compressMeeting(meetingName, modPass, viewPass, allowGuests, recordable);
-		// Checks for the existence of the presenterKey and that the key refers to a hash
-		//if (jedis.exists(presenterKey) && jedis.type(presenterKey) == "hash"){
-			// Goes through all meetings associated with the presenterKey and compares the names
-			for (int i = 1; i <= jedis.hlen(presenterKey); i++){
-				//Meeting oldMeeting = MeetingApplication.extractMeeting(jedis.hget(presenterKey, "meeting"+i));
-				String oldName = extractName(presenterKey, "meeting"+i, jedis);
-				if (meetingName == oldName){
-					newMeeting = false;
-					jedis.hset(presenterKey, "meeting"+i, dataString);
-				} // Compare new meeting to old meeting
-			} // For loop
-			if (newMeeting){
-				jedis.hset(presenterKey, "meeting"+(jedis.hlen(presenterKey)+1), dataString);
-			} // Save new meeting
-		//} // Presenter checking		
+		// Goes through all meetings associated with the presenterKey and compares the names
+		for (int i = 1; i <= jedis.hlen(presenterKey); i++){
+			//Meeting oldMeeting = MeetingApplication.extractMeeting(jedis.hget(presenterKey, "meeting"+i));
+			String oldName = extractName(presenterKey, "meeting"+i, jedis);
+			if (meetingName.compareTo(oldName) == 0){
+				newMeeting = false;
+				jedis.hset(presenterKey, "meeting"+i, dataString);
+			} // Compare new meeting to old meeting
+		} // For loop
+		if (newMeeting){
+			jedis.hset(presenterKey, "meeting"+(jedis.hlen(presenterKey)+1), dataString);
+		} // Save new meeting		
 	}
 
 	// -- SAVING
@@ -103,27 +100,37 @@
 	// DELETING A MEETING
 	public void deleteMeeting(String presenterKey, String meetingName){
 		Jedis jedis = dbConnect();
+		System.out.println("Survived initializing Jedis");
 		try {
 			// Find the number of meetings for this presenter
 			Integer numMeetings = jedis.hlen(presenterKey).intValue();
 			Integer target = 0;
 			int position = 1;
 			Boolean found = false;
-			while (!found || position <= numMeetings){
-				// Find the meeting that matches that name				
-				if (extractName(presenterKey, "meeting"+position, jedis) == meetingName){
+			System.out.println("About to enter while loop");
+			while (!found && position <= numMeetings){
+				System.out.println("Checking meeting"+position);
+				// Find the meeting that matches that name
+				System.out.println("DEBUG: extraction is: " + extractName(presenterKey, "meeting"+position, jedis));
+				System.out.println("DEBUG: meetingName is: " + meetingName);
+				if (meetingName.compareTo(extractName(presenterKey, "meeting"+position, jedis)) == 0){
 					// Save which "position" that meeting is at (meeting1, meeting2....)
+					System.out.println("DEBUG: Found!");
 					target = position;
+					found = true;
 				}
 				position++;
 			}
+			System.out.println("Out of while loop");
 			if (target > 0){
 				// If meeting position == number of meetings, just flat-out delete it
 				if (target == numMeetings){
+					System.out.println("Deleting only/last existing meeting");
 					jedis.hdel(presenterKey, "meeting"+numMeetings);
 				}
 				// Else, copy meeting(n+1) into meeting(n) until meeting(n+1) doesn't exist, and then delete meeting(n+1)
 				else{
+					System.out.println("Deleting a meeting in the middle");
 					for (position = target; position < numMeetings; position++){
 						String nextMeeting = jedis.hget(presenterKey, "meeting"+(position+1));
 						jedis.hset(presenterKey, "meeting"+position, nextMeeting);
@@ -131,10 +138,14 @@
 					jedis.hdel(presenterKey, "meeting"+numMeetings);
 				}
 			}
+			else {
+				System.out.println("Meeting with name " + meetingName + " not found!");
+			}
 		}
 		catch (Exception e){
 			e.printStackTrace();
 		}
+		System.out.println("Exiting deleteMeeting");
 	}
 	// -- DELETING
 %>
