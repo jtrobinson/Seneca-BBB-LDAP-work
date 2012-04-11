@@ -198,41 +198,6 @@ with BigBlueButton; if not, If not, see <http://www.gnu.org/licenses/>.
 	
 	</script>
 <%
-	} else if (request.getParameter("action").equals("create")) {
-		
-		String meetingID = request.getParameter("meetingID");
-		String username = request.getParameter("meta_email");
-		
-		//metadata
-		Map<String,String> metadata=new HashMap<String,String>();
-		
-		metadata.put("description", request.getParameter("meta_description"));
-		metadata.put("email", request.getParameter("meta_email"));
-		// Use the meetingID (e.g English 101) as the title as slides playback
-		// uses the title to display the link.
-		metadata.put("title", request.getParameter("meetingID"));
-
-		String modPass = request.getParameter("modpass");
-		String viewPass = request.getParameter("viewpass");
-		
-		//
-		// This is the URL for to join the meeting as moderator
-		//
-		String welcomeMsg = "<br>Welcome to %%CONFNAME%%!<br><br>For help see our <a href=\"event:http://www.bigbluebutton.org/content/videos\"><u>tutorial videos</u></a>.<br><br>To join the voice bridge for this meeting click the headset icon in the upper-left <b>(you can mute yourself in the Listeners window)</b>.<br><br>This meeting is being recorded (audio + slides + chat).";
-		//				 getJoinURL(  String,    String, String,     String, String, String , Map<String, String>, String)
-		String joinURL = getJoinURL(username, meetingID, "true", welcomeMsg, modPass, viewPass, metadata, null);
-		// Missing modPass and viewPass between welcomeMSG and metadata
-		if (joinURL.startsWith("http://")) {
-%>
-<script language="javascript" type="text/javascript">
-  window.location.href="<%=joinURL%>";
-</script>
-<%
-		}else{
-%>
-Error: getJoinURL() failed
-<p /><%=joinURL%> <%
-		}
 	}
 %> 
 

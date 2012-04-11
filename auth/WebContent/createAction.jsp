@@ -132,12 +132,13 @@
   		meetingName = sb.toString();
   		
   		String dataString = compressMeeting(meetingName, mPwd, vPwd, allowGuests, recordable);
-		out.print("DEBUG: Data string is: " + dataString + "<br >");
+	//	out.print("DEBUG: Data string is: " + dataString + "<br >");
 		
   		saveMeeting(ldap.getUID(), meetingName, mPwd, vPwd, allowGuests, recordable);
   		
-  		out.print("DEBUG: Deleting entry 'a' <br >");
+  		//out.print("DEBUG: Deleting entry 'a' <br >");
   		deleteMeeting(ldap.getUID(), "a");
+  		response.sendRedirect("meetings.jsp");
   		// EAC150
   	}
 

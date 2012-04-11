@@ -182,9 +182,8 @@ with BigBlueButton; if not, If not, see <http://www.gnu.org/licenses/>.
 			}
 		});
 	}
-	var meetingID="English 101,English 102,English 103,English 104,English 105,English 106,English 107,English 108,English 109,OOP344";
+	
 	$(document).ready(function(){
-		isRunningMeeting("English 232");
 		$("#formcreate").validate();
 		$("#meetingID option[value='English 101']").attr("selected","selected");
 		jQuery("#recordgrid").jqGrid({
@@ -221,36 +220,6 @@ with BigBlueButton; if not, If not, see <http://www.gnu.org/licenses/>.
 	
 	</script>
 <%
-	} else if (request.getParameter("action").equals("create")) {
-		
-		String meetingID = request.getParameter("meetingID");
-		String username = request.getParameter("meta_email");
-		
-		//metadata
-		Map<String,String> metadata=new HashMap<String,String>();
-		
-		metadata.put("description", request.getParameter("meta_description"));
-		metadata.put("email", request.getParameter("meta_email"));
-		// Use the meetingID (e.g English 101) as the title as slides playback
-		// uses the title to display the link.
-		metadata.put("title", request.getParameter("meetingID"));
-
-		//
-		// This is the URL for to join the meeting as moderator
-		//
-		String welcomeMsg = "<br>Welcome to %%CONFNAME%%!<br><br>For help see our <a href=\"event:http://www.bigbluebutton.org/content/videos\"><u>tutorial videos</u></a>.<br><br>To join the voice bridge for this meeting click the headset icon in the upper-left <b>(you can mute yourself in the Listeners window)</b>.<br><br>This meeting is being recorded (audio + slides + chat).";
-		String joinURL = getJoinURL(username, meetingID, "true", welcomeMsg, metadata, null);
-		if (joinURL.startsWith("http://")) {
-%>
-<script language="javascript" type="text/javascript">
-  window.location.href="<%=joinURL%>";
-</script>
-<%
-		}else{
-%>
-Error: getJoinURL() failed
-<p /><%=joinURL%> <%
-		}
 	}
 %> 
 

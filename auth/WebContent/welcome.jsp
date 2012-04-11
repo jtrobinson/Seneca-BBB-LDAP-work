@@ -174,9 +174,9 @@ Invalid Password, please <a href="javascript:history.go(-1)">try again</a>.
 <%
 			return;
 		}else if(password.equals(moderatorPW)){
-			 joinURL = getJoinURL(username, meetingID, "true", welcomeMsg, metadata, null);	
+			 joinURL = "";// getJoinURL(username, meetingID, "true", welcomeMsg, metadata, null);	
 		}else{
-                          joinURL =  getJoinURLViewer(username,meetingID);
+             joinURL = "";// getJoinURLViewer(username,meetingID);
 		}
 		
 		//
