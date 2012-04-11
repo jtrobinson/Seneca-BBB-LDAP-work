@@ -91,19 +91,18 @@ with BigBlueButton; if not, If not, see <http://www.gnu.org/licenses/>.
 %>
 	
 
-	<div align='center'>
-
+	<table align='center'>
+	<tr><td>
 	<h3>Recorded Sessions for <span style='color:green' /><%=ldap.getCN() %></span></h3>
 	<select id="actionscmb" name="actions" onchange="recordedAction(this.value);" >
 		<option value="novalue" selected>Actions...</option>
-		<option value="publish">Publish</option>
-		<option value="unpublish">Unpublish</option>
 		<option value="delete">Delete</option>
 	</select>
 	<table id="recordgrid"></table>
 	<div id="pager"></div> 
 	<p>Note: New recordings will appear in the above list after processing.  Refresh your browser to update the list.</p>
-	</div>
+	</td></tr>
+	</table>
 	<script>
 	function onChangeMeeting(meetingID){
 		isRunningMeeting(meetingID);
@@ -182,14 +181,14 @@ with BigBlueButton; if not, If not, see <http://www.gnu.org/licenses/>.
 			}
 		});
 	}
-	
+	var meetingID = "OOP344-A^Anatolijs Spektors";
 	$(document).ready(function(){
 		$("#formcreate").validate();
 		$("#meetingID option[value='English 101']").attr("selected","selected");
 		jQuery("#recordgrid").jqGrid({
-			url: "recordings_helper.jsp?command=getRecords",
+			url: "recordings_helper.jsp?command=getRecords&meetingID="+meetingID,
 			datatype: "xml",
-			height: 150,
+			height: 300,
 			loadonce: true,
 			sortable: true,
 			colNames:['Id','Course','Description', 'Date Recorded', 'Published', 'Playback', 'Length'],
@@ -198,7 +197,7 @@ with BigBlueButton; if not, If not, see <http://www.gnu.org/licenses/>.
 				{name:'course',index:'course', width:150, xmlmap: "name", sortable:true},
 				{name:'description',index:'description', width:300, xmlmap: "description",sortable: true},
 				{name:'daterecorded',index:'daterecorded', width:200, xmlmap: "startTime", sortable: true},
-				{name:'published',index:'published', width:80, xmlmap: "published", sortable:true },
+				{name:'published',index:'published', width:80, xmlmap: "published", hidden:true },
 				{name:'playback',index:'playback', width:150, xmlmap:"playback", sortable:false},
 				{name:'length',index:'length', width:80, xmlmap:"length", sortable:true}
 			],

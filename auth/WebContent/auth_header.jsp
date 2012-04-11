@@ -5,7 +5,8 @@
 <div align="center">
 <a href="meetings.jsp">Meetings</a>&nbsp;&nbsp;
 <a href="recordings.jsp">Recordings</a>&nbsp;&nbsp;
-<a href="create.jsp">Create</a>
+<a href="create.jsp">Create</a>&nbsp;&nbsp;
+<a href="join.jsp">Join</a>
 </div>
 <%
 if(!ldap.getAuthenticated().equals("true")) {

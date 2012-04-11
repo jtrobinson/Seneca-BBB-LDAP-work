@@ -17,10 +17,10 @@
 	
 		metadata.put("email", request.getParameter("username"));
 		metadata.put("title", request.getParameter("meetingID"));
-		System.out.println(getJoinURL(ldap.getCN(), request.getParameter("meetingID"), request.getParameter("recorded"), request.getParameter("modpass"), request.getParameter("viewpass"), "Welcome", metadata, null));
+		System.out.println(getJoinURL(ldap.getCN(), request.getParameter("meetingID"), request.getParameter("recorded"),"Welcome", request.getParameter("modpass"), request.getParameter("viewpass"), metadata, null));
 	%>
 	<script language="javascript" type="text/javascript">
-  		window.location.href="<%=getJoinURL(ldap.getCN(), request.getParameter("meetingID"), request.getParameter("recorded"), request.getParameter("modpass"), request.getParameter("viewpass"), "Welcome", metadata, null)%>";
+  		window.location.href="<%=getJoinURL(ldap.getCN(), request.getParameter("meetingID"), request.getParameter("recorded"),"Welcome", request.getParameter("modpass"), request.getParameter("viewpass"), metadata, null)%>";
 	</script>
 </body>
 </html>

@@ -137,7 +137,7 @@
   		saveMeeting(ldap.getUID(), meetingName, mPwd, vPwd, allowGuests, recordable);
   		
   		//out.print("DEBUG: Deleting entry 'a' <br >");
-  		deleteMeeting(ldap.getUID(), "a");
+  		//deleteMeeting(ldap.getUID(), "a");
   		response.sendRedirect("meetings.jsp");
   		// EAC150
   	}

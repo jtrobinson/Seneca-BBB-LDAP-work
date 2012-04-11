@@ -101,7 +101,7 @@ public class MeetingApplication {
 	 * This function receives user ID and returns formatted recording string for the recordings.jsp
 	 */
 	public String getRecordingString(String userId){
-	   String  s = " "; // temporary recording string
+	   String  s = ""; // temporary recording string
 	  
 	  
 		  loadMeetingsByUser(userId);

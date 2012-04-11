@@ -90,17 +90,19 @@ with BigBlueButton; if not, If not, see <http://www.gnu.org/licenses/>.
 %>	
 
 
-	<div align='center'>
+	<table align='center'>
+		<tr><td>
 			<h3>Manage Meetings</h3>
-	<select id="actionscmb" name="actions" onchange="recordedAction(this.value);">
-		<option value="novalue" selected>Actions...</option>
-		<option value="start">Start</option>
-		<option value="edit">Edit</option>
-		<option value="delete">Delete</option>
-	</select>
-	<table id="meetinggrid"></table>
-	<p>Note: New meetings will appear in the above list after processing.  Refresh your browser to update the list.</p>
-	</div>
+			<select id="actionscmb" name="actions" onchange="recordedAction(this.value);">
+				<option value="novalue" selected>Actions...</option>
+				<option value="start">Start</option>
+				<option value="edit">Edit</option>
+				<option value="delete">Delete</option>
+			</select>
+			<table id="meetinggrid"></table>
+			<p>Note: New meetings will appear in the above list after processing.  Refresh your browser to update the list.</p>
+		</td></tr>
+	</table>
 	<div id="pager"></div> 
 	
 	<script>
@@ -170,7 +172,7 @@ with BigBlueButton; if not, If not, see <http://www.gnu.org/licenses/>.
 			colNames:['Id','Type','Name','Moderator Pass', 'Viewer Pass', 'Guests', 'Recorded', 'Date Last Edited'],
 			colModel:[
 				{name:'id',index:'id', width:50, hidden:true, xmlmap: "meetingid"},
-				{name:'type',index:'type', width:150, xmlmap: "type"},
+				{name:'type',index:'type', width:80, xmlmap: "type"},
 				{name:'name',index:'name', width:150, xmlmap: "name"},
 				{name:'modpass',index:'modpass', width:100, xmlmap: "modpass",sortable: false},
 				{name:'viewpass',index:'viewpass', width:100, xmlmap: "viewpass",sortable: false},

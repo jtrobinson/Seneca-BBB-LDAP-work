@@ -58,7 +58,9 @@
 		sb.append(DELIMITER);
 		
 		// Date Last Edited
-		sb.append(new java.util.Date());
+		SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd aa HH:mm");
+		Date date = new java.util.Date();
+		sb.append(df.format(date));
 		
 		String dataString = sb.toString();
 		return dataString;
