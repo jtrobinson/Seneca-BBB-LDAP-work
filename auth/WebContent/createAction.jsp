@@ -95,7 +95,12 @@
 	           session.setAttribute( "fail", "4" );
   		if(check == null )
   		response.sendRedirect("create.jsp");
-	}else{
+	}else if(mPwd.equals(vPwd) == true){
+	   session.setAttribute( "fail", "5" );
+  		if(check == null )
+  		response.sendRedirect("create.jsp");
+	}
+	else{
  		out.print(" Valid! Saving to Redis! <br >");
 		// Here goes code when everything is VALID
 		
