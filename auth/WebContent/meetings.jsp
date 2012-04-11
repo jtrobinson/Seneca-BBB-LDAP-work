@@ -109,19 +109,17 @@ with BigBlueButton; if not, If not, see <http://www.gnu.org/licenses/>.
 			return;
 		}
 		
-		var s = jQuery("#meetinggrid").jqGrid('getGridParam','selarrrow');
-		if(s.length==0){
-			alert("Select at least one row");
+		var s = jQuery("#meetinggrid").jqGrid('getGridParam','selrow');
+		if(s == null){
+			alert("Select a row");
 			$("#actionscmb").val("novalue");
 			return;
 		}
 		var meetingid="";
-		for(var i=0;i<s.length;i++){
-			var d = jQuery("#meetinggrid").jqGrid('getRowData',s[i]);
-			meetingid+=d.id;
-			if(i!=s.length-1)
-				meetingid+=",";
-		}
+		var d = jQuery("#meetinggrid").jqGrid('getRowData',s);
+		meetingid+=d.id;
+		meetingid.replace(/\s/g, "+");
+		
 		if(action=="delete"){ 
 			var answer = confirm ("Are you sure to delete the selected meeting?");
 			if (answer)
@@ -130,6 +128,12 @@ with BigBlueButton; if not, If not, see <http://www.gnu.org/licenses/>.
 				$("#actionscmb").val("novalue");
 				return;
 			}
+		}else if(action=="start"){
+			window.open('meetings_create.jsp?command=start&meetingID='+meetingid+
+														  "&modpass="+d.modpass+
+														  "&viewpass="+d.viewpass+
+														  "&recorded="+d.recorded,
+					  '_blank');
 		}else{
 			sendRecordingAction(meetingid,action);
 		}
@@ -139,7 +143,7 @@ with BigBlueButton; if not, If not, see <http://www.gnu.org/licenses/>.
 	function sendRecordingAction(meetingID,action){
 		$.ajax({
 			type: "GET",
-			url: 'mettings_helper.jsp',
+			url: 'meetings_helper.jsp',
 			data: "command="+action+"&meetingID="+meetingID,
 			dataType: "xml",
 			cache: false,
@@ -208,11 +212,16 @@ with BigBlueButton; if not, If not, see <http://www.gnu.org/licenses/>.
 		// uses the title to display the link.
 		metadata.put("title", request.getParameter("meetingID"));
 
+		String modPass = request.getParameter("modpass");
+		String viewPass = request.getParameter("viewpass");
+		
 		//
 		// This is the URL for to join the meeting as moderator
 		//
 		String welcomeMsg = "<br>Welcome to %%CONFNAME%%!<br><br>For help see our <a href=\"event:http://www.bigbluebutton.org/content/videos\"><u>tutorial videos</u></a>.<br><br>To join the voice bridge for this meeting click the headset icon in the upper-left <b>(you can mute yourself in the Listeners window)</b>.<br><br>This meeting is being recorded (audio + slides + chat).";
-		String joinURL = getJoinURL(username, meetingID, "true", welcomeMsg, metadata, null);
+		//				 getJoinURL(  String,    String, String,     String, String, String , Map<String, String>, String)
+		String joinURL = getJoinURL(username, meetingID, "true", welcomeMsg, modPass, viewPass, metadata, null);
+		// Missing modPass and viewPass between welcomeMSG and metadata
 		if (joinURL.startsWith("http://")) {
 %>
 <script language="javascript" type="text/javascript">
