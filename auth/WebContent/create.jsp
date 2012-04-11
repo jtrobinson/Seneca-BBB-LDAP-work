@@ -110,16 +110,21 @@ function onCheck()
 %>
  
      </tr><tr>
-     <td>Moderator Password <span style='color:red'>*</span></td><td>   <input type="text" id="mPwd" name="mPwd" /></td>
+     <td>Moderator Password <span style='color:red'>*</span></td><td>   <input type="text" id="mPwd" name="mPwd"
+                        <% if(session.getAttribute( "mPwd" ) != null) out.print("value = '"+session.getAttribute("mPwd")+"'"); %>/></td>
+ 
      </tr>
      <tr >
-     <td>Confirm Mod. Password  <span style='color:red'>*</span></td><td>   <input type="text" id="mPwdre"  name="mPwdre"/></td>
+     <td>Confirm Mod. Password  <span style='color:red'>*</span></td><td>   <input type="text" id="mPwdre"  name="mPwdre" 
+      					<% if(session.getAttribute( "mPwdre" ) != null) out.print("value = '"+session.getAttribute("mPwdre")+"'"); %>/></td>
      </tr>
      <tr >
-     <td>Viewer Password  <span style='color:red'>*</span></td><td>      <input type="text" id="vPwd" name="vPwd"/></td>
+     <td>Viewer Password  <span style='color:red'>*</span></td><td>      <input type="text" id="vPwd" name="vPwd"  
+     				<% if(session.getAttribute( "vPwd" ) != null) out.print("value = '"+session.getAttribute("vPwd")+"'"); %>/></td>
      </tr>
      <tr>
-     <td>Confirm View. Password  <span style='color:red'>*</span></td><td>   <input type="text" id="vPwdre" name="vPwdre" /></td>
+     <td>Confirm View. Password  <span style='color:red'>*</span></td><td>   <input type="text" id="vPwdre" name="vPwdre"  
+     					<% if(session.getAttribute( "vPwdre" ) != null) out.print("value = '"+session.getAttribute("vPwdre")+"'"); %>/></td>
      </tr>
     
 <% 
@@ -154,8 +159,11 @@ function onCheck()
            out.print("<div style='color:red' align='center'> Presenter's password and Confirmation must match!</div>");
            }else if(fail.equals("3")){
            out.print("<div style='color:red' align='center'> Viewer's password and Confirmation must match!</div>");
+           } else if(fail.equals("4")){
+              out.print("<div style='color:red' align='center'> Your meeting name or section contains forbidden character (not allowed: $&#~-)</div>");
            }
            }
+           
           
            %>
         </td>

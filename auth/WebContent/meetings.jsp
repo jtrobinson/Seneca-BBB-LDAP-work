@@ -89,7 +89,9 @@ with BigBlueButton; if not, If not, see <http://www.gnu.org/licenses/>.
 		//
 %>	
 
-	<h3>Manage Meetings</h3>
+
+	<div align='center'>
+			<h3>Manage Meetings</h3>
 	<select id="actionscmb" name="actions" onchange="recordedAction(this.value);">
 		<option value="novalue" selected>Actions...</option>
 		<option value="start">Start</option>
@@ -97,8 +99,10 @@ with BigBlueButton; if not, If not, see <http://www.gnu.org/licenses/>.
 		<option value="delete">Delete</option>
 	</select>
 	<table id="meetinggrid"></table>
-	<div id="pager"></div> 
 	<p>Note: New meetings will appear in the above list after processing.  Refresh your browser to update the list.</p>
+	</div>
+	<div id="pager"></div> 
+	
 	<script>
 	function recordedAction(action){
 		if(action=="novalue"){
