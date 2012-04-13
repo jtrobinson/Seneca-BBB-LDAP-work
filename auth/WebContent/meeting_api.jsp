@@ -159,7 +159,7 @@
 	public ArrayList <String[]> runningList(ArrayList <String[]> meetings){
 		ArrayList <String[]> openMeetings = new ArrayList <String[]> ();
 		for (int i = 0; i < meetings.size(); i ++){
-			String meetingID = meetings.get(i)[0];
+			String meetingID = StringUtils.removeStart(meetings.get(i)[0], String.valueOf(PROF_SYMBOL));
 			if (isMeetingRunning(meetingID).equals("true")){
 				openMeetings.add(meetings.get(i));
 			}
