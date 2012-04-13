@@ -1,7 +1,6 @@
 <%@page import="org.apache.commons.lang.StringUtils"%>
 <jsp:useBean id="ldap" class="ldap.LDAPAuthenticate" scope="session"/>
 <jsp:useBean id="meetingApplication" class="ldap.MeetingApplication" scope="session"/>
-<%@ include file="bbb_api.jsp"%>
 <%@ include file="meeting_api.jsp"%>
 
 <%
@@ -71,11 +70,13 @@
 						out.println("Logging you in as viewer<br/>");
 						String meetingURL = getJoinURLViewer(ldap.getCN(), meetingID, password);
 						out.println("DEBUG ONLY MeetingURL is " + meetingURL);
+						response.sendRedirect(meetingURL);
 					}
 					else if (password.equals(modPass)){
 						out.println("Logging you in as moderator<br/>");
 						String meetingURL = getJoinMeetingURL(ldap.getCN(), meetingID, password);
 						out.println("DEBUG ONLY MeetingURL is " + meetingURL);
+						response.sendRedirect(meetingURL);
 					}
 				}
 			}
