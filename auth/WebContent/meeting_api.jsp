@@ -4,6 +4,7 @@
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="org.apache.commons.lang.StringUtils"%>
 <%@page import="redis.clients.jedis.*" language="java" %>
+<%@ include file="bbb_api.jsp"%>
 
 <%!
 	private char PROF_SYMBOL = '#';
@@ -152,4 +153,17 @@
 		return "<response><returncode>SUCCESS</returncode><deleted>true</deleted></response>";
 	}
 	// -- DELETING
+	
+	// This method accepts an ArrayList of decompressed meetings (works for both meetings and lectures) and returns
+	// an ArrayList of those meetings/lectures which are currently running.
+	public ArrayList <String[]> runningList(ArrayList <String[]> meetings){
+		ArrayList <String[]> openMeetings = new ArrayList <String[]> ();
+		for (int i = 0; i < meetings.size(); i ++){
+			String meetingID = meetings.get(i)[0];
+			if (isMeetingRunning(meetingID).equals("true")){
+				openMeetings.add(meetings.get(i));
+			}
+		}
+		return openMeetings;
+	}
 %>

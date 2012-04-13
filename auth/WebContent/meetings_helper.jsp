@@ -3,7 +3,6 @@
 
 <%@ page contentType="text/xml" %>
 <%@ page trimDirectiveWhitespaces="true" %>
-<%@ include file="bbb_api.jsp" %>
 <%@ include file="meeting_api.jsp" %>
 <?xml version="1.0" ?>
 
