@@ -192,13 +192,13 @@ public String getJoinURL(String username, String meetingID, String record, Strin
 		String url = base_url_create + create_parameters
 			+ "&checksum="
 			+ checksum("create" + create_parameters + salt); 
-		System.out.println(url);
+		//System.out.println(url);
 		doc = parseXml( postURL( url, xml_param ) );
 	} catch (Exception e) {
-		System.out.println("Found the error");
+		//System.out.println("Found the error");
 		e.printStackTrace();
 	}
-
+	
 	if (doc.getElementsByTagName("returncode").item(0).getTextContent()
 			.trim().equals("SUCCESS")) {
 
@@ -422,8 +422,6 @@ public String endMeeting(String meetingID, String moderatorPassword) {
 
 public String getRecordingsURL(String meetingID) {
 	String record_parameters = "meetingID=" + urlEncode(meetingID);
-	System.out.println(BigBlueButtonURL + "api/getRecordings?" + record_parameters + "&checksum="
-		+ checksum("getRecordings" + record_parameters + salt));
 	return BigBlueButtonURL + "api/getRecordings?" + record_parameters + "&checksum="
 		+ checksum("getRecordings" + record_parameters + salt);
 }
@@ -431,7 +429,7 @@ public String getRecordingsURL(String meetingID) {
 public String getRecordings(String meetingID) {
 	//recordID,name,description,starttime,published,playback,length
 	String newXMLdoc = "<recordings>";
-	System.out.println(meetingID);
+	
 	try {
 		Document doc = null;
 		String url = getRecordingsURL(meetingID); 
@@ -544,7 +542,7 @@ public String getMetaData( Map<String, String> metadata ) {
 	
 	if ( metadata!=null ){
 		for(String metakey : metadata.keySet()){
-			System.out.println(metakey + " : " + metadata.get(metakey));
+			//System.out.println(metakey + " : " + metadata.get(metakey));
 			metadata_params = metadata_params + "&meta_" + urlEncode(metakey) + "=" + urlEncode(metadata.get(metakey));
 		}
 	}
@@ -680,10 +678,12 @@ throws ParserConfigurationException, IOException, SAXException {
 // urlEncode() -- URL encode the string
 //
 public static String urlEncode(String s) {
-	try {
-		return URLEncoder.encode(s, "UTF-8");
-	} catch (Exception e) {
-		e.printStackTrace();
+	if (s != null) {
+		try {
+			return URLEncoder.encode(s, "UTF-8");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	return "";
 }

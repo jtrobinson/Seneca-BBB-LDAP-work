@@ -17,6 +17,7 @@ You should have received a copy of the GNU Lesser General Public License along
 with BigBlueButton; if not, If not, see <http://www.gnu.org/licenses/>.
 
 -->
+<%@page import="org.apache.commons.lang.StringUtils"%>
 
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
@@ -98,12 +99,15 @@ with BigBlueButton; if not, If not, see <http://www.gnu.org/licenses/>.
 				<option value="start">Start</option>
 				<option value="edit">Edit</option>
 				<option value="delete">Delete</option>
+				<%	if (ldap.getOU().equals("Employee")) { %>
+				<option value="guest">Guest URL</option>
+				<%	} %>
 			</select>
 			<table id="meetinggrid"></table>
 			<p>Note: New meetings will appear in the above list after processing.  Refresh your browser to update the list.</p>
 		</td></tr>
 	</table>
-	<div id="pager"></div> 
+	<div id="pager"></div>
 	
 	<script>
 	function recordedAction(action){
@@ -122,11 +126,14 @@ with BigBlueButton; if not, If not, see <http://www.gnu.org/licenses/>.
 		meetingid+=d.id;
 		meetingid.replace(/\s/g, "+");
 		
-		if(action=="delete"){ 
+		if(action=="delete"){
 			var answer = confirm ("Are you sure to delete the selected meeting?");
-			if (answer)
+			if (answer){
+				var header="";
+				if (d.type=="Lecture")
+					header = "#";
 				sendRecordingAction(meetingid,action);
-			else{
+			}else{
 				$("#actionscmb").val("novalue");
 				return;
 			}
@@ -136,6 +143,9 @@ with BigBlueButton; if not, If not, see <http://www.gnu.org/licenses/>.
 														  "&viewpass="+d.viewpass+
 														  "&recorded="+d.recorded,
 					  '_blank');
+		}else if(action=="guest"){			
+			alert('The guest url is : "<%= StringUtils.remove(BigBlueButtonURL,"bigbluebutton/") %>o.jsp?m='+meetingid+'"\n\n' +
+						'*Note* Remember to enable guest access before you give out the url.');
 		}else{
 			sendRecordingAction(meetingid,action);
 		}
@@ -171,14 +181,14 @@ with BigBlueButton; if not, If not, see <http://www.gnu.org/licenses/>.
 			autowidth: false,
 			colNames:['Id','Type','Name','Moderator Pass', 'Viewer Pass', 'Guests', 'Recorded', 'Date Last Edited'],
 			colModel:[
-				{name:'id',index:'id', width:50, hidden:false, xmlmap: "meetingid"},
+				{name:'id',index:'id', width:50, hidden:true, xmlmap: "meetingid"},
 				{name:'type',index:'type', width:80, xmlmap: "type"},
 				{name:'name',index:'name', width:150, xmlmap: "name"},
 				{name:'modpass',index:'modpass', width:100, xmlmap: "modpass",sortable: false},
 				{name:'viewpass',index:'viewpass', width:100, xmlmap: "viewpass",sortable: false},
-				{name:'guests',index:'guests', width:80, xmlmap: "guests", sortable:false},
-				{name:'recorded',index:'recorded', width:80, xmlmap: "recorded", sortable:false},
-				{name:'date',index:'date', width:200, xmlmap: "date"},
+				{name:'guests',index:'guests', width:80, xmlmap: "guests", sortable:false, align:"right"},
+				{name:'recorded',index:'recorded', width:80, xmlmap: "recorded", sortable:false, align:"right"},
+				{name:'date',index:'date', width:120, xmlmap: "date", align:"right"},
 			],
 			xmlReader: {
 				root : "meetings",
@@ -189,7 +199,7 @@ with BigBlueButton; if not, If not, see <http://www.gnu.org/licenses/>.
 			pager : '#pager',
 			emptyrecords: "Nothing to display",
 			caption: "Your Meetings",
-			sortname: 'type',
+			sortname: 'date',
 			sortorder: "desc",
 			viewrecords: true,
 			loadComplete: function(){
