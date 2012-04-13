@@ -29,8 +29,8 @@ public class MeetingApplication {
 	private final static char STUDENT_SYMBOL = '$';
 	private char DELIMITER = '~';
 	
-	public ArrayList <String[]> lectures;
-	public ArrayList <String[]> meetings;
+	ArrayList <String[]> lectures;
+	ArrayList <String[]> meetings;
 	
 	public static Jedis dbConnect(){
 		String serverIP = "127.0.0.1";

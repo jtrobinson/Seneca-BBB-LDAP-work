@@ -37,27 +37,27 @@
 	public String compressMeeting(String meetingName, String modPass, String viewPass, Boolean allowGuests, Boolean recordable){
 		StringBuilder sb = new StringBuilder();
 		
-		// Meeting Name
+		// Meeting Name (Field [0])
 		sb.append(meetingName);
 		sb.append(DELIMITER);
 		
-		// Moderator Password
+		// Moderator Password (Field [1])
 		sb.append(modPass);
 		sb.append(DELIMITER);
 		
-		// Viewer Password
+		// Viewer Password (Field [2])
 		sb.append(viewPass);
 		sb.append(DELIMITER);
 		
-		// Guests Allowed (True/False)
+		// Guests Allowed (True/False) (Field [3])
 		sb.append(allowGuests.toString());
 		sb.append(DELIMITER);
 		
-		// Recordable (True/False)
+		// Recordable (True/False) (Field [4])
 		sb.append(recordable.toString());
 		sb.append(DELIMITER);
 		
-		// Date Last Edited
+		// Date Last Edited (Field [5])
 		SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd aa HH:mm");
 		Date date = new java.util.Date();
 		sb.append(df.format(date));

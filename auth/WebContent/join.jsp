@@ -22,6 +22,9 @@
 	<%@ include file="meeting_api.jsp"%>
 	<br/>
 	<br/>
+	<%
+		out.println("<p align='center' style='font-size:23px'>Welcome <b><span style='color:green;'>" + ldap.getCN() + "</b> as " + ldap.getOU() + "</p>");
+	%>
 	<br/>
 	<br/>
 	<%  
@@ -29,8 +32,8 @@
 	    	response.sendRedirect("login.jsp");	
 		}
 		meetingApplication.loadAllMeetings();
-		ArrayList <String[]> lectureList = meetingApplication.lectures;
-   		ArrayList <String[]> meetingList = meetingApplication.meetings;
+		ArrayList <String[]> lectureList = meetingApplication.getLectures();
+   		ArrayList <String[]> meetingList = meetingApplication.getMeetings();
    	%>
 	<table align="center" border="1" cellpadding="10" cellspacing="10">
 		<tr valign="top">
@@ -38,24 +41,30 @@
 				<b>Join Lecture:</b><br/>
    				<form action="joinAction.jsp?type=1" method="post" name="lectureForm">
    					<%
-   						out.println("<select name='lectures'>");
+   						out.println("<select name='lectureName'>");
    						
    						for (int i = 0; i < lectureList.size(); i++){
-   							String rawDisplayName = lectureList.get(i)[0];
-   							String displayName = StringUtils.removeStart(rawDisplayName, String.valueOf(PROF_SYMBOL));
+   							String rawName = lectureList.get(i)[0];
+   							String displayName = StringUtils.removeStart(rawName, String.valueOf(PROF_SYMBOL));
    							displayName = StringUtils.replace(displayName, String.valueOf(NAME_DELIMITER), " (");
    							displayName = displayName + ")";
    							
-   							out.println("<option value='" + rawDisplayName + "'>" + displayName + "</option>");
+   							out.println("<option value='" + rawName + "'>" + displayName + "</option>");
    						}
    						
    						out.println("</select>");
    						out.println("<br/>Password: <input type='password' name='lPassword' value=''/><br/><br/>");
    						out.println("<input type='submit' id='lectureBtn' value='Join Lecture'/>");
    						   						
-   						if(session.getAttribute("fail")!= null && session.getAttribute("fail").toString().equals("1")){
-  							session.removeAttribute("fail");
-   							out.print("<div style='color:red' align='center'> Please input a password.</div>");
+   						if(session.getAttribute("fail")!= null){
+   							if (session.getAttribute("fail").toString().equals("1")){
+  								session.removeAttribute("fail");
+   								out.print("<div style='color:red' align='center'> Please input a password.</div>");
+   							}
+   							else if (session.getAttribute("fail").toString().equals("PW1")){
+   								session.removeAttribute("fail");
+   								out.print("<div style='color:red' align='center'> Invalid password.</div>");
+   							}
    						}
    					%>   					
    				</form>
@@ -64,23 +73,29 @@
 				<b>Join Meeting:</b><br/>
 				<form action="joinAction.jsp?type=2" method="post" name="meetingForm">
    					<%
-   						out.println("<select name='meetings'>");
+   						out.println("<select name='meetingName'>");
    						
    						for (int i = 0; i < meetingList.size(); i++){
-   							String rawDisplayName = meetingList.get(i)[0];
-   							String displayName = StringUtils.replace(rawDisplayName, String.valueOf(NAME_DELIMITER), " (");
+   							String rawName = meetingList.get(i)[0];
+   							String displayName = StringUtils.replace(rawName, String.valueOf(NAME_DELIMITER), " (");
    							displayName = displayName + ")";
    							
-   							out.println("<option value='" + rawDisplayName + "'>" + displayName + "</option>");
+   							out.println("<option value='" + rawName + "'>" + displayName + "</option>");
    						}
    						
    						out.println("</select>");
    						out.println("<br/>Password: <input type='password' name='mPassword' value=''/><br/><br/>");
    						out.println("<input type='submit' id='meetingBtn' value='Join Meeting'/>");
    						   						
-   						if(session.getAttribute("fail")!= null && session.getAttribute("fail").toString().equals("2")){
-  							session.removeAttribute("fail");
-   							out.print("<div style='color:red' align='center'> Please input a password.</div>");
+   						if(session.getAttribute("fail")!= null){
+   							if (session.getAttribute("fail").toString().equals("2")){
+  								session.removeAttribute("fail");
+   								out.print("<div style='color:red' align='center'> Please input a password.</div>");
+   							}
+   							else if (session.getAttribute("fail").toString().equals("PW2")){
+   								session.removeAttribute("fail");
+   								out.print("<div style='color:red' align='center'> Invalid password.</div>");
+   							}
    						}
    					%>
    				</form> 

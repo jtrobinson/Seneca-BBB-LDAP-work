@@ -45,5 +45,5 @@
 		</html>
 <%
 	} else
-		response.sendRedirect("welcome.jsp");
+		response.sendRedirect("join.jsp");
 %>
