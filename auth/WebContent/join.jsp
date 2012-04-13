@@ -23,6 +23,13 @@
 	<br/>
 	<br/>
 	<br/>
+	<%  
+		System.out.println("About to loadAllMeetings");
+		meetingApplication.loadAllMeetings();
+		ArrayList <String[]> lectureList = meetingApplication.lectures;
+   		ArrayList <String[]> meetingList = meetingApplication.meetings;
+   		System.out.println("After population, lectureList.size is " + lectureList.size() + " and meetingList.size is " + meetingList.size());
+   	%>
 	<table align="center" border="1" cellpadding="10" cellspacing="10">
 		<tr>
 			<td>
@@ -30,11 +37,13 @@
    				<form action="joinAction.jsp" method="post" name="lectureForm">
    					<!--  select name="lectures"></select -->
    					<%
-   						meetingApplication.loadAllMeetings();
-   						ArrayList <String[]> lectureList = meetingApplication.lectures;
-   						ArrayList <String[]> meetingList = meetingApplication.meetings;
+   						out.println("<select name='lectures'>");
    						
+   						for (int i = 0; i < lectureList.size(); i++){
+   							out.println("<option>" + lectureList.get(i)[0] + "</option>");
+   						}
    						
+   						out.println("</select>");
    					%>
    					<br/>
    					Password: <input type="password" name="lPassword" value=""/>

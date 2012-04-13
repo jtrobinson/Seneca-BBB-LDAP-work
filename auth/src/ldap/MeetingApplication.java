@@ -67,20 +67,24 @@ public class MeetingApplication {
 		
 		// Goes through all keys in Redis
 		for (String eachKey : jedis.keys("*")){
+			int compareResult = jedis.type(eachKey).compareTo("hash");
 			// Checks if the current key is a hash, and if it contains any meetings
-			if (jedis.type(eachKey) == "hash" && jedis.hexists(eachKey, "meeting*")){
+			if (compareResult == 0 && jedis.hexists(eachKey, "meeting1")){
 				// Goes through each meeting in the current hash
 				for (int i = 1; i <= jedis.hlen(eachKey); i++){
 					// Extracts the meeting data string from the current meeting
 					String rawMeeting = jedis.hget(eachKey, "meeting"+i);
 					// Adds the data string to either lectureList or meetingList depending on the presence of the PROF_SYMBOL
-					if (rawMeeting.charAt(0) == PROF_SYMBOL)
+					if (rawMeeting.charAt(0) == PROF_SYMBOL){
 						lectureList.add(rawMeeting);
-					else
+					}
+					else{
 						meetingList.add(rawMeeting);
+					}
 				}
 			}
 		}
+		
 		// Sort the lecture and meeting lists alphabetically
 		Collections.sort(lectureList);
 		Collections.sort(meetingList);
