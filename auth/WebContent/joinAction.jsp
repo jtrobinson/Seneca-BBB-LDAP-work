@@ -1,12 +1,32 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
+<%@page import="org.apache.commons.lang.StringUtils"%>
+<jsp:useBean id="ldap" class="ldap.LDAPAuthenticate" scope="session"/>
+<jsp:useBean id="meetingApplication" class="ldap.MeetingApplication" scope="session"/>
+<%@ include file="meeting_api.jsp"%>
 
-</body>
-</html>
+<%
+	if(!ldap.getAuthenticated().equals("true")) {
+    	response.sendRedirect("login.jsp");	
+	}
+
+	String type = request.getParameter("type");
+	session.removeAttribute("type");
+	String password = null;
+	if (type.compareTo("1") == 0)
+		password = request.getParameter("lPassword");
+	else if (type.compareTo("2") == 0)
+		password = request.getParameter("mPassword");
+	
+	System.out.println("Meeting type is " + type);
+	
+	
+	if (password == null){
+		response.sendRedirect("join.jsp");
+	}
+	
+	if (password.trim().length() == 0){
+		System.out.println("Returning fail code " + type);
+		session.setAttribute( "fail", type );
+		response.sendRedirect("join.jsp");
+	}
+	
+%>
