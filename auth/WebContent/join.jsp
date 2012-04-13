@@ -23,10 +23,7 @@
 	<br/>
 	<%
 		out.println("<p align='center' style='font-size:23px'>Welcome <b><span style='color:green;'>" + ldap.getCN() + "</b> as " + ldap.getOU() + "</p>");
-	%>
-	<br/>
-	<br/>
-	<%  
+
 		if(!ldap.getAuthenticated().equals("true")) {
 	    	response.sendRedirect("login.jsp");	
 		}
@@ -34,10 +31,10 @@
 		ArrayList <String[]> lectureList = runningList(meetingApplication.getLectures());
    		ArrayList <String[]> meetingList = runningList(meetingApplication.getMeetings());
    	%>
-	<table align="center" border="1" cellpadding="10" cellspacing="10">
+	<table align="center" width="1000" border="0" cellpadding="0" cellspacing="30">
 		<tr valign="top">
-			<td>
-				<b>Join Lecture:</b><br/>
+			<td align="right" width="500">
+				<br/><b>Join Lecture:</b><br/>
    				<form action="joinAction.jsp?type=1" method="post" name="lectureForm">
    					<%
 						if (lectureList.size() == 0){
@@ -67,10 +64,11 @@
    							}
    						}
    					%>   					
-   				</form>
+   				</form><br/><br/>
    			</td>
-   			<td>
-				<b>Join Meeting:</b><br/>
+   			<td width="1" bgcolor="#000000"></td>
+   			<td align="left" width="500">
+				<br/><b>Join Meeting:</b><br/>
 				<form action="joinAction.jsp?type=2" method="post" name="meetingForm">
    					<%
    						if (meetingList.size() == 0){
@@ -99,7 +97,7 @@
    							}
    						}
    					%>
-   				</form> 
+   				</form><br/><br/>
    			</td>
    		</tr>
    	</table>
