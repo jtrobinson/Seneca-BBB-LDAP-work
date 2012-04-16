@@ -138,10 +138,15 @@ with BigBlueButton; if not, If not, see <http://www.gnu.org/licenses/>.
 				return;
 			}
 		}else if(action=="start"){
+			var description = "";
+			if (d.recorded){
+				description = prompt("Please enter a description for your meeting. Example: \"Week 01 Lecture\"", "");
+			}
 			window.open('meetings_create.jsp?command=start&meetingID='+meetingid+
 														  "&modpass="+d.modpass+
 														  "&viewpass="+d.viewpass+
-														  "&recorded="+d.recorded,
+														  "&recorded="+d.recorded+
+														  "&description="+description,
 					  '_blank');
 		}else if(action=="guest"){			
 			alert('The guest url is : "<%= StringUtils.remove(BigBlueButtonURL,"bigbluebutton/") %>o.jsp?m='+meetingid+'"\n\n' +

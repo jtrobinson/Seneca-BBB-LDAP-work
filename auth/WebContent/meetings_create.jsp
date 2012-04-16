@@ -23,7 +23,14 @@
 	
 		metadata.put("email", request.getParameter("username"));
 		metadata.put("title", request.getParameter("meetingID"));
-		//System.out.println(getJoinURL(ldap.getCN(), request.getParameter("meetingID"), request.getParameter("recorded"),"Welcome", request.getParameter("modpass"), request.getParameter("viewpass"), metadata, null));
+		
+		if (request.getParameter("recorded").equals("false")){
+			metadata.put("description", "");
+		}
+		else{
+			metadata.put("description", request.getParameter("description"));
+		}
+		
 	%>
 	<script language="javascript" type="text/javascript">
   		window.location.href="<%=getJoinURL(ldap.getCN(), request.getParameter("meetingID"), request.getParameter("recorded"),"Welcome", request.getParameter("modpass"), request.getParameter("viewpass"), metadata, null)%>";

@@ -17,17 +17,17 @@
 
 	Author: Fred Dixon <ffdixon@bigbluebutton.org> 
 */%>
-<%@page import="javax.xml.transform.dom.DOMSource"%>
-<%@page import="javax.xml.transform.stream.StreamResult"%>
-<%@page import="javax.xml.transform.OutputKeys"%>
-<%@page import="javax.xml.transform.TransformerFactory"%>
-<%@page import="javax.xml.transform.Transformer"%>
-<%@page import="org.w3c.dom.Element"%>
-<%@page import="com.sun.org.apache.xerces.internal.dom.ChildNode"%>
-<%@page import="org.w3c.dom.Node"%>
-<%@page import="org.w3c.dom.NodeList"%>
-<%@page import="java.util.*,java.io.*,java.net.*,javax.crypto.*,javax.xml.parsers.*,org.w3c.dom.Document,org.xml.sax.*" errorPage="error.jsp"%>
-
+<%@ page import="javax.xml.transform.dom.DOMSource"%>
+<%@ page import="javax.xml.transform.stream.StreamResult"%>
+<%@ page import="javax.xml.transform.OutputKeys"%>
+<%@ page import="javax.xml.transform.TransformerFactory"%>
+<%@ page import="javax.xml.transform.Transformer"%>
+<%@ page import="org.w3c.dom.Element"%>
+<%@ page import="com.sun.org.apache.xerces.internal.dom.ChildNode"%>
+<%@ page import="org.w3c.dom.Node"%>
+<%@ page import="org.w3c.dom.NodeList"%>
+<%@ page import="java.util.*,java.io.*,java.net.*,javax.crypto.*,javax.xml.parsers.*,org.w3c.dom.Document,org.xml.sax.*" errorPage="error.jsp"%>
+<%@ page import="org.apache.commons.lang.StringUtils"%>
 <%@ page import="org.apache.commons.codec.digest.*"%>
 <%@ page import="java.io.*"%>
 <%@ page import="java.nio.channels.FileChannel"%>
@@ -427,6 +427,10 @@ public String getRecordingsURL(String meetingID) {
 }
 
 public String getRecordings(String meetingID) {
+	
+	char PROF_SYMBOL = '#';
+	char NAME_DELIMITER = '^';
+	
 	//recordID,name,description,starttime,published,playback,length
 	String newXMLdoc = "<recordings>";
 	
@@ -446,6 +450,9 @@ public String getRecordings(String meetingID) {
 			
 				String recordID = recording.getElementsByTagName("recordID").item(0).getTextContent();
 				String name = recording.getElementsByTagName("name").item(0).getTextContent();
+				String displayName = StringUtils.removeStart(name, String.valueOf(PROF_SYMBOL));
+				displayName = StringUtils.replace(displayName, String.valueOf(NAME_DELIMITER), " (");
+				displayName = displayName + ")";
 				String description = "";
 				NodeList metadata = recording.getElementsByTagName("metadata");
 				if(metadata.getLength()>0){

@@ -121,7 +121,7 @@ with BigBlueButton; if not, If not, see <http://www.gnu.org/licenses/>.
 		var recordid="";
 		for(var i=0;i<s.length;i++){
 			var d = jQuery("#recordgrid").jqGrid('getRowData',s[i]);
-			recordid+=d.id;
+			recordid+=d.id;	
 			if(i!=s.length-1)
 				recordid+=",";
 		}
@@ -216,7 +216,7 @@ with BigBlueButton; if not, If not, see <http://www.gnu.org/licenses/>.
 			}
 		});
 	});
-	
+
 	</script>
 <%
 	}
