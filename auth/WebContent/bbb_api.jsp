@@ -437,6 +437,7 @@ public String getRecordings(String meetingID) {
 	try {
 		Document doc = null;
 		String url = getRecordingsURL(meetingID); 
+		//System.out.println(url);
 		doc = parseXml( getURL(url) );
 		
 		// if the request succeeded, then calculate the checksum of each meeting and insert it into the document
@@ -477,17 +478,20 @@ public String getRecordings(String meetingID) {
 					if (j != 0){
 						playback +=", ";
 					} 
-					playback += StringEscapeUtils.escapeXml("<a href='" + urlP + "'>" + typeP + "</a>");
+					playback += StringEscapeUtils.escapeXml("<a href='" + urlP + "'>" + "View" + "</a>");
 					
 					if(typeP.equalsIgnoreCase("slides")){
 						length = lengthP;
 					}
 				}
 				
+				String [] nameParts = name.split("\\"+NAME_DELIMITER);
+				
 				newXMLdoc += "<recording>";
 				
 				newXMLdoc += "<recordID>" + recordID + "</recordID>";
-				newXMLdoc += "<name>" + name + "</name>";
+				newXMLdoc += "<name>" + nameParts[0] + "</name>";
+				newXMLdoc += "<owner>" + nameParts[1] + "</owner>";
 				newXMLdoc += "<description>" + description + "</description>";
 				newXMLdoc += "<startTime>" + starttime + "</startTime>";
 				newXMLdoc += "<published>" + published + "</published>";

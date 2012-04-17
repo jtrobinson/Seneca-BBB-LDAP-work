@@ -72,7 +72,6 @@
 	}
 	
 	public String extractName(String presenterKey, String fieldKey, Jedis jedis){
-		presenterKey = USERID_HEADER + presenterKey;
 		String components[] = decompress(jedis.hget(presenterKey, fieldKey));
 		return components[0];
 	}

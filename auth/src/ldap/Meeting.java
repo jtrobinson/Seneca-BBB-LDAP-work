@@ -2,6 +2,8 @@ package ldap;
 
 import java.util.ArrayList;
 
+
+
 public class Meeting {
 	String [] meeting;
 	

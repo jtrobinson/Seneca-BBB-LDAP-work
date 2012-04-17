@@ -197,7 +197,7 @@ public class MeetingApplication {
 		String newXMLdoc = "<allmeetings>\n";
 		newXMLdoc += "\t<request>true</request>\n";
 		newXMLdoc += "\t<meetings>\n";
-		System.out.println(uid);
+
 		loadMeetingsByUser(uid);	
 
 		//System.out.println("lect: "+ lectures.size());
