@@ -23,13 +23,9 @@
 						<td><input type="password" name="password" value=""></td>
 					</tr>
 					<tr>
-						<td colspan=2> <input type="checkbox" name="viewerLogin" value="viewerLogin"  /> Login as Viewer</td>
-					</tr>
-					<tr>
 						<td></td>
 						<td><input type="submit" name="Submit" value="Login"></td>
 					</tr>
-					<tr><td colspan=2>Testing LDAP authentication </td></tr>
 					<tr><td colspan=2> </td></tr>
 				</table>
 			</form>

@@ -149,7 +149,7 @@ with BigBlueButton; if not, If not, see <http://www.gnu.org/licenses/>.
 														  "&description="+description,
 					  '_blank');
 		}else if(action=="guest"){			
-			alert('The guest url is : "<%= StringUtils.remove(BigBlueButtonURL,"bigbluebutton/") %>o.jsp?m='+meetingid+'"\n\n' +
+			alert('The guest url is : "<%= StringUtils.remove(BigBlueButtonURL,"bigbluebutton/") %>auth/o.jsp?m='+meetingid+'"\n\n' +
 						'*Note* Remember to enable guest access before you give out the url.');
 		}else{
 			sendRecordingAction(meetingid,action);
@@ -188,7 +188,7 @@ with BigBlueButton; if not, If not, see <http://www.gnu.org/licenses/>.
 			colModel:[
 				{name:'id',index:'id', width:50, hidden:true, xmlmap: "meetingid"},
 				{name:'type',index:'type', width:80, xmlmap: "type"},
-				{name:'name',index:'name', width:150, xmlmap: "name",editable: 'true', edittype: 'text', editoptions: { size: 10}},
+				{name:'name',index:'name', width:150, xmlmap: "name"},
 				{name:'modpass',index:'modpass', width:100, xmlmap: "modpass",sortable: false},
 				{name:'viewpass',index:'viewpass', width:100, xmlmap: "viewpass",sortable: false},
 				{name:'guests',index:'guests', width:80, xmlmap: "guests", sortable:false, align:"right"},

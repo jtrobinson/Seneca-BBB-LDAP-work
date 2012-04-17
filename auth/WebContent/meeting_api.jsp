@@ -7,11 +7,10 @@
 <%@ include file="bbb_api.jsp"%>
 
 <%!
-	private char PROF_SYMBOL = '#';
-	private char EMP_SYMBOL = '&';
-	private char STUDENT_SYMBOL = '$';
-	private char DELIMITER = '~';
-	private char NAME_DELIMITER = '^';
+	private final static char PROF_SYMBOL = '#';
+	private final static char USERID_HEADER = '$';
+	private final static char DELIMITER = '~';
+	private final static char NAME_DELIMITER = '^';
 	
 	public static Jedis dbConnect(){
 		String serverIP = "127.0.0.1";
@@ -73,6 +72,7 @@
 	}
 	
 	public String extractName(String presenterKey, String fieldKey, Jedis jedis){
+		presenterKey = USERID_HEADER + presenterKey;
 		String components[] = decompress(jedis.hget(presenterKey, fieldKey));
 		return components[0];
 	}
@@ -81,6 +81,7 @@
 	
 	// SAVING TO REDIS
 	public void saveMeeting(String presenterKey, String meetingName, String modPass, String viewPass, Boolean allowGuests, Boolean recordable){
+		presenterKey = USERID_HEADER + presenterKey;
 		Jedis jedis = dbConnect();
 		Boolean newMeeting = true;
 		String dataString = compressMeeting(meetingName, modPass, viewPass, allowGuests, recordable);
@@ -102,6 +103,7 @@
 
 	// DELETING A MEETING
 	public String deleteMeeting(String presenterKey, String meetingName){
+		presenterKey = USERID_HEADER + presenterKey;
 		Jedis jedis = dbConnect();
 		//System.out.println("Survived initializing Jedis");
 		try {

@@ -16,7 +16,7 @@
 	String m = request.getParameter("m");
 	String errorName = "";
 	String errorPassword = "";
-	
+	System.out.println(m);
 	if (meeting.isFound() && meeting.getMeetingID().equals(m)) {
 		if (request.getParameter("password").equals("")) {
 			errorPassword = "You must enter a password";
