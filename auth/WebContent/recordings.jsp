@@ -97,6 +97,7 @@ with BigBlueButton; if not, If not, see <http://www.gnu.org/licenses/>.
 	<select id="actionscmb" name="actions" onchange="recordedAction(this.value);" >
 		<option value="novalue" selected>Actions...</option>
 		<option value="delete">Delete</option>
+		<option value="publish">Publish</option>
 	</select>
 	<table id="recordgrid"></table>
 	<div id="pager"></div> 
@@ -196,7 +197,7 @@ with BigBlueButton; if not, If not, see <http://www.gnu.org/licenses/>.
 				{name:'id',index:'id', width:50, hidden:true, xmlmap: "recordID"},
 				{name:'course',index:'course', width:150, xmlmap: "name", sortable:true},
 				{name:'description',index:'description', width:300, xmlmap: "description",sortable: true},
-				{name:'daterecorded',index:'daterecorded', width:200, xmlmap: "startTime", sortable: true},
+				{name:'daterecorded',index:'daterecorded', width:200, xmlmap: "startTime", sortable: true, datefmt: 'd-M-Y'},
 				{name:'published',index:'published', width:80, xmlmap: "published", hidden:true },
 				{name:'playback',index:'playback', width:150, xmlmap:"playback", sortable:false},
 				{name:'length',index:'length', width:80, xmlmap:"length", sortable:true}

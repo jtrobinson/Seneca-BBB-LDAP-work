@@ -139,7 +139,7 @@ with BigBlueButton; if not, If not, see <http://www.gnu.org/licenses/>.
 			}
 		}else if(action=="start"){
 			var description = "";
-			if (d.recorded){
+			if (d.recorded=="true"){
 				description = prompt("Please enter a description for your meeting. Example: \"Week 01 Lecture\"", "");
 			}
 			window.open('meetings_create.jsp?command=start&meetingID='+meetingid+
@@ -188,7 +188,7 @@ with BigBlueButton; if not, If not, see <http://www.gnu.org/licenses/>.
 			colModel:[
 				{name:'id',index:'id', width:50, hidden:true, xmlmap: "meetingid"},
 				{name:'type',index:'type', width:80, xmlmap: "type"},
-				{name:'name',index:'name', width:150, xmlmap: "name"},
+				{name:'name',index:'name', width:150, xmlmap: "name",editable: 'true', edittype: 'text', editoptions: { size: 10}},
 				{name:'modpass',index:'modpass', width:100, xmlmap: "modpass",sortable: false},
 				{name:'viewpass',index:'viewpass', width:100, xmlmap: "viewpass",sortable: false},
 				{name:'guests',index:'guests', width:80, xmlmap: "guests", sortable:false, align:"right"},
