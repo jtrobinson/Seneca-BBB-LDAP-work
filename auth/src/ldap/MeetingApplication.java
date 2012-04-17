@@ -66,7 +66,7 @@ public class MeetingApplication {
 
 		// Goes through all keys in Redis
 		for (String eachKey : jedis.keys(USERID_HEADER+"*")){
-			int compareResult = jedis.type(eachKey).comUSERID_HEADERpareTo("hash");
+			int compareResult = jedis.type(eachKey).compareTo("hash");
 			// Checks if the current key is a hash, and if it contains any meetings
 			if (compareResult == 0 && jedis.hexists(eachKey, "meeting1")){
 				// Goes through each meeting in the current hash

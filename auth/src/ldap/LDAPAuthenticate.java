@@ -39,7 +39,6 @@ public class LDAPAuthenticate {
 	public LDAPAuthenticate() {
 		authenticated = "false";
 		logout = false;
-		
 		//String security = "";
 		
 		try {
