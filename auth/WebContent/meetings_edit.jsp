@@ -43,7 +43,7 @@
 		}
 		
 		if (modpassErr.equals("") && viewpassErr.equals("") && modpass.equals(viewpass)) {
-			passErr = "The moderator and viewer passwords can't be equals.";
+			passErr = "Moderator and viewer passwords can't be equal.";
 		}
 		
 		if (modpassErr.equals("") && viewpassErr.equals("") && passErr.equals("")) {
