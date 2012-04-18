@@ -82,7 +82,7 @@ function onCheck()
       
       if(title.equals("Support Staff")){
       // if you are logged in as prof you have checkbox which allows you to  create a lecture
-         out.println("<tr height='30'><td colspan='2'> Create a Lecture ? <input type='checkbox' id='check' name='check' onClick='onCheck()'");
+         out.println("<tr height='30'><td> Create a Lecture ?</td> <td><input type='checkbox' id='check' name='check' onClick='onCheck()'");
                 if (checked.equals("true"))  out.println("checked = 'checked'");
                 out.println("><td></tr>");
       }
