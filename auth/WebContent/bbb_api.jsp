@@ -16,7 +16,7 @@
 	with BigBlueButton; if not, If not, see <http://www.gnu.org/licenses/>.
 
 	Author: Fred Dixon <ffdixon@bigbluebutton.org> 
-*/%>
+*/%> 
 <%@ page import="javax.xml.transform.dom.DOMSource"%>
 <%@ page import="javax.xml.transform.stream.StreamResult"%>
 <%@ page import="javax.xml.transform.OutputKeys"%>

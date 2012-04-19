@@ -51,6 +51,7 @@ public class MeetingApplication {
 	}
 
 	public ArrayList <String[]> getLectures(){
+		System.out.println("Lecture size before: "+lectures.size());
 		return lectures;
 	}
 
@@ -70,6 +71,7 @@ public class MeetingApplication {
 			// Checks if the current key is a hash, and if it contains any meetings
 			if (compareResult == 0 && jedis.hexists(eachKey, "meeting1")){
 				// Goes through each meeting in the current hash
+				System.out.println("eachkey is: " +eachKey+"  "+ jedis.hlen(eachKey));
 				for (int i = 1; i <= jedis.hlen(eachKey); i++){
 					// Extracts the meeting data string from the current meeting
 					String rawMeeting = jedis.hget(eachKey, "meeting"+i);
@@ -82,8 +84,9 @@ public class MeetingApplication {
 					}
 				}
 			}
+		
 		}
-
+   System.out.println("Inside meeting java sizes are: " +lectureList.size() + " and " +meetingList.size());
 		// Sort the lecture and meeting lists alphabetically
 		Collections.sort(lectureList);
 		Collections.sort(meetingList);
@@ -98,6 +101,7 @@ public class MeetingApplication {
 		for (int i = 0; i < meetingList.size(); i++){
 			meetings.add(decompress(meetingList.get(i)));
 		}
+		System.out.println("In the end!: " +lectures.size() + " and " +meetings.size());
 	}
 
 	/*

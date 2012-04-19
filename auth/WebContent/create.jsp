@@ -96,15 +96,32 @@ function onCheck()
                 
                 
                 for (String courseName : meetingApplication.processCourseList()){
+                
+                  if(courseName.equals(session.getAttribute("meetingName"))){
+                  out.println("<option selected='selected'>" + courseName + "</option>");
+                  }else{
                 	out.println("<option>" + courseName + "</option>");	
+                  }
                 }
                 
 
                 out.println("</select></td>");
-                out.println("<td>Section <input type='text' size='5' maxlength='5' name='section' /></td></tr>");
+                if(session.getAttribute("section") == null){
+                 out.print("<td>Section <input type='text' size='5' maxlength='5' name='section' />");
+                }else{
+                 out.print("<td>Section <input type='text' size='5' maxlength='5' name='section'");
+                 out.print("value = '"+session.getAttribute("section") +"'");
+                 out.print("/>");
+                 }
+                 out.print("</td></tr>");
+                
        }else{
          // else user sees a textbox with name of the lecture
-         out.println("<tr height='30'> <td height='50'>Name of Meeting:  <span style='color:red'>*</span></td><td>   <input type='text' id='meetingName' name='meetingName' size='60'/></td> </tr>");
+         out.print("<tr height='30'> <td height='50'>Name of Meeting:  <span style='color:red'>*</span></td><td>   <input type='text' id='meetingName' ");
+         if(session.getAttribute("meetingName") != null)
+           out.print("value = '"+session.getAttribute("meetingName")+"' "); 
+            out.print("name='meetingName' size='60'/></td> </tr>");
+           
        }
    
 %>
@@ -128,12 +145,24 @@ function onCheck()
      </tr>
     
 <% 
+   String guestsChecked = (String) session.getAttribute("allowGuests");
+   String lectures = (String) session.getAttribute("lectures");
+   
+   System.out.println("Lectures are " +lectures);
        // if user is authenticated as employee allowing them two options: invite non-ldap authenticated people
        // allow to record their meetings
       if(position.equals("Employee")){
         out.println("<tr height='60'>");
-        out.println(" <td colspan='2'> Allow Guests ? <input type='checkbox' id='allowGuests' name='allowGuests'/> ");
-        out.println(" Recordable ? <input type='checkbox' id='Recordable' name='Recordable'/></td> ");
+       if(session.getAttribute("allowGuests")  != null && guestsChecked.equals("on")){
+        out.println(" <td colspan='2'> Allow Guests ? <input type='checkbox' id='allowGuests' name='allowGuests' checked='yes'/> ");
+        }else{
+         out.println(" <td colspan='2'> Allow Guests ? <input type='checkbox' id='allowGuests' name='allowGuests'/> ");
+         }
+        if(session.getAttribute("lectures")  != null && lectures.equals("on")){
+        out.println(" Recordable ? <input type='checkbox' id='Recordable' name='Recordable' checked='yes'/></td> ");
+        }else{
+          out.println(" Recordable ? <input type='checkbox' id='Recordable' name='Recordable' /></td> ");
+        }
         out.println("</tr>");
        }
 %>
@@ -166,7 +195,15 @@ function onCheck()
            }
            }
            
-          
+          	session.setAttribute("mPwd", null);
+			session.setAttribute("mPwdre", null);
+			session.setAttribute("vPwd", null);
+			session.setAttribute("vPwdre", null);
+			session.setAttribute("meetingName", null);
+			session.setAttribute("section", null);
+			session.setAttribute("allowGuests", null);
+			session.setAttribute("lectures", null);
+	
            %>
         </td>
      </tr>

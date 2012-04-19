@@ -13,6 +13,9 @@
 	String vPwd = request.getParameter( "vPwd" );
 	String vPwdre = request.getParameter( "vPwdre" );
 	String check = request.getParameter("check");
+    String guests = request.getParameter("allowGuests");
+    String lectures = request.getParameter("Recordable");
+   
 	String meetingName = "";
 	
 	
@@ -56,10 +59,11 @@
 	session.setAttribute("vPwdre", vPwdre);
 	session.setAttribute("meetingName", meetingName);
 	session.setAttribute("section", section);
+	session.setAttribute("allowGuests", guests);
+	session.setAttribute("lectures", lectures);
 	
 
 	
-    
   
 	// checking no fields to be empty
 	if(mPwd  == null || mPwdre == null || vPwd == null || vPwdre == null || meetingName == null){
@@ -105,13 +109,15 @@
 		// Here goes code when everything is VALID
 		
 		//we don't need session attirubtes any more so removing them:
-		
+
 	session.setAttribute("mPwd", null);
 	session.setAttribute("mPwdre", null);
 	session.setAttribute("vPwd", null);
 	session.setAttribute("vPwdre", null);
 	session.setAttribute("meetingName", null);
 	session.setAttribute("section", null);
+	session.setAttribute("allowGuests", null);
+	session.setAttribute("lectures", null);
 	
 		
   		StringBuilder sb = new StringBuilder();
