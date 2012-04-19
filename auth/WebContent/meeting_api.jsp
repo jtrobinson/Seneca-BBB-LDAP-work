@@ -161,7 +161,7 @@
 		ArrayList <String[]> openMeetings = new ArrayList <String[]> ();
 		for (int i = 0; i < meetings.size(); i ++){
 			String meetingID = StringUtils.removeStart(meetings.get(i)[0], String.valueOf(PROF_SYMBOL));
-			System.out.println(meetingID + ": " + isMeetingRunning(meetingID));
+			//System.out.println(meetingID + ": " + isMeetingRunning(meetingID));
 			if (isMeetingRunning(meetingID).equals("true")){
 				openMeetings.add(meetings.get(i));
 			}

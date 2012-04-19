@@ -39,24 +39,6 @@ with BigBlueButton; if not, If not, see <http://www.gnu.org/licenses/>.
 	<script src="js/jquery.xml2json.js" type="text/javascript"></script>
 	<title>Recording Meeting Demo</title>
 	<style type="text/css">
-	 #formcreate{
-		margin-bottom:30px;
-	 }
-	 #formcreate label.labform{
-	 	display:block;
-	 	float:left;
-	 	width:100px;
-	 	text-align:right;
-		margin-right:5px;
-	 }
-	 #formcreate div{
-		margin-bottom:5px;
-		clear:both;
-	 }
-	 #formcreate .submit{
-		margin-left:100px;
-		margin-top:15px;
-	 }
 	 #descript{
 	 	vertical-align:top;
 	 }
@@ -85,29 +67,21 @@ with BigBlueButton; if not, If not, see <http://www.gnu.org/licenses/>.
 
 <%
 	if (request.getParameterMap().isEmpty()) {
-		//
-		// Assume we want to create a meeting
-		//
 %>
 	
-
 	<table align='center'>
 	<tr><td>
-	<h3>Recorded Sessions for <span style='color:green' /><%=ldap.getCN() %></span></h3>
+	<h3>Recorded Sessions</h3>
 	<select id="actionscmb" name="actions" onchange="recordedAction(this.value);" >
 		<option value="novalue" selected>Actions...</option>
 		<option value="delete">Delete</option>
-		<option value="publish">Publish</option>
 	</select>
 	<table id="recordgrid"></table>
 	<div id="pager"></div> 
-	<p>Note: New recordings will appear in the above list after processing.  Refresh your browser to update the list.</p>
+	<p>Note: New recordings will appear in the above list after processing.<br/>  Refresh your browser to update the list.</p>
 	</td></tr>
 	</table>
 	<script>
-	function onChangeMeeting(meetingID){
-		isRunningMeeting(meetingID);
-	}
 	function recordedAction(action){
 		if(action=="novalue"){
 			return;
@@ -157,50 +131,22 @@ with BigBlueButton; if not, If not, see <http://www.gnu.org/licenses/>.
 		});
 	}
 	
-	function isRunningMeeting(meetingID) {
-		$.ajax({
-			type: "GET",
-			url: 'recordings_helper.jsp',
-			data: "command=isRunning&meetingID="+meetingID,
-			dataType: "xml",
-			cache: false,
-			success: function(xml) {
-				response = $.xml2json(xml);
-				if(response.running=="true"){
-					$("#meta_description").val("An active session exists for "+meetingID+". This session is being recorded.");
-					$("#meta_description").attr("readonly","readonly");
-					$("#meta_description").attr("disabled","disabled");
-				}else{
-					$("#meta_description").val("");
-					$("#meta_description").removeAttr("readonly");
-					$("#meta_description").removeAttr("disabled");
-				}
-				
-			},
-			error: function() {
-				alert("Failed to connect to API.");
-			}
-		});
-	}
-	var meetingID = "OOP344-A^Anatolijs Spektors";
 	$(document).ready(function(){
 		$("#formcreate").validate();
-		$("#meetingID option[value='English 101']").attr("selected","selected");
 		jQuery("#recordgrid").jqGrid({
-			url: "recordings_helper.jsp?command=getRecords&meetingID="+meetingID,
+			url: "recordings_helper.jsp?command=getRecords",
 			datatype: "xml",
-			height: 300,
+			height: 150,
 			loadonce: true,
 			sortable: true,
-			colNames:['Id','Name','Description', 'Date Recorded', 'Published', 'Playback', 'Length'],
+			colNames:['Id','Course','Description', 'Date Recorded', 'Playback', 'Length'],
 			colModel:[
 				{name:'id',index:'id', width:50, hidden:true, xmlmap: "recordID"},
-				{name:'name',index:'name', width:150, xmlmap: "name", sortable:true},
+				{name:'course',index:'course', width:125, xmlmap: "name", sortable:true},
 				{name:'description',index:'description', width:150, xmlmap: "description",sortable: true},
-				{name:'daterecorded',index:'daterecorded', width:200, xmlmap: "startTime", sortable: true, sorttype: "datetime", datefmt: "d-m-y h:i:s"},
-				{name:'published',index:'published', width:80, xmlmap: "published" },
+				{name:'daterecorded',index:'daterecorded', width:120, xmlmap: "startTime", sortable: true, sorttype: "datetime", datefmt: "d-m-y h:i:s"},
 				{name:'playback',index:'playback', width:80, xmlmap:"playback", sortable:false},
-				{name:'length',index:'length', width:80, xmlmap:"length", sortable:true}
+				{name:'length',index:'length', width:50, xmlmap:"length", sortable:true}
 			],
 			xmlReader: {
 				root : "recordings",

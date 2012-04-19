@@ -32,7 +32,7 @@
 <%@ page import="java.io.*"%>
 <%@ page import="java.nio.channels.FileChannel"%>
 <%@ page import="org.apache.commons.lang.StringEscapeUtils"%>
-
+<%@ page import="java.text.SimpleDateFormat"%>
 <%@ include file="bbb_api_conf.jsp"%> 
 
 <%!//
@@ -422,8 +422,7 @@ public String endMeeting(String meetingID, String moderatorPassword) {
 
 public String getRecordingsURL(String meetingID) {
 	String record_parameters = "meetingID=" + urlEncode(meetingID);
-	//System.out.println(BigBlueButtonURL + "api/getRecordings?" + record_parameters + "&checksum="
-		//	+ checksum("getRecordings" + record_parameters + salt));
+	//System.out.println(BigBlueButtonURL + "api/getRecordings?" + record_parameters + "&checksum=" + checksum("getRecordings" + record_parameters + salt));
 	return BigBlueButtonURL + "api/getRecordings?" + record_parameters + "&checksum="
 		+ checksum("getRecordings" + record_parameters + salt);
 }
@@ -466,6 +465,13 @@ public String getRecordings(String meetingID) {
 				}
 				
 				String starttime = recording.getElementsByTagName("startTime").item(0).getTextContent();
+				try {
+					SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+					Date resultdate = new Date(Long.parseLong(starttime));
+                    starttime = sdf.format(resultdate);
+            	} catch(Exception e) { }
+
+				
 				String published = recording.getElementsByTagName("published").item(0).getTextContent();
 				String playback = "";
 				String length = "";

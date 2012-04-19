@@ -21,7 +21,7 @@ public class Meeting {
 		meeting = null;
 
 		for (int i=0; i<lec.size() && !found; i++) {
-			System.out.println(lec.get(i)[0]);
+			//System.out.println(lec.get(i)[0]);
 			if (lec.get(i)[0].equals(meetingID)){
 				meeting = lec.get(i);
 				found = true;

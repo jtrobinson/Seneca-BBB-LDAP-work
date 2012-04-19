@@ -1,28 +1,17 @@
 <jsp:useBean id="meetingApplication" class="ldap.MeetingApplication" scope="session"/>
-<%@ include file="meeting_api.jsp"%>
-
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-    <%@page import="org.w3c.dom.*, javax.xml.parsers.*" %>
-
-
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@page import="org.w3c.dom.*, javax.xml.parsers.*" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-
-
-
-
 <%!
   public boolean isTextNode(Node n){
   return n.getNodeName().equals("#text");
   }
 %>
-
-
 
  <script type="text/javascript">
 
@@ -44,8 +33,6 @@ function onCheck()
      session.setAttribute("isLecture", isLecture);
     
 %>
-
-
 }	
  
 </script>
@@ -53,16 +40,13 @@ function onCheck()
  
 <title>Create Meeting</title>
 </head>
+<body>
+<%@ include file="meeting_api.jsp"%>
 <%@ include file="auth_header.jsp"%>
-<div align ="center">
-   <h1> Create Session:</h1>
    <form action="createAction.jsp" method="post" name="form">
-   <br />
-   <table>
-   
-  
-    
-
+   <table align='center' width='465'>
+      <tr><td colspan='2'><h3> Create Session</h3></td></tr>
+      
    <% String checked = ""; 
      if(session.getAttribute( "isChecked") != null){
       checked =  (String) session.getAttribute( "isChecked");
@@ -117,10 +101,10 @@ function onCheck()
                 
        }else{
          // else user sees a textbox with name of the lecture
-         out.print("<tr height='30'> <td height='50'>Name of Meeting:  <span style='color:red'>*</span></td><td>   <input type='text' id='meetingName' ");
+         out.print("<tr> <td>Name of Meeting:  <span style='color:red'>*</span></td><td>   <input type='text' id='meetingName' ");
          if(session.getAttribute("meetingName") != null)
            out.print("value = '"+session.getAttribute("meetingName")+"' "); 
-            out.print("name='meetingName' size='60'/></td> </tr>");
+            out.print("name='meetingName' size='30'/></td> </tr>");
            
        }
    
@@ -148,7 +132,7 @@ function onCheck()
    String guestsChecked = (String) session.getAttribute("allowGuests");
    String lectures = (String) session.getAttribute("lectures");
    
-   System.out.println("Lectures are " +lectures);
+   //System.out.println("Lectures are " +lectures);
        // if user is authenticated as employee allowing them two options: invite non-ldap authenticated people
        // allow to record their meetings
       if(position.equals("Employee")){
@@ -210,8 +194,8 @@ function onCheck()
      <tr>
          <td> <span style='color:red'>*</span> - Required Field</td>
      </tr>
+     </table>
     </form>
-    </div>
 </body>
 
 

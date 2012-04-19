@@ -28,11 +28,9 @@
 	    	response.sendRedirect("login.jsp");	
 		}
 		meetingApplication.loadAllMeetings();
-		System.out.println("Lecture size after: " +meetingApplication.getLectures().size());
 		ArrayList <String[]> lectureList = runningList(meetingApplication.getLectures());
    		ArrayList <String[]> meetingList = runningList(meetingApplication.getMeetings());
    		
-   		System.out.println("Is tehre any meetings? " +meetingList.size()+ "  " +lectureList.size() );
    	%>
 	<table align="center" width="1000" border="0" cellpadding="0" cellspacing="30">
 		<tr valign="top">

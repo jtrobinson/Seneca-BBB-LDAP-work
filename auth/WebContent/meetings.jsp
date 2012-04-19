@@ -39,24 +39,6 @@ with BigBlueButton; if not, If not, see <http://www.gnu.org/licenses/>.
 	<script src="js/jquery.xml2json.js" type="text/javascript"></script>
 	<title>Manage Your Meetings</title>
 	<style type="text/css">
-	 #formcreate{
-		margin-bottom:30px;
-	 }
-	 #formcreate label.labform{
-	 	display:block;
-	 	float:left;
-	 	width:100px;
-	 	text-align:right;
-		margin-right:5px;
-	 }
-	 #formcreate div{
-		margin-bottom:5px;
-		clear:both;
-	 }
-	 #formcreate .submit{
-		margin-left:100px;
-		margin-top:15px;
-	 }
 	 #descript{
 	 	vertical-align:top;
 	 }
@@ -104,7 +86,7 @@ with BigBlueButton; if not, If not, see <http://www.gnu.org/licenses/>.
 				<%	} %>
 			</select>
 			<table id="meetinggrid"></table>
-			<p>Note: New meetings will appear in the above list after processing.  Refresh your browser to update the list.</p>
+			<p>Note: New meetings will appear in the above list after processing.<br/>  Refresh your browser to update the list.</p>
 		</td></tr>
 	</table>
 	<div id="pager"></div>
@@ -147,7 +129,9 @@ with BigBlueButton; if not, If not, see <http://www.gnu.org/licenses/>.
 		}else if(action=="start"){
 			var description = "";
 			if (d.recorded=="true"){
+				do {
 				description = prompt("Please enter a description for your meeting. Example: \"Week 01 Lecture\"", "");
+				} while (description == null);
 			}
 			window.open('meetings_create.jsp?command=start&meetingID='+meetingid+
 														  "&modpass="+d.modpass+
