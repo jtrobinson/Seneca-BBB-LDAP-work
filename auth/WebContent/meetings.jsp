@@ -137,6 +137,13 @@ with BigBlueButton; if not, If not, see <http://www.gnu.org/licenses/>.
 				$("#actionscmb").val("novalue");
 				return;
 			}
+		}else if(action=="edit") {
+			window.location.href='meetings_edit.jsp?command=edit&meetingid='+meetingid+
+					  										  "&modpass="+d.modpass+
+					  										  "&viewpass="+d.viewpass+
+					  										  "&guests="+d.guests+
+					 			 							  "&recorded="+d.recorded+
+					 			 							  "&type="+d.type;
 		}else if(action=="start"){
 			var description = "";
 			if (d.recorded=="true"){

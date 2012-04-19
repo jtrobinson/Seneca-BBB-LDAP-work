@@ -23,6 +23,7 @@
 	
 		metadata.put("email", request.getParameter("username"));
 		metadata.put("title", request.getParameter("meetingID"));
+		//metadata.put("publish", "false");
 		
 		if (request.getParameter("recorded").equals("false")){
 			metadata.put("description", "");
