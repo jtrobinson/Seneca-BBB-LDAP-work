@@ -1,0 +1,18 @@
+To install the auth webapp please complete the following steps:
+
+1. Run the setup.sh script contained in this folder
+
+2. Edit config.xml
+  a) Open config.xml located at /var/lib/tomcat6/webapps/auth/WEB-INF/classes/config.xml
+  b) Put in all the relevant ldap and course information
+  c) Save the file and close
+
+3. Restart tomcat by running: sudo service tomcat6 restart
+
+4. Verify that everything works
+  a) Go to the default landing page at "http://hostname"
+  b) If the page doesn't display "Welcome to nginx" skip the rest of step 4
+  c) Run the command: sudo ln -s /etc/nginx/sites-available/bigbluebutton /etc/nginx/sites-enabled/bigbluebutton
+  d) And run: sudo /etc/init.d/nginx restart
+
+5. Have fun!

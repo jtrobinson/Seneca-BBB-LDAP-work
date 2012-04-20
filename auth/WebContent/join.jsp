@@ -13,7 +13,7 @@
 	<script src="js/jquery.jqGrid.min.js" type="text/javascript"></script>
 	<script src="js/jquery.xml2json.js" type="text/javascript"></script>
 	
-	<jsp:useBean id="meetingApplication" class="ldap.MeetingApplication" scope="session"/>
+	<jsp:useBean id="meetingApplication" class="meeting.MeetingApplication" scope="session"/>
 	<title>Join a Meeting</title>
 </head>
 <body>

@@ -1,5 +1,5 @@
 <jsp:useBean id="ldap" class="ldap.LDAPAuthenticate" scope="session"/>
-<jsp:useBean id="meets" class="ldap.MeetingApplication" scope="session"/>
+<jsp:useBean id="meets" class="meeting.MeetingApplication" scope="session"/>
 
 <%@ page contentType="text/xml" %>
 <%@ page trimDirectiveWhitespaces="true" %>

@@ -1,4 +1,4 @@
-<jsp:useBean id="meeting" class="ldap.Meeting" scope="session"/>
+<jsp:useBean id="meeting" class="meeting.Meeting" scope="session"/>
 
 <?xml version="1.0" encoding="UTF-8" ?>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
