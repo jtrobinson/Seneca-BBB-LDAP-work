@@ -13,6 +13,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.commons.lang.StringUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -30,22 +31,31 @@ public class LDAPAuthenticate {
 	private SearchControls searchCtrl;
 	private String url;
 	private String o;
-	private String ou;
-	private String uid;
-	private String cn;
+	
+	private String positionField;
+	private String userIDField;
+	private String givenNameField;
+	private String titleField;
+	
+	private String position;
+	private String userID;
+	private String givenName;
 	private String title;
+	
+	private String positionList[];
+	private String titleList[];
+	
 	private boolean logout;
 	
 	public LDAPAuthenticate() {
 		authenticated = "false";
 		logout = false;
-		//String security = "";
 		
 		try {
 			//Using factory get an instance of document builder
 			DocumentBuilder db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
 			//parse using builder to get DOM representation of the XML file
-			//Document dom = db.parse("WEB-INF/config.xml");
+
 			Document dom = db.parse(Thread.currentThread().getContextClassLoader().getResourceAsStream("config.xml"));
 			//get the root element
 			Element docEle = dom.getDocumentElement();
@@ -54,12 +64,37 @@ public class LDAPAuthenticate {
 			for (int i=0; i<ldapConfig.getLength(); i++) {
 				if (ldapConfig.item(i).getNodeName().equals("url")) {
 					url = ldapConfig.item(i).getFirstChild().getNodeValue();
-				//} else if (ldapConfig.item(i).getNodeName().equals("security-authentication")) {
-				//	security = ldapConfig.item(i).getFirstChild().getNodeValue();
 				} else if (ldapConfig.item(i).getNodeName().equals("o")) {
 					o = ldapConfig.item(i).getFirstChild().getNodeValue();
 				}
 			}
+			
+			// Now that LDAP connection elements have been pulled from the config, extract the fields we'll be looking in
+			NodeList ldapFields = docEle.getElementsByTagName("ldapfields").item(0).getChildNodes();
+			for (int i = 0; i < ldapFields.getLength(); i++) {
+				Node fieldNode = ldapFields.item(i);
+				if (fieldNode.getNodeName().equals("user_id")) {
+					userIDField = fieldNode.getFirstChild().getNodeValue();
+				} else if (fieldNode.getNodeName().equals("user_fullname")) {
+					givenNameField = fieldNode.getFirstChild().getNodeValue();
+				} else if (fieldNode.getNodeName().equals("user_position")) {
+					positionField = fieldNode.getFirstChild().getNodeValue();
+				} else if (fieldNode.getNodeName().equals("user_title")) {
+					titleField = fieldNode.getFirstChild().getNodeValue();
+				} 
+			}
+			
+			// Now, with the fields that we need to examine in LDAP stored as variables, we can use them to extract the possible values for Position and Title
+			NodeList ldapValues = docEle.getElementsByTagName("fieldvalues").item(0).getChildNodes();
+			for (int i = 0; i < ldapValues.getLength(); i++) {
+				Node valueNode = ldapValues.item(i);
+				if (valueNode.getNodeName().equals(positionField)) {
+					positionList = StringUtils.split(valueNode.getFirstChild().getNodeValue(), ";");
+				} else if (valueNode.getNodeName().equals(titleField)) {
+					titleList = StringUtils.split(valueNode.getFirstChild().getNodeValue(), ";");
+				} 
+			}
+			
 		} catch (ParserConfigurationException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -92,32 +127,33 @@ public class LDAPAuthenticate {
 	public boolean search(String user, String pass) {
 		search(user);
 		
-		if (authenticated.equals("true") && user.equals(uid)) {
+		if (authenticated.equals("true") && user.equals(userID)) {
 			try {
 				env = new Hashtable<Object, Object>();
 				env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
 				
 				// specify where the ldap server is running
 				env.put(Context.PROVIDER_URL, url);
-				//env.put(Context.SECURITY_AUTHENTICATION, "none");
 				env.put(Context.SECURITY_AUTHENTICATION, "simple");
-				env.put(Context.SECURITY_PRINCIPAL, "uid="+uid+", ou="+ou+", o="+o);
+				String userIDString = userIDField + "=" + userID;
+				String positionString = positionField + "=" + position;
+				env.put(Context.SECURITY_PRINCIPAL, userIDString + ", " + positionString + ", o="+o);
 				env.put(Context.SECURITY_CREDENTIALS, pass);
 				
 				// this command will throw an exception if the password is incorrect
 				DirContext ldapContext = new InitialDirContext(env);
 				
-				NamingEnumeration<SearchResult> results = ldapContext.search("o="+o, "(&(uid="+user+"))", searchCtrl);
+				NamingEnumeration<SearchResult> results = ldapContext.search("o=" + o, "(&(" + userIDField + "=" + user + "))", searchCtrl);
 				
 				if (!results.hasMore()) // search failed
 					throw new Exception();
 				
 				SearchResult sr = results.next();
 				Attributes at = sr.getAttributes();
-				cn = at.get("cn").toString().split(": ")[1];
+				givenName = at.get(givenNameField).toString().split(": ")[1];
 				
-				if (ou.equals("Employee")) {
-					title = at.get("title").toString().split(": ")[1];
+				if (position.equals("Employee")) {
+					title = at.get(titleField).toString().split(": ")[1];
 				}
 				//prints out all possible attributes
 			//	for(NamingEnumeration i = at.getAll(); i.hasMore(); ) {
@@ -141,7 +177,7 @@ public class LDAPAuthenticate {
 		
 		if (ldapContextNone!=null) { // if the initial context was created fine
 			try {
-				NamingEnumeration<SearchResult> results = ldapContextNone.search("o="+o, "(&(uid="+user+"))", searchCtrl);
+				NamingEnumeration<SearchResult> results = ldapContextNone.search("o="+o, "(&(" + userIDField + "="+user+"))", searchCtrl);
 				
 				if (!results.hasMore()) // search failed
 					throw new Exception();
@@ -149,8 +185,8 @@ public class LDAPAuthenticate {
 				SearchResult sr = results.next();
 				Attributes at = sr.getAttributes();
 				
-				ou = ((sr.getName().split(","))[1].split("="))[1];
-				uid = at.get("uid").toString().split(": ")[1];
+				position = ((sr.getName().split(","))[1].split("="))[1];
+				userID = at.get(userIDField).toString().split(": ")[1];
 				
 				authenticated = "true";
 				return true;
@@ -166,22 +202,42 @@ public class LDAPAuthenticate {
 		return false;
 	}
 	
-	public String getUID() {
-		return uid;
+	// Methods for getting the user's details as fetched by LDAP
+	public String getUserID() {
+		return userID;
 	}
-	
-	public String getCN() {
-		return cn;
+	public String getGivenName() {
+		return givenName;
 	}
-	
 	public String getTitle() {
 		return title;
 	}
-	
-	public String getOU() {
-		return ou;
+	public String getPosition() {
+		return position;
 	}
-	
+	// ----
+	// Methods for other pages to get the fields to check within LDAP for details; for example, one organization stores the user ID under "uid" while another uses "ou"
+	public String getUserIDField() {
+		return userIDField;
+	}
+	public String getGivenNameField() {
+		return givenNameField;
+	}
+	public String getTitleField() {
+		return titleField;
+	}
+	public String getPositionField() {
+		return positionField;
+	}
+	// ----
+	// Methods for returning the lists of valid positions and titles which can use the system
+	public String [] getTitleList() {
+		return titleList;
+	}
+	public String [] getPositionList() {
+		return positionList;
+	}
+	// ----
 	public String getAuthenticated() {
 		return authenticated;
 	}
@@ -200,6 +256,6 @@ public class LDAPAuthenticate {
 	}
 	
 	private void reset() {
-		ou = uid = cn = title = null;
+		position = userID = givenName = title = null;
 	}
 }
