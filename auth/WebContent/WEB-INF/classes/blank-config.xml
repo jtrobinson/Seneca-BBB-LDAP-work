@@ -4,5 +4,22 @@
 	<ldap>
 		<url>ldap://*your*ldap*url*</url>
 		<o>*your*o*</o>
+		<security-authentication>none</security-authentication>
+		<userfield>uid</userfield>
+		<fullnamefield>cn</fullnamefield>
+		<ouemployeelist>
+			<ou>Employee</ou>
+		</ouemployeelist>
+		<oustudentlist>
+			<ou>Student</ou>
+		</oustudentlist>
+		<teacherlist>
+			<fieldname>title</fieldname>
+			<title>Professor</title>
+		</teacherlist>
 	</ldap>
+	<courseList>
+		<course>Course1</course>
+		<course>Course2</course>
+	</courseList>
 </config>

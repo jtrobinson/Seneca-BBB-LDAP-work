@@ -32,6 +32,9 @@
 			<%
 				if (ldap.getAuthenticated().equals("failed")) {
 					out.print("<div style='color:red' align='center'> Your credentials are incorrect, please try again</div>");
+				} else if (ldap.getAuthenticated().equals("timeout")) {
+					ldap.resetAuthenticated();
+				   	out.print("<div style='color:green' align='center'> Your session timed out!</div>");
 				} else if (ldap.isLogout()) {
 					ldap.setLogout(false);
 			   		out.print("<div style='color:green' align='center'> You are logged out!</div>");

@@ -22,6 +22,7 @@ import org.xml.sax.SAXException;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Hashtable;
 
 public class LDAPAuthenticate {
@@ -44,6 +45,9 @@ public class LDAPAuthenticate {
 	
 	private String positionList[];
 	private String titleList[];
+	
+	private Date lastAccess;
+	private int timeoutTime = 10;
 	
 	private boolean logout;
 	
@@ -239,6 +243,15 @@ public class LDAPAuthenticate {
 	}
 	// ----
 	public String getAuthenticated() {
+		Date now = new Date();
+		if (lastAccess != null) {
+			if ((now.getTime() - lastAccess.getTime())/1000.0/60 > timeoutTime) {
+				lastAccess = null;
+				authenticated = "timeout";
+			} else {
+				lastAccess = now;
+			}
+		}
 		return authenticated;
 	}
 	

@@ -111,9 +111,12 @@ with BigBlueButton; if not, If not, see <http://www.gnu.org/licenses/>.
 		if(action=="delete"){
 			var answer = confirm ("Are you sure to delete the selected meeting?");
 			if (answer){
-				var header="";
-				if (d.type=="Lecture")
-					header = "#";
+				if (d.type=="Lecture") {
+					alert("AHHHHHHHHH");
+					meetingid = "%23"+meetingid;
+				} else {
+					alert("BOOOOOOO");
+				}
 				sendRecordingAction(meetingid,action);
 			}else{
 				$("#actionscmb").val("novalue");
@@ -149,6 +152,7 @@ with BigBlueButton; if not, If not, see <http://www.gnu.org/licenses/>.
 	}
 	
 	function sendRecordingAction(meetingID,action){
+		alert( "command="+action+"&meetingID="+meetingID);
 		$.ajax({
 			type: "GET",
 			url: 'meetings_helper.jsp',
@@ -177,7 +181,7 @@ with BigBlueButton; if not, If not, see <http://www.gnu.org/licenses/>.
 			autowidth: false,
 			colNames:['Id','Type','Name','Moderator Pass', 'Viewer Pass', 'Guests', 'Recorded', 'Date Last Edited'],
 			colModel:[
-				{name:'id',index:'id', width:50, hidden:true, xmlmap: "meetingid"},
+				{name:'id',index:'id', width:50, hidden:false, xmlmap: "meetingid"},
 				{name:'type',index:'type', width:80, xmlmap: "type"},
 				{name:'name',index:'name', width:150, xmlmap: "name"},
 				{name:'modpass',index:'modpass', width:100, xmlmap: "modpass",sortable: false},

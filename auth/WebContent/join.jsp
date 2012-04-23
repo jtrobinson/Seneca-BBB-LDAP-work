@@ -24,9 +24,6 @@
 	<%
 		out.println("<p align='center' style='font-size:23px'>Welcome <b><span style='color:green;'>" + ldap.getCN() + "</b> as " + ldap.getOU() + "</p>");
 
-		if(!ldap.getAuthenticated().equals("true")) {
-	    	response.sendRedirect("login.jsp");	
-		}
 		meetingApplication.loadAllMeetings();
 		ArrayList <String[]> lectureList = runningList(meetingApplication.getLectures());
    		ArrayList <String[]> meetingList = runningList(meetingApplication.getMeetings());

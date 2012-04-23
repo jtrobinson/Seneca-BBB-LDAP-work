@@ -233,9 +233,10 @@ public class MeetingApplication {
 
 
 			String [] parts = meet[0].split("\\^");
-
+			
+			
 			convMeetings += "\t\t<meeting>\n";
-
+			if (type.equals("Lecture")) meet[0] = "%23" + meet[0];
 			convMeetings += "\t\t\t<meetingid>" + meet[0] + "</meetingid>\n";
 			convMeetings += "\t\t\t<type>" + type + "</type>\n";
 			convMeetings += "\t\t\t<name>" + parts[0] + "</name>\n";

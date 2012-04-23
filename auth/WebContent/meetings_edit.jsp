@@ -47,7 +47,10 @@
 		}
 		
 		if (modpassErr.equals("") && viewpassErr.equals("") && passErr.equals("")) {
+			System.out.println("here");
+			if (type.equals("Lecture")) meetingid = "#"+meetingid;
 			saveMeeting(ldap.getUID(), meetingid, modpass, viewpass, guests.equals("true"), recorded.equals("true"));
+			response.sendRedirect("meetings.jsp");
 		}
 	}
 	if (request.getParameter("command") != null && request.getParameter("command").equals("edit")

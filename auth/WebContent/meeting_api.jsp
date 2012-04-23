@@ -102,6 +102,7 @@
 
 	// DELETING A MEETING
 	public String deleteMeeting(String presenterKey, String meetingName){
+		System.out.println("meeting" + meetingName);
 		presenterKey = USERID_HEADER + presenterKey;
 		Jedis jedis = dbConnect();
 		//System.out.println("Survived initializing Jedis");
@@ -117,7 +118,10 @@
 				// Find the meeting that matches that name
 				//System.out.println("DEBUG: extraction is: " + extractName(presenterKey, "meeting"+position, jedis));
 				//System.out.println("DEBUG: meetingName is: " + meetingName);
+				//System.out.println(extractName(presenterKey, "meeting"+position, jedis));
+				//System.out.println(meetingName);
 				if (meetingName.compareTo(extractName(presenterKey, "meeting"+position, jedis)) == 0){
+					System.out.println(extractName(presenterKey, "meeting"+position, jedis));
 					// Save which "position" that meeting is at (meeting1, meeting2....)
 					//System.out.println("DEBUG: Found!");
 					target = position;
