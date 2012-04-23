@@ -4,22 +4,21 @@
 	<ldap>
 		<url>ldap://*your*ldap*url*</url>
 		<o>*your*o*</o>
-		<security-authentication>none</security-authentication>
-		<userfield>uid</userfield>
-		<fullnamefield>cn</fullnamefield>
-		<ouemployeelist>
-			<ou>Employee</ou>
-		</ouemployeelist>
-		<oustudentlist>
-			<ou>Student</ou>
-		</oustudentlist>
-		<teacherlist>
-			<fieldname>title</fieldname>
-			<title>Professor</title>
-		</teacherlist>
 	</ldap>
+	
+	<ldapfields>
+		<user_id>field in your organization's LDAP which holds user ID</user_id>
+		<user_fullname>field in your organization's LDAP which holds user's given name</user_fullname>
+		<user_position>field in your organization's LDAP which holds user's position in the organization</user_position>
+		<user_title>field in your organization's LDAP which holds user's job title</user_title>
+	</ldapfields>
+	
+	<fieldvalues>
+		<user_position>Possible values for user_position field</user_position>
+		<user_title>Possible values for user_title field</user_title>
+	</fieldvalues>
+	
 	<courseList>
-		<course>Course1</course>
-		<course>Course2</course>
+		<course>course code or title, for example "APC101", "LIT705"</course>
 	</courseList>
 </config>
