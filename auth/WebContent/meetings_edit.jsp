@@ -74,7 +74,7 @@
 	 			if (type.equals("Lecture")) { %>
 	 			<tr>
 	 				<td>Course</td>
-	 				<td><%= meetingid.split("-")[0] %></td>
+	 				<td><%= StringUtils.stripStart(meetingid.split("-")[0], "`") %></td>
 	 			</tr>
 	 			<tr>
 	 				<td>Section</td>
