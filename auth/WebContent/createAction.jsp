@@ -133,17 +133,17 @@
   			sb.append(meetingName);
   		}
   		sb.append(NAME_DELIMITER);
-  		sb.append(ldap.getCN());
+  		sb.append(ldap.getGivenName());
   		
   		meetingName = sb.toString();
   		
   		String dataString = compressMeeting(meetingName, mPwd, vPwd, allowGuests, recordable);
 	//	out.print("DEBUG: Data string is: " + dataString + "<br >");
 		
-  		saveMeeting(ldap.getUID(), meetingName, mPwd, vPwd, allowGuests, recordable);
+  		saveMeeting(ldap.getUserID(), meetingName, mPwd, vPwd, allowGuests, recordable);
   		
   		//out.print("DEBUG: Deleting entry 'a' <br >");
-  		//deleteMeeting(ldap.getUID(), "a");
+  		//deleteMeeting(ldap.getUserID(), "a");
   		response.sendRedirect("meetings.jsp");
   		// EAC150
   	}

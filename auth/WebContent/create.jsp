@@ -53,7 +53,7 @@ function onCheck()
       }else checked = "false";
 
       String  title = ldap.getTitle(); // this needed to find is employee is professor
-      String position = ldap.getOU();  // this needed to diffirintiate students from employees (all employees)
+      String position = ldap.getPosition();  // this needed to diffirintiate students from employees (all employees)
      
        
       if(title == null){

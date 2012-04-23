@@ -1,5 +1,5 @@
 <jsp:useBean id="ldap" class="ldap.LDAPAuthenticate" scope="session"/>
-<div align='right'>Logged in as <%= ldap.getCN() %>&nbsp;<a href="logout.jsp"><b>Logout</b></a></div>
+<div align='right'>Logged in as <%= ldap.getGivenName() %>&nbsp;<a href="logout.jsp"><b>Logout</b></a></div>
 <%@ include file="seneca_header.jsp"%>
 <br><br>
 <div align="center">

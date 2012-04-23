@@ -7,9 +7,9 @@
 <?xml version="1.0" ?>
 
 <% if(request.getParameter("command").equals("getMeetings")){%>
-	<%= meets.getUserMeetingsXML(ldap.getUID()) %>
+	<%= meets.getUserMeetingsXML(ldap.getUserID()) %>
 <% } else if(request.getParameter("command").equals("edit")){%>
 	<%  //make call to edit page or create with fields filled *TBD*%>
 <% } else if(request.getParameter("command").equals("delete")){%>
-	<%= deleteMeeting(ldap.getUID(), request.getParameter("meetingID")) %>
+	<%= deleteMeeting(ldap.getUserID(), request.getParameter("meetingID")) %>
 <% } %>

@@ -81,7 +81,7 @@ with BigBlueButton; if not, If not, see <http://www.gnu.org/licenses/>.
 				<option value="start">Start</option>
 				<option value="edit">Edit</option>
 				<option value="delete">Delete</option>
-				<%	if (ldap.getOU().equals("Employee")) { %>
+				<%	if (ldap.getPosition().equals("Employee")) { %>
 				<option value="guest">Guest URL</option>
 				<%	} %>
 			</select>

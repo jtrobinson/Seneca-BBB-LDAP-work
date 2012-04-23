@@ -208,15 +208,18 @@ public class LDAPAuthenticate {
 	
 	// Methods for getting the user's details as fetched by LDAP
 	public String getUserID() {
+		// getUID()
 		return userID;
 	}
 	public String getGivenName() {
+		//getCN()
 		return givenName;
 	}
 	public String getTitle() {
 		return title;
 	}
 	public String getPosition() {
+		//getOU()
 		return position;
 	}
 	// ----

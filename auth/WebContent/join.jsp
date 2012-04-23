@@ -22,7 +22,7 @@
 	<br/>
 	<br/>
 	<%
-		out.println("<p align='center' style='font-size:23px'>Welcome <b><span style='color:green;'>" + ldap.getCN() + "</b> as " + ldap.getOU() + "</p>");
+		out.println("<p align='center' style='font-size:23px'>Welcome <b><span style='color:green;'>" + ldap.getGivenName() + "</b> as " + ldap.getPosition() + "</p>");
 
 		meetingApplication.loadAllMeetings();
 		ArrayList <String[]> lectureList = runningList(meetingApplication.getLectures());

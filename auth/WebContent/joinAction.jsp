@@ -68,13 +68,13 @@
 				else{
 					if (password.equals(viewPass)){
 						out.println("Logging you in as viewer<br/>");
-						String meetingURL = getJoinURLViewer(ldap.getCN(), meetingID, password);
+						String meetingURL = getJoinURLViewer(ldap.getGivenName(), meetingID, password);
 						out.println("DEBUG ONLY MeetingURL is " + meetingURL);
 						response.sendRedirect(meetingURL);
 					}
 					else if (password.equals(modPass)){
 						out.println("Logging you in as moderator<br/>");
-						String meetingURL = getJoinMeetingURL(ldap.getCN(), meetingID, password);
+						String meetingURL = getJoinMeetingURL(ldap.getGivenName(), meetingID, password);
 						out.println("DEBUG ONLY MeetingURL is " + meetingURL);
 						response.sendRedirect(meetingURL);
 					}

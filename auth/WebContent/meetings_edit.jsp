@@ -49,7 +49,7 @@
 		if (modpassErr.equals("") && viewpassErr.equals("") && passErr.equals("")) {
 			System.out.println("here");
 			if (type.equals("Lecture")) meetingid = "#"+meetingid;
-			saveMeeting(ldap.getUID(), meetingid, modpass, viewpass, guests.equals("true"), recorded.equals("true"));
+			saveMeeting(ldap.getUserID(), meetingid, modpass, viewpass, guests.equals("true"), recorded.equals("true"));
 			response.sendRedirect("meetings.jsp");
 		}
 	}
@@ -61,7 +61,7 @@
 	
 		if (type.equals("Lecture") && !ldap.getTitle().equals("Support Staff")) { %>
 			<%= loadRedirect() %>
-	 <% } else if (ldap.getOU().equals("Student") && (guests.equals("true") || recorded.equals("true"))) { %>
+	 <% } else if (ldap.getPosition().equals("Student") && (guests.equals("true") || recorded.equals("true"))) { %>
 	 		<%= loadRedirect() %>
 	 <% } else { %>
 	 	<form action="meetings_edit.jsp" method="post" name="form">
@@ -122,7 +122,7 @@
 	 			} %>
 	 			
 	 			<%
-	 			if(ldap.getOU().equals("Employee")){ %>
+	 			if(ldap.getPosition().equals("Employee")){ %>
 	 			<tr>
 	 				<td>Allow Guests?</td>
 	 				<td><input type='checkbox' id='guests' name='guests' <% if (guests.equals("true")) out.print("checked='checked'"); %>/></td>
