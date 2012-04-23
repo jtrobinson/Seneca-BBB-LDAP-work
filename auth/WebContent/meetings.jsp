@@ -182,7 +182,7 @@ with BigBlueButton; if not, If not, see <http://www.gnu.org/licenses/>.
 			autowidth: false,
 			colNames:['Id','Type','Name','Moderator Pass', 'Viewer Pass', 'Guests', 'Recorded', 'Date Last Edited'],
 			colModel:[
-				{name:'id',index:'id', width:50, hidden:false, xmlmap: "meetingid"},
+				{name:'id',index:'id', width:50, hidden:true, xmlmap: "meetingid"},
 				{name:'type',index:'type', width:80, xmlmap: "type"},
 				{name:'name',index:'name', width:150, xmlmap: "name"},
 				{name:'modpass',index:'modpass', width:100, xmlmap: "modpass",sortable: false},
