@@ -164,10 +164,9 @@
 	public ArrayList <String[]> runningList(ArrayList <String[]> meetings){
 		ArrayList <String[]> openMeetings = new ArrayList <String[]> ();
 		for (int i = 0; i < meetings.size(); i ++){
-			//System.out.println(meetingID + ": " + isMeetingRunning(meetingID));
 
 			if (isMeetingRunning(meetings.get(i)[0]).equals("true")){
-				System.out.println(meetings.get(i)[0]);
+
 				openMeetings.add(meetings.get(i));
 			}
 		}

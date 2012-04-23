@@ -14,25 +14,29 @@
 <%@ include file="bbb_api.jsp" %>
 <%
 	String m = request.getParameter("m");
-	System.out.println(m);
+	//System.out.println(m);
 	String errorName = "";
 	String errorPassword = "";
-
+	
+	String name = request.getParameter("name");
+	String password = request.getParameter("password");
+	
 	if (meeting.isFound() && meeting.getMeetingID().equals(m)) {
-		if (request.getParameter("password").equals("")) {
-			errorPassword = "You must enter a password";
-		} else if (!request.getParameter("password").equals(meeting.getViewPass())) {
-			errorPassword = "Password does not match";
-		} 
-		
-		if (request.getParameter("name").equals("")) {
-			errorName = "You must enter a name";
-		}
-		
-		if (errorName.equals("") && errorPassword.equals("")) {
-			String name = request.getParameter("name");
-			String password = request.getParameter("password");
-			response.sendRedirect(getJoinURLViewer(name, m, password));
+		if (name != null && password != null) {
+			
+			if (name.equals("")) {
+				errorPassword = "You must enter a password";
+			} else if (!password.equals(meeting.getViewPass())) {
+				errorPassword = "Password does not match";
+			} 
+			
+			if (name.equals("")) {
+				errorName = "You must enter a name";
+			}
+			
+			if (errorName.equals("") && errorPassword.equals("")) {
+				response.sendRedirect(getJoinURLViewer(name, m, password));
+			}
 		}
 	}
 	if (!meeting.loadMeeting(m)) {
@@ -42,6 +46,9 @@
 	} else if (isMeetingRunning(meeting.getMeetingID()).equals("false")) {
 		out.println("The meeting has not been started yet. Please wait and try again.");
 	} else {
+		if (name == null) {
+			name = "";
+		}
 	%>
 		<br/><br/>
 		<form action='<%= request.getRequestURI() %>?m=<%= meeting.getMeetingID() %>' method="post" name="login">
@@ -52,7 +59,7 @@
 							Desired Name: 
 						</td>
 						<td>
-							<input type='text'name='name' value='<%= request.getParameter("name") %>'/>&nbsp;
+							<input type='text'name='name' value='<%= name %>'/>&nbsp;
 							<div style='color:red'><%= errorName %></div>
 						</td>
 					</tr>
