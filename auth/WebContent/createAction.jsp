@@ -93,8 +93,8 @@
   	        response.sendRedirect("create.jsp?isLecture=true");
   	        //making sure there is no invalid characters in both section and meeting Name
 	}else if( StringUtils.indexOfAny(meetingName, "~") != -1 || StringUtils.indexOfAny(section, "~") != -1 || StringUtils.indexOfAny(meetingName, "$") != -1 ||  StringUtils.indexOfAny(section, "$") != -1
-	           && StringUtils.indexOfAny(meetingName, "`") != -1 || StringUtils.indexOfAny(section, "`") != -1 || StringUtils.indexOfAny(meetingName, "&") != -1 ||  StringUtils.indexOfAny(section, "&") != -1
-	           && StringUtils.indexOfAny(meetingName, "-") != -1 || StringUtils.indexOfAny(section, "-") != -1 || StringUtils.indexOfAny(meetingName, "#") != -1)
+	           || StringUtils.indexOfAny(meetingName, "`") != -1 || StringUtils.indexOfAny(section, "`") != -1 || StringUtils.indexOfAny(meetingName, "&") != -1 ||  StringUtils.indexOfAny(section, "&") != -1
+	           || StringUtils.indexOfAny(meetingName, "-") != -1 || StringUtils.indexOfAny(section, "-") != -1 || StringUtils.indexOfAny(meetingName, "#") != -1)
 	{
 	           session.setAttribute( "fail", "4" );
   		if(check == null )
