@@ -86,7 +86,7 @@ public class MeetingApplication {
 			}
 		
 		}
-   //System.out.println("Inside meeting java sizes are: " +lectureList.size() + " and " +meetingList.size());
+
 		// Sort the lecture and meeting lists alphabetically
 		Collections.sort(lectureList);
 		Collections.sort(meetingList);
@@ -101,7 +101,6 @@ public class MeetingApplication {
 		for (int i = 0; i < meetingList.size(); i++){
 			meetings.add(decompress(meetingList.get(i)));
 		}
-		//System.out.println("In the end!: " +lectures.size() + " and " +meetings.size());
 	}
 
 	/*
@@ -164,7 +163,7 @@ public class MeetingApplication {
 		// Populate the instance variables lectures and meetings with all the available lectures and general meetings, respectively
 		for (int i = 0; i < lectureList.size(); i++){
 			lectures.add(decompress(lectureList.get(i)));
-			lectures.get(i)[0] = StringUtils.removeStart(lectures.get(i)[0], String.valueOf(PROF_SYMBOL));
+			//lectures.get(i)[0] = StringUtils.removeStart(lectures.get(i)[0], String.valueOf(PROF_SYMBOL));
 		}
 		for (int i = 0; i < meetingList.size(); i++){
 			meetings.add(decompress(meetingList.get(i)));
@@ -236,10 +235,9 @@ public class MeetingApplication {
 			
 			
 			convMeetings += "\t\t<meeting>\n";
-			if (type.equals("Lecture")) meet[0] = "%23" + meet[0];
 			convMeetings += "\t\t\t<meetingid>" + meet[0] + "</meetingid>\n";
 			convMeetings += "\t\t\t<type>" + type + "</type>\n";
-			convMeetings += "\t\t\t<name>" + parts[0] + "</name>\n";
+			convMeetings += "\t\t\t<name>" + StringUtils.removeStart(parts[0], String.valueOf(PROF_SYMBOL)) + "</name>\n";
 			convMeetings += "\t\t\t<modpass>" + meet[1] + "</modpass>\n";
 			convMeetings += "\t\t\t<viewpass>" + meet[2] + "</viewpass>\n";
 			convMeetings += "\t\t\t<guests>" + meet[3] + "</guests>\n";
