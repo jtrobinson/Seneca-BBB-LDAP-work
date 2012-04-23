@@ -32,14 +32,14 @@
 		
 		if (modpass.equals("")) {
 			modpassErr = "You must enter a password.";
-		} else if (modpass.indexOf("~")!=-1 || modpass.indexOf("#")!=-1 || modpass.indexOf("$")!=-1 || modpass.indexOf("-")!=-1) {
-			modpassErr = "Passwords must not contain ~, #, $ or -.";
+		} else if (modpass.indexOf("~")!=-1 || modpass.indexOf("`")!=-1 || modpass.indexOf("$")!=-1 || modpass.indexOf("-")!=-1) {
+			modpassErr = "Passwords must not contain ~, `, $ or -.";
 		}
 		
 		if (viewpass.equals("")) {
 			viewpassErr = "You must enter a password.";
-		} else if (viewpass.indexOf("~")!=-1 || viewpass.indexOf("#")!=-1 || viewpass.indexOf("$")!=-1 || viewpass.indexOf("-")!=-1) {
-			viewpassErr = "Passwords must not contain ~, #, $ or -.";
+		} else if (viewpass.indexOf("~")!=-1 || viewpass.indexOf("`")!=-1 || viewpass.indexOf("$")!=-1 || viewpass.indexOf("-")!=-1) {
+			viewpassErr = "Passwords must not contain ~, `, $ or -.";
 		}
 		
 		if (modpassErr.equals("") && viewpassErr.equals("") && modpass.equals(viewpass)) {
@@ -48,7 +48,6 @@
 		
 		if (modpassErr.equals("") && viewpassErr.equals("") && passErr.equals("")) {
 			System.out.println("here");
-			if (type.equals("Lecture")) meetingid = "#"+meetingid;
 			saveMeeting(ldap.getUserID(), meetingid, modpass, viewpass, guests.equals("true"), recorded.equals("true"));
 			response.sendRedirect("meetings.jsp");
 		}

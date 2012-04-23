@@ -14,9 +14,10 @@
 <%@ include file="bbb_api.jsp" %>
 <%
 	String m = request.getParameter("m");
+	System.out.println(m);
 	String errorName = "";
 	String errorPassword = "";
-	//System.out.println(m);
+
 	if (meeting.isFound() && meeting.getMeetingID().equals(m)) {
 		if (request.getParameter("password").equals("")) {
 			errorPassword = "You must enter a password";

@@ -107,13 +107,14 @@ with BigBlueButton; if not, If not, see <http://www.gnu.org/licenses/>.
 		var d = jQuery("#meetinggrid").jqGrid('getRowData',s);
 		meetingid+=d.id;
 		meetingid.replace(/\s/g, "+");
+		meetingid = encodeURIComponent( unescape ( meetingid )); 
 		
 		if(action=="delete"){
 			var answer = confirm ("Are you sure to delete the selected meeting?");
 			if (answer){
 				if (d.type=="Lecture") {
 					alert("AHHHHHHHHH");
-					meetingid = "%23"+meetingid;
+					meetingid = meetingid;
 				} else {
 					alert("BOOOOOOO");
 				}

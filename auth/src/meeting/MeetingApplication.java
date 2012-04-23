@@ -24,7 +24,7 @@ import redis.clients.jedis.JedisPool;
 
 public class MeetingApplication {
 
-	private final static char PROF_SYMBOL = '#';
+	private final static char PROF_SYMBOL = '`';
 	private final static char USERID_HEADER = '$';
 	private char DELIMITER = '~';
 

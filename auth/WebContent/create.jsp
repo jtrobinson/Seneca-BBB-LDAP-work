@@ -173,7 +173,7 @@ function onCheck()
            }else if(fail.equals("3")){
            out.print("<div style='color:red' align='center'> Viewer's password and Confirmation must match!</div>");
            } else if(fail.equals("4")){
-              out.print("<div style='color:red' align='center'> Your meeting name or section contains forbidden character (not allowed: $&#~-)</div>");
+              out.print("<div style='color:red' align='center'> Your meeting name or section contains forbidden character (not allowed: $&`~-)</div>");
            }else if(fail.equals("5")){
            out.print("<div style='color:red' align='center'> Presenter and Moderator passwords cannot be the same!</div>");
            }

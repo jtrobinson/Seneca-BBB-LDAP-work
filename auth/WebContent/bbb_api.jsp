@@ -429,7 +429,7 @@ public String getRecordingsURL(String meetingID) {
 
 public String getRecordings(String meetingID) {
 	
-	char PROF_SYMBOL = '#';
+	char PROF_SYMBOL = '`';
 	char NAME_DELIMITER = '^';
 	
 	//recordID,name,description,starttime,published,playback,length

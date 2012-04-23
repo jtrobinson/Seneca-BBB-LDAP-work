@@ -7,7 +7,7 @@
 <%@ include file="bbb_api.jsp"%>
 
 <%!
-	private final static char PROF_SYMBOL = '#';
+	private final static char PROF_SYMBOL = '`';
 	private final static char USERID_HEADER = '$';
 	private final static char DELIMITER = '~';
 	private final static char NAME_DELIMITER = '^';
