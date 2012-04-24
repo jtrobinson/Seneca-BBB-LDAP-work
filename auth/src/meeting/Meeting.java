@@ -51,7 +51,6 @@ public class Meeting {
 	}
 	
 	public boolean isGuestsAllowed() {
-		System.out.println(meeting[3]);
 		return meeting[3].equals("true");
 	}
 }
