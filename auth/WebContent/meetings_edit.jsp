@@ -47,7 +47,6 @@
 		}
 		
 		if (modpassErr.equals("") && viewpassErr.equals("") && passErr.equals("")) {
-			System.out.println("here");
 			saveMeeting(ldap.getUserID(), meetingid, modpass, viewpass, guests.equals("true"), recorded.equals("true"));
 			response.sendRedirect("meetings.jsp");
 		}

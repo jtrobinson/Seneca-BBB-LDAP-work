@@ -113,10 +113,7 @@ with BigBlueButton; if not, If not, see <http://www.gnu.org/licenses/>.
 			var answer = confirm ("Are you sure to delete the selected meeting?");
 			if (answer){
 				if (d.type=="Lecture") {
-					alert("AHHHHHHHHH");
 					meetingid = meetingid;
-				} else {
-					alert("BOOOOOOO");
 				}
 				sendRecordingAction(meetingid,action);
 			}else{
@@ -153,7 +150,6 @@ with BigBlueButton; if not, If not, see <http://www.gnu.org/licenses/>.
 	}
 	
 	function sendRecordingAction(meetingID,action){
-		alert( "command="+action+"&meetingID="+meetingID);
 		$.ajax({
 			type: "GET",
 			url: 'meetings_helper.jsp',
