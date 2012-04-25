@@ -82,12 +82,10 @@
 	// SAVING TO REDIS
 	// General save method
 	public void saveMeeting(String presenterKey, String meetingName, String modPass, String viewPass, Boolean allowGuests, Boolean recordable){
-		System.out.println("DEBUG: Entering saveMeeting");
 		presenterKey = USERID_HEADER + presenterKey;
 		Jedis jedis = dbConnect();
 		Boolean newMeeting = true;
 		String dataString = compressMeeting(meetingName, modPass, viewPass, allowGuests, recordable);
-		System.out.println("DEBUG: Compression done");
 		// Goes through all meetings associated with the presenterKey and compares the names
 		for (int i = 1; i <= jedis.hlen(presenterKey); i++){
 			String oldName = extractName(presenterKey, "meeting"+i, jedis);
@@ -96,53 +94,40 @@
 				jedis.hset(presenterKey, "meeting"+i, dataString);
 			} // Compare new meeting to old meeting
 		} // For loop
-		System.out.println("DEBUG: Survived for-loop");
 		if (newMeeting){
 			jedis.hset(presenterKey, "meeting"+(jedis.hlen(presenterKey)+1), dataString);
-			System.out.println("DEBUG: Survived saving new meeting");
 		} // Save new meeting
 		//Regardless of if the meeting is new, we want to save the meeting ID in allMeetings if it is recordable.
 		if (recordable){
-			System.out.println("DEBUG: Going to saveRecordable.");
 			saveRecordable(presenterKey, meetingName, jedis);
 		}
 	}
 	
 	// Saving recordable meeting IDs to the allMeetings string
 	private void saveRecordable(String presenterKey, String meetingName, Jedis jedis){
-		System.out.println("DEBUG: Entering saveRecordable.");
 		if (!jedis.hexists(MEETING_LIST, presenterKey)){
 			// If the allMeetings field does not exist, create it and save the meetingName all at once
-			System.out.println("DEBUG: Creating " + MEETING_LIST);
 			jedis.hset(MEETING_LIST, presenterKey, meetingName);
-			System.out.println("DEBUG: " + MEETING_LIST + " created.");
 		} else{
 			// Search the allMeetings string for the meetingName by splitting the existing list on the DELIMITER
 			Boolean found = false;
 			String dataString = jedis.hget(MEETING_LIST, presenterKey);
-			System.out.println("DEBUG: Datastring before add is: " + dataString);
 			String names[] = StringUtils.split(dataString, DELIMITER);
-			System.out.println("DEBUG: DataString split successful");
 			// Go through each string and compare the existing names to the meetingName to see if meetingName is new
 			for (String s : names){
 				if (meetingName.equals(s)){
-					System.out.println("DEBUG: Name " + meetingName + " has been found in dataString");
 					found = true;
 				}
 			}
-			System.out.println("DEBUG: Survived for-loop");
 			if (!found){
-				System.out.println("DEBUG: Adding new meetingID");
 				// If the meetingName is new, append it
 				StringBuilder sb = new StringBuilder(dataString);
 				sb.append(DELIMITER);
 				sb.append(meetingName);
 				dataString = sb.toString();
-				System.out.println("DEBUG: Datastring before add is: " + dataString);
 				jedis.hset(MEETING_LIST, presenterKey, dataString);
 			}
 		}
-		System.out.println("DEBUG: Exiting saveRecordable.");
 	}
 
 	// -- SAVING
