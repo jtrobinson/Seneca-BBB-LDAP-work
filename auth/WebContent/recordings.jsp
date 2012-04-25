@@ -66,6 +66,12 @@ with BigBlueButton; if not, If not, see <http://www.gnu.org/licenses/>.
 <%@ include file="auth_header.jsp"%>
 
 <%
+if(!ldap.getAccessLevel() < 20) {
+    response.sendRedirect("login.jsp");	
+}
+%>
+
+<%
 	if (request.getParameterMap().isEmpty()) {
 %>
 	

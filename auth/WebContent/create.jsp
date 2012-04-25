@@ -43,6 +43,12 @@ function onCheck()
 <body>
 <%@ include file="meeting_api.jsp"%>
 <%@ include file="auth_header.jsp"%>
+
+<%
+if (ldap.getAccessLevel() < 10) {
+	response.sendRedirect("login.jsp");	
+}
+%>
    <form action="createAction.jsp" method="post" name="form">
    <table align='center' width='465'>
       <tr><td colspan='2'><h3> Create Session</h3></td></tr>
@@ -51,27 +57,15 @@ function onCheck()
      if(session.getAttribute( "isChecked") != null){
       checked =  (String) session.getAttribute( "isChecked");
       }else checked = "false";
-
-      String  title = ldap.getTitle(); // this needed to find is employee is professor
-      String position = ldap.getPosition();  // this needed to diffirintiate students from employees (all employees)
-     
-       
-      if(title == null){
-      title = "Student";
-      }
       
-      if(position == null){
-      position = "Guest";
-      }
-      
-      if(title.equals("Support Staff")){
+      if(ldap.getAccessLevel() >= 30){
       // if you are logged in as prof you have checkbox which allows you to  create a lecture
          out.println("<tr height='30'><td> Create a Lecture ?</td> <td><input type='checkbox' id='check' name='check' onClick='onCheck()'");
                 if (checked.equals("true"))  out.println("checked = 'checked'");
                 out.println("><td></tr>");
       }
       
-       if( title.equals("Support Staff") && checked.equals("true") ){
+       if( ldap.getAccessLevel() >= 30 && checked.equals("true") ){
              // if you are professor and you checked is Lecture you see drop down list of lectures
         		out.println("<tr height='30'><td align='center'>");
                 out.println(" <span style='color:red'>*</span><select name='courses'>");
@@ -134,7 +128,7 @@ function onCheck()
    
        // if user is authenticated as employee allowing them two options: invite non-ldap authenticated people
        // allow to record their meetings
-      if(position.equals("Employee")){
+      if(ldap.getAccessLevel() >= 20){
         out.println("<tr height='60'>");
        if(session.getAttribute("allowGuests")  != null && guestsChecked.equals("on")){
         out.println(" <td colspan='2'> Allow Guests ? <input type='checkbox' id='allowGuests' name='allowGuests' checked='yes'/> ");

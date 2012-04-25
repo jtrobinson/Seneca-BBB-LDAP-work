@@ -7,6 +7,10 @@
 	if(!ldap.getAuthenticated().equals("true")) {
     	response.sendRedirect("login.jsp");	
 	}
+	
+	if(!ldap.getAccessLevel() < 0) {
+    	response.sendRedirect("login.jsp");	
+	}
 
 	String type = request.getParameter("type");
 	session.removeAttribute("type");
@@ -58,19 +62,19 @@
 			else
 			{
 				if (isMeetingRunning(meetingID).equals("false")){
-					out.println("This meeting has not begun yet. Please try again later, or contact the presenter.");
+					//out.println("This meeting has not begun yet. Please try again later, or contact the presenter.");
 				}
 				else{
 					if (password.equals(viewPass)){
-						out.println("Logging you in as viewer<br/>");
+						//out.println("Logging you in as viewer<br/>");
 						String meetingURL = getJoinURLViewer(ldap.getGivenName(), meetingID, password);
-						out.println("DEBUG ONLY MeetingURL is " + meetingURL);
+						//out.println("DEBUG ONLY MeetingURL is " + meetingURL);
 						response.sendRedirect(meetingURL);
 					}
 					else if (password.equals(modPass)){
-						out.println("Logging you in as moderator<br/>");
+						//out.println("Logging you in as moderator<br/>");
 						String meetingURL = getJoinMeetingURL(ldap.getGivenName(), meetingID, password);
-						out.println("DEBUG ONLY MeetingURL is " + meetingURL);
+						//out.println("DEBUG ONLY MeetingURL is " + meetingURL);
 						response.sendRedirect(meetingURL);
 					}
 				}

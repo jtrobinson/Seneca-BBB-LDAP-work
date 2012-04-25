@@ -66,6 +66,12 @@ with BigBlueButton; if not, If not, see <http://www.gnu.org/licenses/>.
 <%@ include file="auth_header.jsp"%>
 
 <%
+if(!ldap.getAccessLevel() < 10) {
+    response.sendRedirect("login.jsp");	
+}
+%>
+
+<%
 	if (request.getParameterMap().isEmpty()) {
 		//
 		// Assume we want to see a list of meetings
@@ -81,7 +87,7 @@ with BigBlueButton; if not, If not, see <http://www.gnu.org/licenses/>.
 				<option value="start">Start</option>
 				<option value="edit">Edit</option>
 				<option value="delete">Delete</option>
-				<%	if (ldap.getPosition().equals("Employee")) { %>
+				<%	if (ldap.getAccessLevel() >= 20) { %>
 				<option value="guest">Guest URL</option>
 				<%	} %>
 			</select>

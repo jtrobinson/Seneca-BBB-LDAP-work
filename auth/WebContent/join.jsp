@@ -18,6 +18,11 @@
 </head>
 <body>
 	<%@ include file="auth_header.jsp"%>
+	<%
+	if(!ldap.getAccessLevel() < 0) {
+    	response.sendRedirect("login.jsp");	
+	}
+	%>
 	<%@ include file="meeting_api.jsp"%>
 	<br/>
 	<br/>

@@ -8,12 +8,22 @@ if(!ldap.getAuthenticated().equals("true")) {
 <%@ include file="seneca_header.jsp"%>
 <br><br>
 <div align="center">
-<a href="meetings.jsp">Meetings</a>&nbsp;&nbsp;
-<% if (ldap.getPosition().equals("Employee")) { %>
-<a href="recordings.jsp">Recordings</a>&nbsp;&nbsp;
+<% if (ldap.getAccessLevel() >= 10) { %>
+	<a href="meetings.jsp">Meetings</a>&nbsp;&nbsp;
 <% } %>
-<a href="create.jsp">Create</a>&nbsp;&nbsp;
-<a href="join.jsp">Join</a>&nbsp;&nbsp;
-<a href="adminmeetings.jsp">All Meetings</a>&nbsp;&nbsp;
-<a href="adminrecordings.jsp">All Recordings</a>
+<% if (ldap.getAccessLevel() >= 20) { %>
+	<a href="recordings.jsp">Recordings</a>&nbsp;&nbsp;
+<% } %>
+<% if (ldap.getAccessLevel() >= 10) { %>
+	<a href="create.jsp">Create</a>&nbsp;&nbsp;
+<% } %>
+<% if (ldap.getAccessLevel() >= 0) { %>
+	<a href="join.jsp">Join</a>&nbsp;&nbsp;
+<% } %>
+<% if (ldap.getAccessLevel() >= 100) { %>
+	<a href="adminmeetings.jsp">All Meetings</a>&nbsp;&nbsp;
+<% } %>
+<% if (ldap.getAccessLevel() >= 100) { %>
+	<a href="adminrecordings.jsp">All Recordings</a>
+<% } %>
 </div>

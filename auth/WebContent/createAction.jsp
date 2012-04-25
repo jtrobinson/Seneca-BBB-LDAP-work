@@ -7,6 +7,10 @@
 	if(!ldap.getAuthenticated().equals("true")) {
 	    response.sendRedirect("login.jsp");	
 	}
+
+	if(!ldap.getAccessLevel() < 10) {
+    	response.sendRedirect("login.jsp");	
+	}
    // getting parameters
 	String mPwd = request.getParameter( "mPwd" );
 	String mPwdre = request.getParameter( "mPwdre" );

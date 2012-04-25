@@ -1,5 +1,12 @@
 <jsp:useBean id="ldap" class="ldap.LDAPAuthenticate" scope="session"/>
 <jsp:useBean id="meets" class="meeting.MeetingApplication" scope="session"/>
+
+<%
+if(!ldap.getAuthenticated().equals("true")) {
+    response.sendRedirect("login.jsp");	
+}
+%>
+
 <%@ page contentType="text/xml" %>
 <%@ page trimDirectiveWhitespaces="true" %>
 <%@ include file="bbb_api.jsp" %>
@@ -8,12 +15,10 @@
 <response>
 	<running><%= isMeetingRunning(request.getParameter("meetingID")) %></running>
 </response>
-<% } else if(request.getParameter("command").equals("getRecords")){%>
+<% } else if(request.getParameter("command").equals("getRecords") && ldap.getAccessLevel() >= 20){%>
 	<%= getRecordings(meets.getRecordingString(ldap.getUserID())) %>
-<% } else if(request.getParameter("command").equals("getAllRecords")){%>
+<% } else if(request.getParameter("command").equals("getAllRecords") && ldap.getAccessLevel() >= 100){%>
 	<%= getRecordings("") %>
-<% } else if(request.getParameter("command").equals("publish")||request.getParameter("command").equals("unpublish")){%>
-	<%= setPublishRecordings( (request.getParameter("command").equals("publish")) ? true : false , request.getParameter("recordID"))%>
-<% } else if(request.getParameter("command").equals("delete")){%>
+<% } else if(request.getParameter("command").equals("delete") && ldap.getAccessLevel() >= 20){%>
 	<%= deleteRecordings(request.getParameter("recordID"))%>
 <% } %>

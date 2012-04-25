@@ -57,9 +57,9 @@
 		&& recorded != null && type != null
 		&& (type.equals("Lecture")||type.equals("Meeting"))) {
 	
-		if (type.equals("Lecture") && !ldap.getTitle().equals("Support Staff")) { %>
+		if (type.equals("Lecture") && ldap.getAccessLevel() < 30) { %>
 			<%= loadRedirect() %>
-	 <% } else if (ldap.getPosition().equals("Student") && (guests.equals("true") || recorded.equals("true"))) { %>
+	 <% } else if (ldap.getAccessLevel() < 20 && (guests.equals("true") || recorded.equals("true"))) { %>
 	 		<%= loadRedirect() %>
 	 <% } else { %>
 	 	<form action="meetings_edit.jsp" method="post" name="form">
@@ -120,7 +120,7 @@
 	 			} %>
 	 			
 	 			<%
-	 			if(ldap.getPosition().equals("Employee")){ %>
+	 			if(ldap.getAccessLevel() >= 20){ %>
 	 			<tr>
 	 				<td>Allow Guests?</td>
 	 				<td><input type='checkbox' id='guests' name='guests' <% if (guests.equals("true")) out.print("checked='checked'"); %>/></td>
