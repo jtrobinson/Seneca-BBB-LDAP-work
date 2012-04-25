@@ -21,4 +21,8 @@
 	<courseList>
 		<course>course code or title, for example "APC101", "LIT705"</course>
 	</courseList>
+	
+	<misc>
+		<timeout>Desired system timeout, in minutes</timeout>
+	</misc>
 </config>

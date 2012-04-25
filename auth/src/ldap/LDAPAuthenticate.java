@@ -47,7 +47,7 @@ public class LDAPAuthenticate {
 	private String titleList[];
 	
 	private Date lastAccess;
-	private int timeoutTime = 10;
+	private Integer timeoutTime;
 	
 	private boolean logout;
 	
@@ -99,6 +99,12 @@ public class LDAPAuthenticate {
 				} 
 			}
 			
+			NodeList miscConfig = docEle.getElementsByTagName("misc").item(0).getChildNodes();
+			for (int i=0; i<miscConfig.getLength(); i++) {
+				if (miscConfig.item(i).getNodeName().equals("timeout")) {
+					timeoutTime = Integer.decode(miscConfig.item(i).getFirstChild().getNodeValue());
+				}
+			}
 		} catch (ParserConfigurationException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
