@@ -20,10 +20,11 @@
 <body>
 	<%  
 		Map<String,String> metadata=new HashMap<String,String>();
-	
-		metadata.put("email", request.getParameter("username"));
+		
 		metadata.put("title", request.getParameter("meetingID"));
-		//metadata.put("publish", "false");
+		
+		metadata.put("creator", ldap.getUserID());
+		metadata.put("type", request.getParameter("type"));
 		
 		if (request.getParameter("recorded").equals("true")){
 			metadata.put("description", request.getParameter("description"));

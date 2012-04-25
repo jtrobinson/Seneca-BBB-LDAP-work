@@ -8,6 +8,8 @@
 
 <% if(request.getParameter("command").equals("getMeetings")){%>
 	<%= meets.getUserMeetingsXML(ldap.getUserID()) %>
+<% } else if(request.getParameter("command").equals("getAllMeetings")){%>
+	<%= meets.getUserMeetingsXML("adminAccess") %>
 <% } else if(request.getParameter("command").equals("edit")){%>
 	<%  //make call to edit page or create with fields filled *TBD*%>
 <% } else if(request.getParameter("command").equals("delete")){%>

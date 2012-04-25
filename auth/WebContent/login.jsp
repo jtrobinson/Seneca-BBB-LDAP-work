@@ -40,6 +40,15 @@
 			   		out.print("<div style='color:green' align='center'> You are logged out!</div>");
 			   	}
 			%>
+			
+			<% if (request.getHeader("User-Agent").indexOf("MSIE") != -1) { %>
+				<br/>
+				<table align='center' style="border:1px solid #FF0000;background-color:#efefef;">
+					<tr>
+						<td>For best results please use Firefox or Chrome</td>
+					</tr>
+				</table>
+			<% } %>
 		</body>
 		</html>
 <%

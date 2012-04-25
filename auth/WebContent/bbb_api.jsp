@@ -420,6 +420,8 @@ public String endMeeting(String meetingID, String moderatorPassword) {
 
 public String getRecordingsURL(String meetingID) {
 	String record_parameters = "meetingID=" + urlEncode(meetingID);
+	System.out.println(BigBlueButtonURL + "api/getRecordings?" + record_parameters + "&checksum="
+			+ checksum("getRecordings" + record_parameters + salt));
 	return BigBlueButtonURL + "api/getRecordings?" + record_parameters + "&checksum="
 		+ checksum("getRecordings" + record_parameters + salt);
 }
@@ -451,11 +453,19 @@ public String getRecordings(String meetingID) {
 				displayName = StringUtils.replace(displayName, String.valueOf(NAME_DELIMITER), " (");
 				displayName = displayName + ")";
 				String description = "";
+				String creator = "";
+				String type = "";
 				NodeList metadata = recording.getElementsByTagName("metadata");
 				if(metadata.getLength()>0){
 					Element metadataElem = (Element) metadata.item(0);
 					if(metadataElem.getElementsByTagName("description").getLength() > 0){
 						description = metadataElem.getElementsByTagName("description").item(0).getTextContent();
+					}
+					if(metadataElem.getElementsByTagName("creator").getLength() > 0){
+						creator = metadataElem.getElementsByTagName("creator").item(0).getTextContent();
+					}
+					if(metadataElem.getElementsByTagName("type").getLength() > 0){
+						creator = metadataElem.getElementsByTagName("type").item(0).getTextContent();
 					}
 				}
 				
@@ -490,12 +500,18 @@ public String getRecordings(String meetingID) {
 				
 				String [] nameParts = name.split("\\"+NAME_DELIMITER);
 				nameParts[0] = StringUtils.removeStart(nameParts[0], String.valueOf(PROF_SYMBOL));
+				String creatorName = "";
+				if (nameParts.length > 1) {
+					creatorName = nameParts[1];
+				}
 				
 				newXMLdoc += "<recording>";
 				
 				newXMLdoc += "<recordID>" + recordID + "</recordID>";
 				newXMLdoc += "<name>" + nameParts[0] + "</name>";
-				newXMLdoc += "<owner>" + nameParts[1] + "</owner>";
+				newXMLdoc += "<type>" + type + "</type>";
+				newXMLdoc += "<creatorname>" + creatorName + "</creatorname>";
+				newXMLdoc += "<creatoruid>" + creator + "</creatoruid>";
 				newXMLdoc += "<description>" + description + "</description>";
 				newXMLdoc += "<startTime>" + starttime + "</startTime>";
 				newXMLdoc += "<published>" + published + "</published>";

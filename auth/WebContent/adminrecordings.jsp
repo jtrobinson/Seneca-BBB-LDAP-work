@@ -134,16 +134,19 @@ with BigBlueButton; if not, If not, see <http://www.gnu.org/licenses/>.
 	$(document).ready(function(){
 		$("#formcreate").validate();
 		jQuery("#recordgrid").jqGrid({
-			url: "recordings_helper.jsp?command=getRecords",
+			url: "recordings_helper.jsp?command=getAllRecords",
 			datatype: "xml",
-			height: 150,
+			height: 300,
+			rowNum: 20,
 			loadonce: true,
 			sortable: true,
-			colNames:['Id', 'Course', 'Type', 'Description', 'Date Recorded', 'Playback', 'Length'],
+			colNames:['Id','Meeting', 'Type', 'Creator', 'UID', 'Description', 'Date Recorded', 'Playback', 'Length'],
 			colModel:[
 				{name:'id',index:'id', width:50, hidden:true, xmlmap: "recordID"},
 				{name:'course',index:'course', width:125, xmlmap: "name", sortable:true},
 				{name:'type',index:'type', width:80, xmlmap: "type"},
+				{name:'creator',index:'creator', width:125, xmlmap: "creatorname", sortable:true},
+				{name:'UID',index:'UID', width:125, xmlmap: 'creatoruid', sortable:true},
 				{name:'description',index:'description', width:150, xmlmap: "description",sortable: true},
 				{name:'daterecorded',index:'daterecorded', width:120, xmlmap: "startTime", sortable: true, sorttype: "datetime", datefmt: "d-m-y h:i:s"},
 				{name:'playback',index:'playback', width:80, xmlmap:"playback", sortable:false},

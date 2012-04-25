@@ -72,7 +72,7 @@ public class MeetingApplication {
 				// Goes through each meeting in the current hash
 				for (int i = 1; i <= jedis.hlen(eachKey); i++){
 					// Extracts the meeting data string from the current meeting
-					String rawMeeting = jedis.hget(eachKey, "meeting"+i);
+					String rawMeeting = jedis.hget(eachKey, "meeting"+i) + DELIMITER+StringUtils.removeStart(eachKey, String.valueOf(USERID_HEADER));
 					// Adds the data string to either lectureList or meetingList depending on the presence of the PROF_SYMBOL
 					if (rawMeeting.charAt(0) == PROF_SYMBOL){
 						lectureList.add(rawMeeting);
@@ -141,8 +141,8 @@ public class MeetingApplication {
 			// Goes through each meeting in the current hash
 			for (int i = 1; i <= jedis.hlen(presenterKey); i++){
 				// Extracts the meeting data string from the current meeting
-				String rawMeeting = jedis.hget(presenterKey, "meeting"+i);
-
+				String rawMeeting = jedis.hget(presenterKey, "meeting"+i) + DELIMITER+StringUtils.removeStart(presenterKey, String.valueOf(USERID_HEADER));
+				
 				// Adds the data string to either lectureList or meetingList depending on the presence of the PROF_SYMBOL
 				if (rawMeeting.charAt(0) == PROF_SYMBOL)
 					lectureList.add(rawMeeting);
@@ -197,7 +197,11 @@ public class MeetingApplication {
 		newXMLdoc += "\t<request>true</request>\n";
 		newXMLdoc += "\t<meetings>\n";
 
-		loadMeetingsByUser(uid);	
+		if (uid.equals("adminAccess")) {
+			loadAllMeetings();
+		} else {	
+			loadMeetingsByUser(uid);
+		}
 
 		newXMLdoc += convertMeetingList(getLectures(), "Lecture");
 		newXMLdoc += convertMeetingList(getMeetings(), "Meeting");
@@ -228,6 +232,8 @@ public class MeetingApplication {
 			convMeetings += "\t\t\t<meetingid>" + meet[0] + "</meetingid>\n";
 			convMeetings += "\t\t\t<type>" + type + "</type>\n";
 			convMeetings += "\t\t\t<name>" + StringUtils.removeStart(parts[0], String.valueOf(PROF_SYMBOL)) + "</name>\n";
+			convMeetings += "\t\t\t<creatorname>" + parts[1] + "</creatorname>\n";
+			convMeetings += "\t\t\t<creatoruid>" + meet[6] + "</creatoruid>\n";
 			convMeetings += "\t\t\t<modpass>" + meet[1] + "</modpass>\n";
 			convMeetings += "\t\t\t<viewpass>" + meet[2] + "</viewpass>\n";
 			convMeetings += "\t\t\t<guests>" + meet[3] + "</guests>\n";
