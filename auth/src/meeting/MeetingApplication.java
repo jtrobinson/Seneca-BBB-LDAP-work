@@ -51,7 +51,6 @@ public class MeetingApplication {
 	}
 
 	public ArrayList <String[]> getLectures(){
-		//System.out.println("Lecture size before: "+lectures.size());
 		return lectures;
 	}
 
@@ -71,7 +70,6 @@ public class MeetingApplication {
 			// Checks if the current key is a hash, and if it contains any meetings
 			if (compareResult == 0 && jedis.hexists(eachKey, "meeting1")){
 				// Goes through each meeting in the current hash
-				//System.out.println("eachkey is: " +eachKey+"  "+ jedis.hlen(eachKey));
 				for (int i = 1; i <= jedis.hlen(eachKey); i++){
 					// Extracts the meeting data string from the current meeting
 					String rawMeeting = jedis.hget(eachKey, "meeting"+i);
@@ -195,25 +193,17 @@ public class MeetingApplication {
 	}
 
 	public String getUserMeetingsXML(String uid) {
-		//System.out.println("uid: " + uid);
-
 		String newXMLdoc = "<allmeetings>\n";
 		newXMLdoc += "\t<request>true</request>\n";
 		newXMLdoc += "\t<meetings>\n";
 
 		loadMeetingsByUser(uid);	
 
-		//System.out.println("lect: "+ lectures.size());
-		//System.out.println("meet: "+ meetings.size());
-
 		newXMLdoc += convertMeetingList(getLectures(), "Lecture");
 		newXMLdoc += convertMeetingList(getMeetings(), "Meeting");
 
 		newXMLdoc += "\t</meetings>\n</allmeetings>";
-		//System.out.println("num meetings : " + meetings.size());
-
-		//System.out.println(newXMLdoc);
-
+		
 		return newXMLdoc;
 	}
 

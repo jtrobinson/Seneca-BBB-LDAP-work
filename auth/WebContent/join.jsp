@@ -27,7 +27,7 @@
 		meetingApplication.loadAllMeetings();
 		ArrayList <String[]> lectureList = runningList(meetingApplication.getLectures());
    		ArrayList <String[]> meetingList = runningList(meetingApplication.getMeetings());
-   		
+
    	%>
 	<table align="center" width="1000" border="0" cellpadding="0" cellspacing="30">
 		<tr valign="top">

@@ -50,11 +50,6 @@
 		if (found){
 			String modPass = list.get(i)[1];
 			String viewPass = list.get(i)[2];
-			//System.out.println("DEBUG ONLY Meeting ID is " + meetingID + "</br>");
-
-			//System.out.println("DEBUG ONLY NEW Meeting ID is " + meetingID + "</br>");
-			//System.out.println("DEBUG ONLY Mod password is " + modPass + "</br>");
-			//System.out.println("DEBUG ONLY Viewer password is " + viewPass + "</br>");
 
 			if (!password.equals(modPass) && !password.equals(viewPass)){
 				session.setAttribute( "fail", "PW"+type );

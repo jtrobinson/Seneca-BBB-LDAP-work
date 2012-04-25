@@ -166,11 +166,8 @@ public class LDAPAuthenticate {
 				
 				authenticated = "true";
 				return true;
-			} catch (NamingException e) {
-				//System.out.println("search for username on ldap failed.");
-			} catch (Exception e) {
-				
-			}
+			} catch (NamingException e) {} 
+			  catch (Exception e) {}
 		}
 		authenticated = "failed";
 		
@@ -194,11 +191,8 @@ public class LDAPAuthenticate {
 				
 				authenticated = "true";
 				return true;
-			} catch (NamingException e) {
-				//System.out.println("search for username on ldap failed.");
-			} catch (Exception e) {
-				
-			}
+			} catch (NamingException e) {} 
+			  catch (Exception e) {}
 		}
 		
 		authenticated = "failed";

@@ -132,7 +132,6 @@ function onCheck()
    String guestsChecked = (String) session.getAttribute("allowGuests");
    String lectures = (String) session.getAttribute("lectures");
    
-   //System.out.println("Lectures are " +lectures);
        // if user is authenticated as employee allowing them two options: invite non-ldap authenticated people
        // allow to record their meetings
       if(position.equals("Employee")){

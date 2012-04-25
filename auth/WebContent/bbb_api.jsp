@@ -192,10 +192,8 @@ public String getJoinURL(String username, String meetingID, String record, Strin
 		String url = base_url_create + create_parameters
 			+ "&checksum="
 			+ checksum("create" + create_parameters + salt); 
-		//System.out.println(url);
 		doc = parseXml( postURL( url, xml_param ) );
 	} catch (Exception e) {
-		//System.out.println("Found the error");
 		e.printStackTrace();
 	}
 	
@@ -422,7 +420,6 @@ public String endMeeting(String meetingID, String moderatorPassword) {
 
 public String getRecordingsURL(String meetingID) {
 	String record_parameters = "meetingID=" + urlEncode(meetingID);
-	//System.out.println(BigBlueButtonURL + "api/getRecordings?" + record_parameters + "&checksum=" + checksum("getRecordings" + record_parameters + salt));
 	return BigBlueButtonURL + "api/getRecordings?" + record_parameters + "&checksum="
 		+ checksum("getRecordings" + record_parameters + salt);
 }
@@ -432,13 +429,11 @@ public String getRecordings(String meetingID) {
 	char PROF_SYMBOL = '`';
 	char NAME_DELIMITER = '^';
 	
-	//recordID,name,description,starttime,published,playback,length
 	String newXMLdoc = "<recordings>";
 	
 	try {
 		Document doc = null;
 		String url = getRecordingsURL(meetingID); 
-		//System.out.println(url);
 		doc = parseXml( getURL(url) );
 		
 		// if the request succeeded, then calculate the checksum of each meeting and insert it into the document
@@ -561,7 +556,6 @@ public String getMetaData( Map<String, String> metadata ) {
 	
 	if ( metadata!=null ){
 		for(String metakey : metadata.keySet()){
-			//System.out.println(metakey + " : " + metadata.get(metakey));
 			metadata_params = metadata_params + "&meta_" + urlEncode(metakey) + "=" + urlEncode(metadata.get(metakey));
 		}
 	}

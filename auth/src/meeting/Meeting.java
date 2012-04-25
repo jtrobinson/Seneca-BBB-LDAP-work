@@ -22,7 +22,6 @@ public class Meeting {
 		meeting = null;
 
 		for (int i=0; i<lec.size() && !found; i++) {
-			//System.out.println(lec.get(i)[0]);
 			if (lec.get(i)[0].equals(meetingID)){
 				meeting = lec.get(i);
 				found = true;
@@ -51,7 +50,6 @@ public class Meeting {
 	}
 	
 	public boolean isGuestsAllowed() {
-		System.out.println(meeting[3]);
 		return meeting[3].equals("true");
 	}
 }

@@ -14,7 +14,6 @@
 <%@ include file="bbb_api.jsp" %>
 <%
 	String m = request.getParameter("m");
-	//System.out.println(m);
 	String errorName = "";
 	String errorPassword = "";
 	
