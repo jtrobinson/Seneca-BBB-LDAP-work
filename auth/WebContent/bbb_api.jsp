@@ -489,6 +489,7 @@ public String getRecordings(String meetingID) {
 				}
 				
 				String [] nameParts = name.split("\\"+NAME_DELIMITER);
+				nameParts[0] = StringUtils.removeStart(nameParts[0], String.valueOf(PROF_SYMBOL));
 				
 				newXMLdoc += "<recording>";
 				
