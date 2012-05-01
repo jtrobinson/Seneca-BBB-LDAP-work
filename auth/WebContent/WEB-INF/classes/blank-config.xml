@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <config>
+	<system>
+		<timeout>Desired system timeout, in minutes</timeout>
+		<placeholder>Placeholder title for users who authenticate through LDAP but have no title</placeholder>
+	</system>
+
 	<ldap>
 		<url>ldap://*your*ldap*url*</url>
 		<o>*your*o*</o>
@@ -9,20 +14,82 @@
 	<ldapfields>
 		<user_id>field in your organization's LDAP which holds user ID</user_id>
 		<user_fullname>field in your organization's LDAP which holds user's given name</user_fullname>
-		<user_position>field in your organization's LDAP which holds user's position in the organization</user_position>
+		<user_role>field in your organization's LDAP which holds user's role in the organization</user_role>
 		<user_title>field in your organization's LDAP which holds user's job title</user_title>
 	</ldapfields>
 	
-	<fieldvalues>
-		<user_position>Possible values for user_position field</user_position>
-		<user_title>Possible values for user_title field</user_title>
-	</fieldvalues>
+	<access_levels>
+		<total_levels></total_levels>
+		<level10>
+			<role></role>
+			<title></title>
+		</level10>
+		
+		<level20>
+		</level20>
+		
+		<level30>
+		</level30>
+	</access_levels>
 	
 	<courseList>
 		<course>course code or title, for example "APC101", "LIT705"</course>
 	</courseList>
-	
-	<misc>
-		<timeout>Desired system timeout, in minutes</timeout>
-	</misc>
 </config>
+
+<!-- Example data
+<sample_config>
+	<system>
+		<timeout>10</timeout>
+		<placeholder>Attendee</placeholder>
+	</system>
+	
+	<ldap>
+		<url>ldap://BLANK.com/</url>
+		<security-authentication>none</security-authentication>
+		<o>BLANK</o>
+	</ldap>
+	
+	<ldapfields>
+		<user_id>uid</user_id>
+		<user_fullname>cn</user_fullname>
+		<user_role>ou</user_role>
+		<user_title>title</user_title>
+	</ldapfields>
+	
+	<access_levels>
+		<level>
+			<value>10</value>
+			<position>
+				<role_name>Student</role_name>
+				<title>All</title>
+			</position>
+		</level>
+		
+		<level>
+			<value>20</value>
+			<position>
+				<role_name>Employee</role_name>
+				<title>All</title>
+			</position>
+		</level>
+		
+		<level>
+			<value>30</value>
+			<position>
+				<role_name>Employee</role_name>
+				<title>Support Staff</title>
+				<title>Professor</title>
+			</position>
+		</level>
+	</access_levels>
+	
+	<courseList>
+		<course>OOP344</course>
+		<course>ULI101</course>
+		<course>INT422</course>
+		<course>EAC150</course>
+		<course>OOP244</course>
+	</courseList>
+</sample_config>
+-->

@@ -23,6 +23,7 @@ import org.xml.sax.SAXException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Hashtable;
 
 public class LDAPAuthenticate {
@@ -48,6 +49,9 @@ public class LDAPAuthenticate {
 	
 	private Date lastAccess;
 	private Integer timeoutTime;
+	private String placeholder;
+	private Integer accessLevel;
+	private HashMap accessMap;
 	
 	private boolean logout;
 	
@@ -63,6 +67,15 @@ public class LDAPAuthenticate {
 			Document dom = db.parse(Thread.currentThread().getContextClassLoader().getResourceAsStream("config.xml"));
 			//get the root element
 			Element docEle = dom.getDocumentElement();
+			
+			NodeList miscConfig = docEle.getElementsByTagName("system").item(0).getChildNodes();
+			for (int i=0; i<miscConfig.getLength(); i++) {
+				if (miscConfig.item(i).getNodeName().equals("timeout")) {
+					timeoutTime = Integer.decode(miscConfig.item(i).getFirstChild().getNodeValue());
+				} else if (miscConfig.item(i).getNodeName().equals("placeholder")) {
+					placeholder = miscConfig.item(i).getFirstChild().getNodeValue();
+				}
+			}
 			
 			NodeList ldapConfig = docEle.getElementsByTagName("ldap").item(0).getChildNodes();
 			for (int i=0; i<ldapConfig.getLength(); i++) {
@@ -88,23 +101,37 @@ public class LDAPAuthenticate {
 				} 
 			}
 			
-			// Now, with the fields that we need to examine in LDAP stored as variables, we can use them to extract the possible values for Position and Title
-			NodeList ldapValues = docEle.getElementsByTagName("fieldvalues").item(0).getChildNodes();
-			for (int i = 0; i < ldapValues.getLength(); i++) {
-				Node valueNode = ldapValues.item(i);
-				if (valueNode.getNodeName().equals(positionField)) {
-					positionList = StringUtils.split(valueNode.getFirstChild().getNodeValue(), ";");
-				} else if (valueNode.getNodeName().equals(titleField)) {
-					titleList = StringUtils.split(valueNode.getFirstChild().getNodeValue(), ";");
-				} 
-			}
-			
-			NodeList miscConfig = docEle.getElementsByTagName("misc").item(0).getChildNodes();
-			for (int i=0; i<miscConfig.getLength(); i++) {
-				if (miscConfig.item(i).getNodeName().equals("timeout")) {
-					timeoutTime = Integer.decode(miscConfig.item(i).getFirstChild().getNodeValue());
+			// Generate a HashMap to chart access levels
+			NodeList accessList = docEle.getElementsByTagName("access_levels").item(0).getChildNodes();
+			// Outer for loop will only fire once, with only one <access_levels> tag
+			for (int i = 0; i < accessList.getLength(); i++) {
+				Node accessNode = accessList.item(i);
+				if (accessNode.getNodeName().equals("level")){
+					// Logic begins for processing <level> blocks
+					NodeList levelInfo = accessNode.getChildNodes();
+					System.out.println(levelInfo.getLength());
+					// Inner for loop will fire for each <level> block
+					for (int j = 0; j < levelInfo.getLength(); j++){
+						Node levelNode = levelInfo.item(j);
+						Integer levelN = Integer.decode(levelNode.getFirstChild().getNodeValue());
+						String roleN = null;
+						String titleN = null;
+						// Logic begins for processing <position> blocks
+						NodeList posList = levelNode.getChildNodes();
+						for (int k = 0; k < posList.getLength(); k ++){
+							Node posNode = posList.item(k);
+							if (posNode.getNodeName().equals("position")) {
+								// A level node can have many position nodes
+								// Each position node will have one role_name node
+								// Each position node can have many title nodes
+								// The combination of role_name and title determine whether the user exists at that access level
+							}
+						}
+					}
 				}
 			}
+			
+			
 		} catch (ParserConfigurationException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -162,15 +189,15 @@ public class LDAPAuthenticate {
 				Attributes at = sr.getAttributes();
 				givenName = at.get(givenNameField).toString().split(": ")[1];
 				
-				if (position.equals("Employee")) {
-					title = at.get(titleField).toString().split(": ")[1];
-				}
+				title = at.get(titleField).toString().split(": ")[1];
+				
 				//prints out all possible attributes
 			//	for(NamingEnumeration i = at.getAll(); i.hasMore(); ) {
 			//		System.out.println((Attribute) i.next());
 			//	}
 				
 				authenticated = "true";
+				calculateAccessLevel();
 				return true;
 			} catch (NamingException e) {} 
 			  catch (Exception e) {}
@@ -206,6 +233,11 @@ public class LDAPAuthenticate {
 		return false;
 	}
 	
+	private void calculateAccessLevel(){
+		//Integer calc;
+		//accessLevel = calc;
+	}
+	
 	// Methods for getting the user's details as fetched by LDAP
 	public String getUserID() {
 		// getUID()
@@ -216,11 +248,17 @@ public class LDAPAuthenticate {
 		return givenName;
 	}
 	public String getTitle() {
+		if (title.equals("")){
+			title = placeholder;
+		}
 		return title;
 	}
 	public String getPosition() {
 		//getOU()
 		return position;
+	}
+	public int getAccessLevel(){
+		return accessLevel;
 	}
 	// ----
 	// Methods for other pages to get the fields to check within LDAP for details; for example, one organization stores the user ID under "uid" while another uses "ou"
@@ -236,14 +274,20 @@ public class LDAPAuthenticate {
 	public String getPositionField() {
 		return positionField;
 	}
+	public String getPlaceholder() {
+		return placeholder;
+	}
 	// ----
 	// Methods for returning the lists of valid positions and titles which can use the system
+	// Temporarily deactivated
+	/*
 	public String [] getTitleList() {
 		return titleList;
 	}
 	public String [] getPositionList() {
 		return positionList;
 	}
+	*/
 	// ----
 	public String getAuthenticated() {
 		Date now = new Date();
