@@ -19,7 +19,7 @@
 <body>
 	<%@ include file="auth_header.jsp"%>
 	<%
-	if(!ldap.getAccessLevel() < 0) {
+	if(!(ldap.getAccessLevel() < 0)) {
     	response.sendRedirect("login.jsp");	
 	}
 	%>
