@@ -8,7 +8,7 @@
 	    response.sendRedirect("login.jsp");	
 	}
  
-	if(!(ldap.getAccessLevel() < 10)) {
+	if(ldap.getAccessLevel() < 10) {
     	response.sendRedirect("login.jsp");	
 	}
    // getting parameters

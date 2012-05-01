@@ -50,8 +50,17 @@ public class LDAPAuthenticate {
 	private Date lastAccess;
 	private Integer timeoutTime;
 	private String placeholder;
-	private Integer accessLevel;
-	private HashMap accessMap;
+	private int accessLevel;
+	private HashMap<String, HashMap<String, Integer>> accessMap;
+	/* the access map will have the format:
+	 * { position1 = { title1 = level,
+	 * 				   title2 = level
+	 * 				 },
+	 *   position2 = { title1 = level,
+	 *   			   title2 = level
+	 *   			 }
+	 * }
+	 */
 	
 	private boolean logout;
 	
@@ -102,31 +111,36 @@ public class LDAPAuthenticate {
 			}
 			
 			// Generate a HashMap to chart access levels
-			NodeList accessList = docEle.getElementsByTagName("access_levels").item(0).getChildNodes();
+			accessMap = new HashMap<String, HashMap<String, Integer>>();
+			
+			NodeList levelList = ((Element) docEle.getElementsByTagName("access_levels").item(0)).getElementsByTagName("level");
 			// Outer for loop will only fire once, with only one <access_levels> tag
-			for (int i = 0; i < accessList.getLength(); i++) {
-				Node accessNode = accessList.item(i);
-				if (accessNode.getNodeName().equals("level")){
-					// Logic begins for processing <level> blocks
-					NodeList levelInfo = accessNode.getChildNodes();
-					System.out.println(levelInfo.getLength());
-					// Inner for loop will fire for each <level> block
-					for (int j = 0; j < levelInfo.getLength(); j++){
-						Node levelNode = levelInfo.item(j);
-						Integer levelN = Integer.parseInt(levelNode.getFirstChild().getNodeValue());
-						String roleN = null;
-						String titleN = null;
-						// Logic begins for processing <position> blocks
-						NodeList posList = levelNode.getChildNodes();
-						for (int k = 0; k < posList.getLength(); k ++){
-							Node posNode = posList.item(k);
-							if (posNode.getNodeName().equals("position")) {
-								// A level node can have many position nodes
-								// Each position node will have one role_name node
-								// Each position node can have many title nodes
-								// The combination of role_name and title determine whether the user exists at that access level
-							}
-						}
+			for (int i = 0; i < levelList.getLength(); i++) {
+				Element levelData = (Element) levelList.item(i);
+				
+				// grabs the number in the <value> tag for each level block
+				Integer levelValue = Integer.valueOf(levelData.getElementsByTagName("value").item(0).getTextContent());
+				
+				// create a list of positions for the level block
+				NodeList positionList = levelData.getElementsByTagName("position");
+				
+				for (int j = 0; j < positionList.getLength(); j++) {
+					Element position = (Element) positionList.item(j);
+					
+					String roleN = position.getElementsByTagName("role_name").item(0).getTextContent();
+					
+					HashMap<String, Integer> roleMap;
+					
+					if (!accessMap.containsKey(roleN)) {
+						roleMap = new HashMap<String, Integer>();
+						accessMap.put(roleN, roleMap);
+					} else {
+						roleMap = accessMap.get(roleN);
+					}
+					
+					NodeList titleList = position.getElementsByTagName("title");
+					for (int k = 0; k < titleList.getLength(); k++) {
+						roleMap.put(titleList.item(k).getTextContent(), levelValue);
 					}
 				}
 			}
@@ -162,14 +176,14 @@ public class LDAPAuthenticate {
 	}
 	
 	public boolean search(String user, String pass) {
-		if (user.equals("admin") && pass.equals("bigbluebackdoor")) {
+		/*if (user.equals("admin") && pass.equals("bigbluebackdoor")) {
 			givenName = "Administrator";
-			
+			position = "Admin";
 			title = "Admin";
 			accessLevel = 100;
 			authenticated = "true";
 			return true;
-		}
+		}*/
 		
 		search(user);
 		
@@ -180,7 +194,7 @@ public class LDAPAuthenticate {
 				
 				// specify where the ldap server is running
 				env.put(Context.PROVIDER_URL, url);
-				env.put(Context.SECURITY_AUTHENTICATION, "simple");
+				env.put(Context.SECURITY_AUTHENTICATION, "none");
 				String userIDString = userIDField + "=" + userID;
 				String positionString = positionField + "=" + position;
 				env.put(Context.SECURITY_PRINCIPAL, userIDString + ", " + positionString + ", o="+o);
@@ -243,8 +257,16 @@ public class LDAPAuthenticate {
 	}
 	
 	private void calculateAccessLevel(){
-		//Integer calc;
-		//accessLevel = calc;
+		// look for a specific access level for the title first, then an access level for the whole
+		// position, if neither is found set access level to the default
+		
+		if (accessMap.get(position).containsKey(title)) {
+			accessLevel = accessMap.get(position).get(title);
+		} else if (accessMap.get(position).containsKey("All")) {
+			accessLevel = accessMap.get(position).get("All");
+		} else {
+			accessLevel = 10;
+		}
 	}
 	
 	// Methods for getting the user's details as fetched by LDAP
