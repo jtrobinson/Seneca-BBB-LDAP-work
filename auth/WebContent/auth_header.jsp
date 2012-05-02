@@ -5,6 +5,7 @@ if(!ldap.getAuthenticated().equals("true")) {
 }
 %>
 <div align='right'>Logged in as <%= ldap.getGivenName() %>&nbsp;<a href="logout.jsp"><b>Logout</b></a></div>
+<%@ include file="help_conf.jsp" %>
 <%@ include file="seneca_header.jsp"%>
 <br><br>
 <div align="center">
