@@ -3,7 +3,6 @@
 <config>
 	<system>
 		<timeout>Desired system timeout, in minutes</timeout>
-		<placeholder>Placeholder title for users who authenticate through LDAP but have no title</placeholder>
 	</system>
 
 	<ldap>
@@ -19,21 +18,33 @@
 	</ldapfields>
 	
 	<access_levels>
-		<total_levels></total_levels>
-		<level10>
-			<role></role>
-			<title></title>
-		</level10>
+		<level>
+			<value>The integer value assigned to the level grouping</value>
+			<position>
+				<role_name>The role associated with this position</role_name>
+				<title>A title under this role</title>
+				<title></title>
+			</position>
+			<position>
+			</position>
+		</level>
+		<level>
+		</level>
 		
-		<level20>
-		</level20>
+		<whitelist>
+			<username>A specific user to allow admin privileges to</username>
+			<username></username>
+		</whitelist>
 		
-		<level30>
-		</level30>
+		<blacklist>
+			<username>A specific user that is banned from access</username>
+			<username></username>
+		</blacklist>
 	</access_levels>
 	
 	<courseList>
 		<course>course code or title, for example "APC101", "LIT705"</course>
+		<course></course>
 	</courseList>
 </config>
 
@@ -41,7 +52,6 @@
 <sample_config>
 	<system>
 		<timeout>10</timeout>
-		<placeholder>Attendee</placeholder>
 	</system>
 	
 	<ldap>
@@ -82,6 +92,14 @@
 				<title>Professor</title>
 			</position>
 		</level>
+		
+		<whitelist>
+			<username>chad</username>
+		<whitelist>
+		
+		<blacklist>
+			<username>justin</username>
+		</blacklist>
 	</access_levels>
 	
 	<courseList>
