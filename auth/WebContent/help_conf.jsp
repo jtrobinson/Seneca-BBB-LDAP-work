@@ -14,6 +14,6 @@ helpRedirect.put("meetings_edit.jsp", "Manage_Meetings");
 helpRedirect.put("recordings.jsp", "Manage_Recordings");
 
 helpRedirect.put("adminmeetings.jsp", "Admin_Help");
-helpRedirect.put("adminrecordings.jsp", "Admin_Help");
+helpRedirect.put("adminrecordings.jsp", "Administrator_Help");
 
 %>

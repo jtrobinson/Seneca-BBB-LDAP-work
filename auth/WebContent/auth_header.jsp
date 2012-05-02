@@ -25,6 +25,13 @@ if(!ldap.getAuthenticated().equals("true")) {
 	<a href="adminmeetings.jsp">All Meetings</a>&nbsp;&nbsp;
 <% } %>
 <% if (ldap.getAccessLevel() >= 100) { %>
-	<a href="adminrecordings.jsp">All Recordings</a>
+	<a href="adminrecordings.jsp">All Recordings</a>&nbsp;&nbsp;
 <% } %>
+<% if (ldap.getAccessLevel() >= 0) {
+	out.print("<a href='" + helpURL);
+	if (helpRedirect.containsKey(request.getRequestURI().split("/")[2])) {
+		out.print("#" + helpRedirect.get(request.getRequestURI().split("/")[2]));
+	}
+	out.println("'>Help</a>");
+   } %>
 </div>
