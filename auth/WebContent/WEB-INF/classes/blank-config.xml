@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+<!--   This XML file is intended as an explanation of config.xml. For a more complete explanation, please see this link:   -->
+<!--  http://zenit.senecac.on.ca/wiki/index.php/Seneca_BigBlueButton_web_gateway_config_xml_help#Components_of_config.xml  -->
+
 <config>
 	<system>
 		<timeout>Desired system timeout, in minutes</timeout>
