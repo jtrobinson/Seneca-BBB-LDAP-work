@@ -206,26 +206,33 @@ public class LDAPAuthenticate {
 				NamingEnumeration<SearchResult> results = ldapContext.search("o=" + o, "(&(" + userIDField + "=" + user + "))", searchCtrl);
 				
 				if (!results.hasMore()) // search failed
-					throw new Exception();
+					throw new NumberFormatException(); // will never be thrown by anything else
 				
 				SearchResult sr = results.next();
 				Attributes at = sr.getAttributes();
-				givenName = at.get(givenNameField).toString().split(": ")[1];
+				//givenName = at.get(givenNameField).toString().split(": ")[1];
 				
-				title = at.get(titleField).toString().split(": ")[1];
+				if (at.get(titleField) != null) {
+					title = at.get(titleField).toString().split(": ")[1];
+				} else {
+					title = position;
+				}
 				
 				//prints out all possible attributes
-			//	for(NamingEnumeration i = at.getAll(); i.hasMore(); ) {
-			//		System.out.println((Attribute) i.next());
-			//	}
+				for(NamingEnumeration i = at.getAll(); i.hasMore(); ) {
+					System.out.println((Attribute) i.next());
+				}
 				
 				authenticated = "true";
 				calculateAccessLevel();
 				return true;
-			} catch (NamingException e) {} 
-			  catch (Exception e) {}
+			} catch (NumberFormatException e) {
+				authenticated = "failed";
+			} catch (Exception e) {
+				e.printStackTrace();
+				authenticated = "error";
+			}
 		}
-		authenticated = "failed";
 		
 		return false;
 	}
