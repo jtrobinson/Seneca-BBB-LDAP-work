@@ -465,7 +465,7 @@ public String getRecordings(String meetingID) {
 						creator = metadataElem.getElementsByTagName("creator").item(0).getTextContent();
 					}
 					if(metadataElem.getElementsByTagName("type").getLength() > 0){
-						creator = metadataElem.getElementsByTagName("type").item(0).getTextContent();
+						type = metadataElem.getElementsByTagName("type").item(0).getTextContent();
 					}
 				}
 				

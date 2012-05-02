@@ -145,7 +145,7 @@ if(ldap.getAccessLevel() < 20) {
 			height: 150,
 			loadonce: true,
 			sortable: true,
-			colNames:['Id', 'Course', 'Type', 'Description', 'Date Recorded', 'Playback', 'Length'],
+			colNames:['Id', 'Name', 'Type', 'Description', 'Date Recorded', 'Playback', 'Length'],
 			colModel:[
 				{name:'id',index:'id', width:50, hidden:true, xmlmap: "recordID"},
 				{name:'course',index:'course', width:125, xmlmap: "name", sortable:true},

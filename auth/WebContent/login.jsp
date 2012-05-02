@@ -1,5 +1,6 @@
 <jsp:useBean id="ldap" class="ldap.LDAPAuthenticate" scope="session"/>
 
+<%@ include file="help_conf.jsp" %>
 <%
 	if (!ldap.getAuthenticated().equals("true")) { 
 %>
@@ -23,8 +24,15 @@
 						<td><input type="password" name="password" value=""></td>
 					</tr>
 					<tr>
-						<td></td>
-						<td><input type="submit" name="Submit" value="Login"></td>
+						<td colspan=2 align='center'>
+							<input type="submit" name="Submit" value="Login">&nbsp;&nbsp;
+							<%
+							out.print("<a href='"+helpURL);
+							if (helpRedirect.containsKey("login.jsp"))
+								out.print("#"+helpRedirect.get("login.jsp"));
+							out.println("'>Help</a>");
+							%>
+						</td>
 					</tr>
 					<tr><td colspan=2> </td></tr>
 				</table>

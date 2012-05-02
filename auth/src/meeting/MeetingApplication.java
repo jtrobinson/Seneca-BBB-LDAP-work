@@ -26,7 +26,8 @@ public class MeetingApplication {
 
 	private final static char PROF_SYMBOL = '`';
 	private final static char USERID_HEADER = '$';
-	private char DELIMITER = '~';
+	private final static char DELIMITER = '~';
+	private final static String MEETING_LIST = "AllRecordings";
 
 	ArrayList <String[]> lectures;
 	ArrayList <String[]> meetings;
@@ -105,27 +106,31 @@ public class MeetingApplication {
 	 * This function receives user ID and returns formatted recording string for the recordings.jsp
 	 */
 	public String getRecordingString(String userId){
+		/*
 		String  s = ""; // temporary recording string
-
 		loadMeetingsByUser(userId);
-
 		ArrayList<String[]> lectures = getLectures();
 		ArrayList<String[]> meetings = getMeetings();
-
 		//getting meeting id which is 0 elementof the array
 		for (String[] lecture : lectures){
 			s+= lecture[0]+",";
 		}
-
 		for (String[] meeting : meetings){
 			s+=meeting[0]+",";
 
 		}
-
-
 		// getting rid of last comma
 		String recordingString = s.substring(0, s.length()-1 );
-
+		return recordingString;
+		*/
+		Jedis jedis = dbConnect();
+		String recordingString = "none";
+		
+		userId = USERID_HEADER + userId;
+		
+		if (jedis.hexists(MEETING_LIST, userId)) {
+			recordingString = jedis.hget(MEETING_LIST, userId);
+		}
 		return recordingString;
 	}
 

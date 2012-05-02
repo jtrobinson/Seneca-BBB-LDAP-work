@@ -109,23 +109,12 @@
 			// If the allMeetings field does not exist, create it and save the meetingName all at once
 			jedis.hset(MEETING_LIST, presenterKey, meetingName);
 		} else{
-			// Search the allMeetings string for the meetingName by splitting the existing list on the DELIMITER
-			Boolean found = false;
+			// Search the allMeetings string for the meetingName
 			String dataString = jedis.hget(MEETING_LIST, presenterKey);
-			String names[] = StringUtils.split(dataString, DELIMITER);
-			// Go through each string and compare the existing names to the meetingName to see if meetingName is new
-			for (String s : names){
-				if (meetingName.equals(s)){
-					found = true;
-				}
-			}
-			if (!found){
-				// If the meetingName is new, append it
-				StringBuilder sb = new StringBuilder(dataString);
-				sb.append(DELIMITER);
-				sb.append(meetingName);
-				dataString = sb.toString();
-				jedis.hset(MEETING_LIST, presenterKey, dataString);
+
+			if (dataString.indexOf(meetingName) == -1) { //if the meetingName isnt already there
+				dataString += DELIMITER + meetingName;   //add it to the string
+				jedis.hset(MEETING_LIST, presenterKey, dataString); //save the string
 			}
 		}
 	}
