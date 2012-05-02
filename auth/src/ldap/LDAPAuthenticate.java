@@ -51,6 +51,8 @@ public class LDAPAuthenticate {
 	private Integer timeoutTime;
 	private String placeholder;
 	private int accessLevel;
+	private HashMap<String, Integer> blacklist;
+	private HashMap<String, Integer> whitelist;
 	private HashMap<String, HashMap<String, Integer>> accessMap;
 	/* the access map will have the format:
 	 * { position1 = { title1 = level,
@@ -113,7 +115,27 @@ public class LDAPAuthenticate {
 			// Generate a HashMap to chart access levels
 			accessMap = new HashMap<String, HashMap<String, Integer>>();
 			
-			NodeList levelList = ((Element) docEle.getElementsByTagName("access_levels").item(0)).getElementsByTagName("level");
+			Element accessLevelEle = (Element) docEle.getElementsByTagName("access_levels").item(0);
+			
+			blacklist = new HashMap<String, Integer>();
+			if (accessLevelEle.getElementsByTagName("blacklist").getLength() > 0) { //the admin has a blacklist
+				NodeList usernameList = ((Element) accessLevelEle.getElementsByTagName("blacklist").item(0)).getElementsByTagName("username");
+				
+				for (int z = 0; z < usernameList.getLength(); z++) {
+					blacklist.put(usernameList.item(z).getTextContent(), -1);
+				}
+			}
+			
+			whitelist = new HashMap<String, Integer>();
+			if (accessLevelEle.getElementsByTagName("whitelist").getLength() > 0) { //the admin has a blacklist
+				NodeList usernameList = ((Element) accessLevelEle.getElementsByTagName("whitelist").item(0)).getElementsByTagName("username");
+				
+				for (int z = 0; z < usernameList.getLength(); z++) {
+					whitelist.put(usernameList.item(z).getTextContent(), 100);
+				}
+			}
+			
+			NodeList levelList = accessLevelEle.getElementsByTagName("level");
 			// Outer for loop will only fire once, with only one <access_levels> tag
 			for (int i = 0; i < levelList.getLength(); i++) {
 				Element levelData = (Element) levelList.item(i);
@@ -207,7 +229,7 @@ public class LDAPAuthenticate {
 				NamingEnumeration<SearchResult> results = ldapContext.search("o=" + o, "(&(" + userIDField + "=" + user + "))", searchCtrl);
 				
 				if (!results.hasMore()) // search failed
-					throw new NumberFormatException(); // will never be thrown by anything else
+					throw new NamingException();
 				
 				SearchResult sr = results.next();
 				Attributes at = sr.getAttributes();
@@ -220,17 +242,17 @@ public class LDAPAuthenticate {
 				}
 				
 				//prints out all possible attributes
-				for(NamingEnumeration i = at.getAll(); i.hasMore(); ) {
-					System.out.println((Attribute) i.next());
-				}
+			//	for(NamingEnumeration i = at.getAll(); i.hasMore(); ) {
+			//		System.out.println((Attribute) i.next());
+			//	}
 				
 				authenticated = "true";
 				calculateAccessLevel();
 				return true;
-			} catch (NumberFormatException e) {
+			} catch (NamingException e) {
 				authenticated = "failed";
 			} catch (Exception e) {
-				e.printStackTrace();
+				//e.printStackTrace();
 				authenticated = "error";
 			}
 		}
@@ -268,7 +290,11 @@ public class LDAPAuthenticate {
 		// look for a specific access level for the title first, then an access level for the whole
 		// position, if neither is found set access level to the default
 		
-		if (accessMap.get(position).containsKey(title)) {
+		if (blacklist.containsKey(userID)) {
+			accessLevel = blacklist.get(userID);
+		} else if (whitelist.containsKey(userID)) {
+			accessLevel = whitelist.get(userID);
+		} else if (accessMap.get(position).containsKey(title)) {
 			accessLevel = accessMap.get(position).get(title);
 		} else if (accessMap.get(position).containsKey("All")) {
 			accessLevel = accessMap.get(position).get("All");
