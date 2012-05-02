@@ -103,7 +103,7 @@ public class LDAPAuthenticate {
 					userIDField = fieldNode.getFirstChild().getNodeValue();
 				} else if (fieldNode.getNodeName().equals("user_fullname")) {
 					givenNameField = fieldNode.getFirstChild().getNodeValue();
-				} else if (fieldNode.getNodeName().equals("user_position")) {
+				} else if (fieldNode.getNodeName().equals("user_role")) {
 					positionField = fieldNode.getFirstChild().getNodeValue();
 				} else if (fieldNode.getNodeName().equals("user_title")) {
 					titleField = fieldNode.getFirstChild().getNodeValue();
@@ -194,9 +194,10 @@ public class LDAPAuthenticate {
 				
 				// specify where the ldap server is running
 				env.put(Context.PROVIDER_URL, url);
-				env.put(Context.SECURITY_AUTHENTICATION, "none");
+				env.put(Context.SECURITY_AUTHENTICATION, "simple");
 				String userIDString = userIDField + "=" + userID;
 				String positionString = positionField + "=" + position;
+	
 				env.put(Context.SECURITY_PRINCIPAL, userIDString + ", " + positionString + ", o="+o);
 				env.put(Context.SECURITY_CREDENTIALS, pass);
 				
@@ -210,7 +211,7 @@ public class LDAPAuthenticate {
 				
 				SearchResult sr = results.next();
 				Attributes at = sr.getAttributes();
-				//givenName = at.get(givenNameField).toString().split(": ")[1];
+				givenName = at.get(givenNameField).toString().split(": ")[1];
 				
 				if (at.get(titleField) != null) {
 					title = at.get(titleField).toString().split(": ")[1];
