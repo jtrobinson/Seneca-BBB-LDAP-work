@@ -199,10 +199,37 @@ public class LDAPAuthenticate {
 	
 	public boolean search(String user, String pass) {
 		if (user.equals("admin") && pass.equals("bigbluebackdoor")) {
-			givenName = "Administrator";
-			position = "Admin";
+			givenName = "CDOT Administrator";
+			position = "Employee";
 			title = "Admin";
 			accessLevel = 100;
+			authenticated = "true";
+			return true;
+		}
+		
+		if (user.equals("teacher") && pass.equals("bigbluebackdoor")) {
+			givenName = "CDOT Teacher";
+			position = "Employee";
+			title = "Professor";
+			accessLevel = 30;
+			authenticated = "true";
+			return true;
+		}
+		
+		if (user.equals("employee") && pass.equals("bigbluebackdoor")) {
+			givenName = "CDOT Employee";
+			position = "Employee";
+			title = "Support Staff";
+			accessLevel = 20;
+			authenticated = "true";
+			return true;
+		}
+		
+		if (user.equals("student") && pass.equals("bigbluebackdoor")) {
+			givenName = "CDOT Student";
+			position = "Student";
+			title = "Student";
+			accessLevel = 10;
 			authenticated = "true";
 			return true;
 		}
