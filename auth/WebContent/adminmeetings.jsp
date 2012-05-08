@@ -81,7 +81,7 @@ if(ldap.getAccessLevel() < 100) {
 
 	<table align='center'>
 		<tr><td>
-			<h3>Manage Meetings</h3>
+			<h3>Manage All Meetings</h3>
 			<select id="actionscmb" name="actions" onchange="recordedAction(this.value);">
 				<option value="novalue" selected>Actions...</option>
 				<option value="start">Start</option>
@@ -119,7 +119,7 @@ if(ldap.getAccessLevel() < 100) {
 				if (d.type=="Lecture") {
 					meetingid = meetingid;
 				}
-				sendRecordingAction(meetingid,action);
+				sendRecordingAction(meetingid,"admin"+action,d.UID);
 			}else{
 				$("#actionscmb").val("novalue");
 				return;
@@ -157,16 +157,16 @@ if(ldap.getAccessLevel() < 100) {
 			alert('The guest url is : "<%= StringUtils.remove(BigBlueButtonURL,"bigbluebutton/") %>auth/o.jsp?m='+meetingid+'"\n\n' +
 						'*Note* Remember to enable guest access before you give out the url.');
 		}else{
-			sendRecordingAction(meetingid,action);
+			sendRecordingAction(meetingid,action,"null");
 		}
 		$("#actionscmb").val("novalue");
 	}
 	
-	function sendRecordingAction(meetingID,action){
+	function sendRecordingAction(meetingID,action,uid){
 		$.ajax({
 			type: "GET",
 			url: 'meetings_helper.jsp',
-			data: "command="+action+"&meetingID="+meetingID,
+			data: "command="+action+"&meetingID="+meetingID+"&uid="+uid,
 			dataType: "xml",
 			cache: false,
 			success: function(xml) {

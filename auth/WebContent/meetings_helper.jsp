@@ -18,4 +18,6 @@ if(!ldap.getAuthenticated().equals("true")) {
 	<%= meets.getUserMeetingsXML("adminAccess") %>
 <% } else if(request.getParameter("command").equals("delete") && ldap.getAccessLevel() >= 10){%>
 	<%= deleteMeeting(ldap.getUserID(), request.getParameter("meetingID")) %>
-<% } %>
+<% } else if(request.getParameter("command").equals("admindelete") && ldap.getAccessLevel() >= 100){%>
+<%= deleteMeeting(request.getParameter("uid"), request.getParameter("meetingID")) %>
+<%  } %>

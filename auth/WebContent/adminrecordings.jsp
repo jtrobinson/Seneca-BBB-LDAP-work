@@ -77,7 +77,7 @@ if(ldap.getAccessLevel() < 100) {
 	
 	<table align='center'>
 	<tr><td>
-	<h3>Recorded Sessions</h3>
+	<h3>All Recorded Sessions</h3>
 	<select id="actionscmb" name="actions" onchange="recordedAction(this.value);" >
 		<option value="novalue" selected>Actions...</option>
 		<option value="delete">Delete</option>
