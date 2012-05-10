@@ -526,7 +526,11 @@ public String getRecordings(String meetingID) {
 		return "error: "+e.getMessage();
 	}
 	newXMLdoc += "</recordings>";
-	return newXMLdoc;
+	
+	if (newXMLdoc.equals("<recordings></recordings>"))
+		return "";
+	else
+		return newXMLdoc;
 }
 
 public String getPublishRecordingsURL(boolean publish, String recordID) {

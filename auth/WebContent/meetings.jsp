@@ -82,15 +82,12 @@ if(ldap.getAccessLevel() < 10) {
 	<table align='center'>
 		<tr><td>
 			<h3>Manage Meetings</h3>
-			<select id="actionscmb" name="actions" onchange="recordedAction(this.value);">
-				<option value="novalue" selected>Actions...</option>
-				<option value="start">Start</option>
-				<option value="edit">Edit</option>
-				<option value="delete">Delete</option>
-				<%	if (ldap.getAccessLevel() >= 20) { %>
-				<option value="guest">Guest URL</option>
-				<%	} %>
-			</select>
+			<input type='button' value='Start Selected' onclick='recordedAction("start");'/>
+			<input type='button' value='Edit Selected' onclick='recordedAction("edit");'/>
+			<input type='button' value='Delete Selected' onclick='recordedAction("delete");'/>
+			<%	if (ldap.getAccessLevel() >= 20) { %>
+				<input type='button' value='Guest URL' onclick='recordedAction("guest");'/>
+			<%	} %>
 			<table id="meetinggrid"></table>
 			<p>Note: New meetings will appear in the above list after processing.<br/>  Refresh your browser to update the list.</p>
 		</td></tr>
@@ -182,6 +179,8 @@ if(ldap.getAccessLevel() < 10) {
 			}
 		});
 	}
+
+	<% String student = ldap.getAccessLevel() < 20 ? "true" : "false"; %>
 	
 	$(document).ready(function(){
 		
@@ -200,8 +199,8 @@ if(ldap.getAccessLevel() < 10) {
 				{name:'name',index:'name', width:150, xmlmap: "name"},
 				{name:'modpass',index:'modpass', width:100, xmlmap: "modpass",sortable: false},
 				{name:'viewpass',index:'viewpass', width:100, xmlmap: "viewpass",sortable: false},
-				{name:'guests',index:'guests', width:80, xmlmap: "guests", sortable:false, align:"right"},
-				{name:'recorded',index:'recorded', width:80, xmlmap: "recorded", sortable:false, align:"right"},
+				{name:'guests',index:'guests', width:80, xmlmap: 'guests', sortable:false, align:'right', hidden:<%= student%>},
+				{name:'recorded',index:'recorded', width:80, xmlmap: "recorded", sortable:false, align:"right", hidden:<%= student%>},
 				{name:'date',index:'date', width:120, xmlmap: "date", align:"right"},
 			],
 			xmlReader: {

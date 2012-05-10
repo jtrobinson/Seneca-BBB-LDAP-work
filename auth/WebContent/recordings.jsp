@@ -78,10 +78,7 @@ if(ldap.getAccessLevel() < 20) {
 	<table align='center'>
 	<tr><td>
 	<h3>Recorded Sessions</h3>
-	<select id="actionscmb" name="actions" onchange="recordedAction(this.value);" >
-		<option value="novalue" selected>Actions...</option>
-		<option value="delete">Delete</option>
-	</select>
+	<input type='button' value='Delete Selected' onclick='recordedAction("delete");'/>
 	<table id="recordgrid"></table>
 	<div id="pager"></div> 
 	<p>Note: New recordings will appear in the above list after processing.<br/>  Refresh your browser to update the list.</p>
@@ -157,8 +154,8 @@ if(ldap.getAccessLevel() < 20) {
 			],
 			xmlReader: {
 				root : "recordings",
-				row: "recording",
-				repeatitems:false,
+				row : "recording",
+				repeatitems : false,
 				id: "recordID"
 			},
 			pager : '#pager',
