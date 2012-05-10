@@ -527,10 +527,7 @@ public String getRecordings(String meetingID) {
 	}
 	newXMLdoc += "</recordings>";
 	
-	if (newXMLdoc.equals("<recordings></recordings>"))
-		return "";
-	else
-		return newXMLdoc;
+	return newXMLdoc;
 }
 
 public String getPublishRecordingsURL(boolean publish, String recordID) {
