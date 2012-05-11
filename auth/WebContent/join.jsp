@@ -5,7 +5,7 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
+	
 	<title>Join a Meeting</title>
 	
 	<style type="text/css">
@@ -15,6 +15,7 @@
 	
 	  	#row{
 	    	display: table-row;
+	    	vertical-align: center;
 	    }
 	
 	  	#left{

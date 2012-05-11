@@ -22,6 +22,7 @@
 			  	#cell{
 			    	display: table-cell;
 			    	padding: 5px;
+			    	vertical-align: middle;
 			    }
 			    
 			    #bottom-cell{

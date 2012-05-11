@@ -29,15 +29,46 @@ with BigBlueButton; if not, If not, see <http://www.gnu.org/licenses/>.
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<link rel="stylesheet" type="text/css" href="css/redmond/jquery-ui-redmond.css" />
 	<link rel="stylesheet" type="text/css" href="css/ui.jqgrid.css" />
-	<script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/redmond/jquery-ui-redmond.css" />
 	<script type="text/javascript" src="js/jquery-ui.js"></script>
+	<script type="text/javascript" src="js/jquery.min.js"></script>
+	<script type="text/javascript" src="js/jquery.validate.min.js"></script>
 	<script src="js/grid.locale-en.js" type="text/javascript"></script>
 	<script src="js/jquery.jqGrid.min.js" type="text/javascript"></script>
+	<script src="js/jquery.xml2json.js" type="text/javascript"></script>
 	<title>Recording Meeting Demo</title>
 	<style type="text/css">
+	 #descript{
+	 	vertical-align:top;
+	 }
+	 #meta_description , #username1{
+		float:left;
+	 }
+	 .ui-jqgrid{
+		font-size:0.7em
+	}
+	label.error{
+		float: none; 
+		color: red; 
+		padding-left: .5em; 
+		vertical-align: top;
+		width:200px;
+		text-align:left;
+	}
+	#container{
+    	display: table;
+    }
 
+  	#row{
+    	display: table-row;
+    	vertical-align: center;
+    }
+
+  	#cell{
+    	display: table-cell;
+    	padding: 25px;
+    }
 	</style>
 </head>
 <body>
@@ -56,7 +87,25 @@ if(ldap.getAccessLevel() < 20) {
 <%
 	if (request.getParameterMap().isEmpty()) {
 %>
+		<div align="center">
+		<div id="container">
+			<div id="row">
+				<h3>Recorded Sessions</h3>
+			</div>
+			<div id="row">
+				<input type='button' value='Delete Selected' onclick='recordedAction("delete");'/>
+			</div>
+			<div id="row">
+				<table id="recordgrid"></table>
+			</div>
+			<div id="row">
+				Note: New recordings will appear in the above list after processing.<br/>  Refresh your browser to update the list.
+			</div>
+		</div>
+	</div>
 	
+	
+	<!-- 
 	<table align='center'>
 	<tr><td>
 	<h3>Recorded Sessions</h3>
@@ -66,6 +115,8 @@ if(ldap.getAccessLevel() < 20) {
 	<p>Note: New recordings will appear in the above list after processing.<br/>  Refresh your browser to update the list.</p>
 	</td></tr>
 	</table>
+	-->
+	
 	<script>
 	function recordedAction(action){
 		if(action=="novalue"){
@@ -117,6 +168,7 @@ if(ldap.getAccessLevel() < 20) {
 	}
 	
 	$(document).ready(function(){
+		$("#formcreate").validate();
 		jQuery("#recordgrid").jqGrid({
 			url: "recordings_helper.jsp?command=getRecords",
 			datatype: "xml",
@@ -142,7 +194,6 @@ if(ldap.getAccessLevel() < 20) {
 			pager : '#pager',
 			emptyrecords: "Nothing to display",
 			multiselect: true,
-			viewrecords: true,
 			caption: "Recorded Sessions",
 			loadComplete: function(){
 				$("#recordgrid").trigger("reloadGrid");
