@@ -24,7 +24,7 @@
 			System.err.println(e.toString());
 		}
 		System.err.println("Returning NULL from dbConnect()");
-		return null;
+		return null; 
 	}
 
 

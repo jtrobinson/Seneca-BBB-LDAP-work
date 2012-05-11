@@ -21,4 +21,4 @@ if(!ldap.getAuthenticated().equals("true")) {
 	<%= getRecordings("") %>
 <% } else if(request.getParameter("command").equals("delete") && ldap.getAccessLevel() >= 20){%>
 	<%= deleteRecordings(request.getParameter("recordID"))%>
-<% } %>
+<% } %> 

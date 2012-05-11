@@ -86,7 +86,7 @@
 	 				<td><%= meetingid.split("\\^")[0] %></td>
 	 			</tr>
 	 			<%
-	 			} %>
+	 			} %> 
 	 			
 	 			<tr>
 	 				<td>Moderator Password</td>

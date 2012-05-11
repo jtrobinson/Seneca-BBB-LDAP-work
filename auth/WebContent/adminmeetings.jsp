@@ -151,7 +151,7 @@ if(ldap.getAccessLevel() < 100) {
 														"&description="+description,
 									'_blank');
 			}
-		}else if(action=="guest"){			
+		}else if(action=="guest"){		
 			alert('The guest url is : "<%= StringUtils.remove(BigBlueButtonURL,"bigbluebutton/") %>auth/o.jsp?m='+meetingid+'"\n\n' +
 						'*Note* Remember to enable guest access before you give out the url.');
 		}else{

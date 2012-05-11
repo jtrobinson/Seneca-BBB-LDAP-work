@@ -23,7 +23,7 @@
 	String meetingName = "";
 	
 	
-	
+	 
 	
 	if(check == null)
 		meetingName = request.getParameter( "meetingName" );

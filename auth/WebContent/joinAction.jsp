@@ -25,7 +25,7 @@
 	}
 	else if (password.trim().length() == 0){
 		session.setAttribute( "fail", type );
-		response.sendRedirect("join.jsp");
+		response.sendRedirect("join.jsp"); 
 	}
 	else{
 		meetingApplication.loadAllMeetings();

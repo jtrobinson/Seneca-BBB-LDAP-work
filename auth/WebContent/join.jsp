@@ -11,7 +11,7 @@
 	<style type="text/css">
 		#container{
 	    	display: table;
-	    }
+	    } 
 	
 	  	#row{
 	    	display: table-row;
@@ -24,7 +24,7 @@
 	    }
 	    
 	    #right{
-	    	display: table-cell;
+	    	display: table-cell; 
 	    	padding: 25px;
 	    	width: 50%;
 	    	border-left: 1px solid black;

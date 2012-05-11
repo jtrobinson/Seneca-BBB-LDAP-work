@@ -21,7 +21,7 @@ function onCheck()
   // this code is to trigger oncheck isLecture Event 
    var isCheckedLecture = document.getElementById("check").checked;
   if( isCheckedLecture  == true)
- 	  isCheckedLecture = "true";
+ 	  isCheckedLecture = "true"; 
    else 
       isCheckedLecture = "false";	 
     

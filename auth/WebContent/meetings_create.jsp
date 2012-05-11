@@ -22,7 +22,7 @@ if(ldap.getAccessLevel() < 10) {
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Start Session</title>
-</head>
+</head> 
 <body>
 	<%  
 		Map<String,String> metadata=new HashMap<String,String>();

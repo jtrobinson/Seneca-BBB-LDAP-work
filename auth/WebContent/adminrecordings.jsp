@@ -163,7 +163,7 @@ if(ldap.getAccessLevel() < 100) {
 			pager : '#pager',
 			emptyrecords: "Nothing to display",
 			multiselect: true,
-			viewrecords: true,
+			viewrecords: true, 
 			caption: "Recorded Sessions",
 			loadComplete: function(){
 				$("#recordgrid").trigger("reloadGrid");
