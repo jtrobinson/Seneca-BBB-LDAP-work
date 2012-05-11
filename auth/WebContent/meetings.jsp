@@ -56,6 +56,18 @@ with BigBlueButton; if not, If not, see <http://www.gnu.org/licenses/>.
 		width:200px;
 		text-align:left;
 	}
+	#container{
+    	display: table;
+    }
+
+  	#row{
+    	display: table-row;
+    }
+
+  	#cell{
+    	display: table-cell;
+    	padding: 25px;
+    }
 	</style>
 </head>
 <body>
@@ -78,20 +90,25 @@ if(ldap.getAccessLevel() < 10) {
 		//
 %>	
 
-
-	<table align='center'>
-		<tr><td>
-			<h3>Manage Meetings</h3>
-			<input type='button' value='Start Selected' onclick='recordedAction("start");'/>
-			<input type='button' value='Edit Selected' onclick='recordedAction("edit");'/>
-			<input type='button' value='Delete Selected' onclick='recordedAction("delete");'/>
-			<%	if (ldap.getAccessLevel() >= 20) { %>
-				<input type='button' value='Guest URL' onclick='recordedAction("guest");'/>
-			<%	} %>
-			<table id="meetinggrid"></table>
-			<p>Note: New meetings will appear in the above list after processing.<br/>  Refresh your browser to update the list.</p>
-		</td></tr>
-	</table>
+	<div align="center">
+		<div id="container">
+			<div id="row">
+				<h3>Manage Meetings</h3>
+			</div>
+			<div id="row">
+				<input type='button' value='Start Selected' onclick='recordedAction("start");'/>
+				<input type='button' value='Edit Selected' onclick='recordedAction("edit");'/>
+				<input type='button' value='Delete Selected' onclick='recordedAction("delete");'/>
+				<%	if (ldap.getAccessLevel() >= 20) { %>
+					<input type='button' value='Guest URL' onclick='recordedAction("guest");'/>
+				<%	} %>
+			</div>
+			<div id="row">
+				<table id="meetinggrid"></table>
+			</div>
+		</div>
+	</div>
+	
 	<div id="pager"></div>
 	
 	<script>

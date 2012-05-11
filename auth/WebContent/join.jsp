@@ -33,9 +33,9 @@
 	    
 	    #right{
 	    	display: table-cell;
-	    	border-left: 1px solid black;
 	    	padding: 25px;
 	    	width: 50%;
+	    	border-left: 1px solid black;
 	    }
 	</style>
 </head>
