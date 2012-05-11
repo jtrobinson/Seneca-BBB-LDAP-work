@@ -1,19 +1,11 @@
+<jsp:useBean id="meetingApplication" class="meeting.MeetingApplication" scope="session"/>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<link rel="stylesheet" type="text/css" href="css/ui.jqgrid.css" />
-	<link rel="stylesheet" type="text/css" href="css/redmond/jquery-ui-redmond.css" />
-	<script type="text/javascript" src="js/jquery-ui.js"></script>
-	<script type="text/javascript" src="js/jquery.min.js"></script>
-	<script type="text/javascript" src="js/jquery.validate.min.js"></script>
-	<script src="js/grid.locale-en.js" type="text/javascript"></script>
-	<script src="js/jquery.jqGrid.min.js" type="text/javascript"></script>
-	<script src="js/jquery.xml2json.js" type="text/javascript"></script>
-	
-	<jsp:useBean id="meetingApplication" class="meeting.MeetingApplication" scope="session"/>
+
 	<title>Join a Meeting</title>
 	
 	<style type="text/css">

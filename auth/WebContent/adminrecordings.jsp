@@ -29,14 +29,12 @@ with BigBlueButton; if not, If not, see <http://www.gnu.org/licenses/>.
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<link rel="stylesheet" type="text/css" href="css/ui.jqgrid.css" />
 	<link rel="stylesheet" type="text/css" href="css/redmond/jquery-ui-redmond.css" />
+	<link rel="stylesheet" type="text/css" href="css/ui.jqgrid.css" />
+	<script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
 	<script type="text/javascript" src="js/jquery-ui.js"></script>
-	<script type="text/javascript" src="js/jquery.min.js"></script>
-	<script type="text/javascript" src="js/jquery.validate.min.js"></script>
 	<script src="js/grid.locale-en.js" type="text/javascript"></script>
 	<script src="js/jquery.jqGrid.min.js" type="text/javascript"></script>
-	<script src="js/jquery.xml2json.js" type="text/javascript"></script>
 	<title>Recording Meeting Demo</title>
 	<style type="text/css">
 	 #descript{
@@ -138,12 +136,10 @@ if(ldap.getAccessLevel() < 100) {
 	}
 	
 	$(document).ready(function(){
-		$("#formcreate").validate();
 		jQuery("#recordgrid").jqGrid({
 			url: "recordings_helper.jsp?command=getAllRecords",
 			datatype: "xml",
 			height: 300,
-			rowNum: 20,
 			loadonce: true,
 			sortable: true,
 			colNames:['Id','Meeting', 'Type', 'Creator', 'UID', 'Description', 'Date Recorded', 'Playback', 'Length'],

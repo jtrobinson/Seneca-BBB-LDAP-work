@@ -420,8 +420,7 @@ public String endMeeting(String meetingID, String moderatorPassword) {
 
 public String getRecordingsURL(String meetingID) {
 	String record_parameters = "meetingID=" + urlEncode(meetingID);
-	System.out.println(BigBlueButtonURL + "api/getRecordings?" + record_parameters + "&checksum="
-			+ checksum("getRecordings" + record_parameters + salt));
+	//System.out.println(BigBlueButtonURL + "api/getRecordings?" + record_parameters + "&checksum=" + checksum("getRecordings" + record_parameters + salt));
 	return BigBlueButtonURL + "api/getRecordings?" + record_parameters + "&checksum="
 		+ checksum("getRecordings" + record_parameters + salt);
 }
