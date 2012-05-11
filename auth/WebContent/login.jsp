@@ -7,35 +7,64 @@
 		<html>
 		<head>
 			<title>Login</title>
+			<style type="text/css">
+				#container{
+			    	display: table;
+			    	width: 300px;
+			    	border: 1px solid #000000;
+			    	background-color: #efefef;
+			    }
+			
+			  	#row{
+			    	display: table-row;
+			    }
+			
+			  	#cell{
+			    	display: table-cell;
+			    	padding: 5px;
+			    }
+			    
+			    #bottom-cell{
+			    	display: table-cell;
+			    	padding: 5px;
+			    	width: 25%;
+			    }
+			</style>
 		</head>
 		<body>
 			<%@ include file="seneca_header.jsp"%>
 			<form name="loginform" method="post" action="auth.jsp">
-				<br><br>
-				<table width="300px" align="center" style="border:1px solid #000000;background-color:#efefef;">
-					<tr><td colspan=2></td></tr>
-					<tr><td colspan=2> </td></tr>
-					<tr>
-						<td><b>Login Name</b></td>
-						<td><input type="text" name="username" value=""></td>
-					</tr>
-					<tr>
-						<td><b>Password</b></td>
-						<td><input type="password" name="password" value=""></td>
-					</tr>
-					<tr>
-						<td colspan=2 align='center'>
-							<input type="submit" name="Submit" value="Login">&nbsp;&nbsp;
+				<br/><br/>
+				<div align="center">
+					<div id="container">
+						<div id="row">
+							<div id="cell">
+								<b>Login Name</b>
+							</div>
+							<div id="cell">
+								<input type="text" name="username" value="">
+							</div>							
+						</div>
+						<div id="row">
+							<div id="cell">
+								<b>Password</b>
+							</div>
+							<div id="cell">
+								<input type="password" name="password" value="">
+							</div>							
+						</div>
+						<div id="row" align="left">
+							<div id="bottom-cell"></div>
+							<input type="submit" name="Submit" value="Login">							
 							<%
 							out.print("<a href='"+helpURL);
 							if (helpRedirect.containsKey("login.jsp"))
 								out.print("#"+helpRedirect.get("login.jsp"));
 							out.println("'>Help</a>");
 							%>
-						</td>
-					</tr>
-					<tr><td colspan=2> </td></tr>
-				</table>
+						</div>
+					</div>
+				</div>			
 			</form>
 			<%
 				if (ldap.getAuthenticated().equals("failed")) {
@@ -53,11 +82,13 @@
 			
 			<% if (request.getHeader("User-Agent").indexOf("MSIE") != -1) { %>
 				<br/>
-				<table align='center' style="border:1px solid #FF0000;background-color:#efefef;">
-					<tr>
-						<td>For best results please use Firefox or Chrome</td>
-					</tr>
-				</table>
+				<div id="container">
+					<div id="row">
+						<div id="cell">
+							For best results please use Firefox or Chrome.
+						</div>
+					</div>
+				</div>
 			<% } %>
 		</body>
 		</html>
