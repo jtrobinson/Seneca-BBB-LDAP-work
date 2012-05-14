@@ -135,26 +135,25 @@ if(ldap.getAccessLevel() < 10) {
 		}else if(action=="start"){
 			var description = "";
 			if (d.recorded=="true"){
-				do {
 				description = prompt("Please enter a description for your meeting. Example: \"Week 01 Lecture\"", "");
-				} while (description == null);
 			}
-
-			if (navigator.vendor.indexOf("Apple") != -1) {
-				window.location.href='meetings_create.jsp?command=start&meetingID='+meetingid+
-				  										"&modpass="+d.modpass+
-				  										"&viewpass="+d.viewpass+
-				  										"&recorded="+d.recorded+
-				  										"&description="+description+
-				  										"&type="+d.type;
-			} else {			
-				window.open('meetings_create.jsp?command=start&meetingID='+meetingid+
-														"&modpass="+d.modpass+
-														"&viewpass="+d.viewpass+
-														"&recorded="+d.recorded+
-														"&description="+description+
-														"&type="+d.type,
-									'_blank');
+			if (description != null) {
+				if (navigator.vendor.indexOf("Apple") != -1) {
+					window.location.href='meetings_create.jsp?command=start&meetingID='+meetingid+
+					  										"&modpass="+d.modpass+
+					  										"&viewpass="+d.viewpass+
+					  										"&recorded="+d.recorded+
+					  										"&description="+description+
+					  										"&type="+d.type;
+				} else {			
+					window.open('meetings_create.jsp?command=start&meetingID='+meetingid+
+															"&modpass="+d.modpass+
+															"&viewpass="+d.viewpass+
+															"&recorded="+d.recorded+
+															"&description="+description+
+															"&type="+d.type,
+										'_blank');
+				}
 			}
 		}else if(action=="guest"){			
 			alert('The guest url is : "<%= StringUtils.remove(BigBlueButtonURL,"bigbluebutton/") %>auth/o.jsp?m='+meetingid+'"\n\n' +
