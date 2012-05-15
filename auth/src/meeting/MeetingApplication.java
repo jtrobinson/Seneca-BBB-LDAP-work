@@ -198,20 +198,17 @@ public class MeetingApplication {
 	}
 
 	public String getUserMeetingsXML(String uid) {
-		String newXMLdoc = "<allmeetings>\n";
-		newXMLdoc += "\t<request>true</request>\n";
-		newXMLdoc += "\t<meetings>\n";
-
 		if (uid.equals("adminAccess")) {
 			loadAllMeetings();
 		} else {	
 			loadMeetingsByUser(uid);
 		}
 
-		newXMLdoc += convertMeetingList(getLectures(), "Lecture");
+		String newXMLdoc = convertMeetingList(getLectures(), "Lecture");
 		newXMLdoc += convertMeetingList(getMeetings(), "Meeting");
 
-		newXMLdoc += "\t</meetings>\n</allmeetings>";
+		if (!newXMLdoc.equals(""))
+			newXMLdoc = "<meetings>" + newXMLdoc + "</meetings>";
 		
 		return newXMLdoc;
 	}
@@ -233,19 +230,19 @@ public class MeetingApplication {
 			String [] parts = meet[0].split("\\^");
 			
 			
-			convMeetings += "\t\t<meeting>\n";
-			convMeetings += "\t\t\t<meetingid>" + meet[0] + "</meetingid>\n";
-			convMeetings += "\t\t\t<type>" + type + "</type>\n";
-			convMeetings += "\t\t\t<name>" + StringUtils.removeStart(parts[0], String.valueOf(PROF_SYMBOL)) + "</name>\n";
-			convMeetings += "\t\t\t<creatorname>" + parts[1] + "</creatorname>\n";
-			convMeetings += "\t\t\t<creatoruid>" + meet[6] + "</creatoruid>\n";
-			convMeetings += "\t\t\t<modpass>" + meet[1] + "</modpass>\n";
-			convMeetings += "\t\t\t<viewpass>" + meet[2] + "</viewpass>\n";
-			convMeetings += "\t\t\t<guests>" + meet[3] + "</guests>\n";
-			convMeetings += "\t\t\t<recorded>" + meet[4] + "</recorded>\n";
-			convMeetings += "\t\t\t<date>" + meet[5] + "</date>\n";
+			convMeetings += "<meeting>";
+			convMeetings += "<meetingid>" + meet[0] + "</meetingid>";
+			convMeetings += "<type>" + type + "</type>";
+			convMeetings += "<name>" + StringUtils.removeStart(parts[0], String.valueOf(PROF_SYMBOL)) + "</name>";
+			convMeetings += "<creatorname>" + parts[1] + "</creatorname>";
+			convMeetings += "<creatoruid>" + meet[6] + "</creatoruid>";
+			convMeetings += "<modpass>" + meet[1] + "</modpass>";
+			convMeetings += "<viewpass>" + meet[2] + "</viewpass>";
+			convMeetings += "<guests>" + meet[3] + "</guests>";
+			convMeetings += "<recorded>" + meet[4] + "</recorded>";
+			convMeetings += "<date>" + meet[5] + "</date>";
 
-			convMeetings += "\t\t</meeting>\n";
+			convMeetings += "</meeting>";
 		}
 
 		return convMeetings;

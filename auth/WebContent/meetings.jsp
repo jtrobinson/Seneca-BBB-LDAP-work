@@ -189,7 +189,6 @@ if(ldap.getAccessLevel() < 10) {
 			url: "meetings_helper.jsp?command=getMeetings",
 			datatype: "xml",
 			height: 300,
-			rowNum: 20,
 			loadonce: true,
 			sortable: true,
 			autowidth: false,

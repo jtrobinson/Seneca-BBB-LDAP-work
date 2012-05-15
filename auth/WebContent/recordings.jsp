@@ -153,7 +153,7 @@ if(ldap.getAccessLevel() < 20) {
 		jQuery("#recordgrid").jqGrid({
 			url: "recordings_helper.jsp?command=getRecords",
 			datatype: "xml",
-			height: 150,
+			height: 300,
 			loadonce: true,
 			sortable: true,
 			colNames:['Id', 'Name', 'Type', 'Description', 'Date Recorded', 'Playback', 'Length'],

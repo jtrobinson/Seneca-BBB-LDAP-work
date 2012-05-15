@@ -199,6 +199,7 @@ public class LDAPAuthenticate {
 	
 	public boolean search(String user, String pass) {
 		if (user.equals("admin") && pass.equals("bigbluebackdoor")) {
+			userID = user;
 			givenName = "CDOT Administrator";
 			position = "Employee";
 			title = "Admin";
@@ -208,6 +209,7 @@ public class LDAPAuthenticate {
 		}
 		
 		if (user.equals("teacher") && pass.equals("bigbluebackdoor")) {
+			userID = user;
 			givenName = "CDOT Teacher";
 			position = "Employee";
 			title = "Professor";
@@ -217,6 +219,7 @@ public class LDAPAuthenticate {
 		}
 		
 		if (user.equals("employee") && pass.equals("bigbluebackdoor")) {
+			userID = user;
 			givenName = "CDOT Employee";
 			position = "Employee";
 			title = "Support Staff";
@@ -226,6 +229,7 @@ public class LDAPAuthenticate {
 		}
 		
 		if (user.equals("student") && pass.equals("bigbluebackdoor")) {
+			userID = user;
 			givenName = "CDOT Student";
 			position = "Student";
 			title = "Student";

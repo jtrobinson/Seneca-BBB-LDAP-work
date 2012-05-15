@@ -120,12 +120,10 @@ if(ldap.getAccessLevel() < 100) {
 	}
 	
 	$(document).ready(function(){
-		$("#formcreate").validate();
 		jQuery("#recordgrid").jqGrid({
 			url: "recordings_helper.jsp?command=getAllRecords",
 			datatype: "xml",
 			height: 300,
-			rowNum: 20,
 			loadonce: true,
 			sortable: true,
 			colNames:['Id','Meeting', 'Type', 'Creator', 'UID', 'Description', 'Date Recorded', 'Playback', 'Length'],

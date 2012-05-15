@@ -11,11 +11,7 @@ if(!ldap.getAuthenticated().equals("true")) {
 <%@ page trimDirectiveWhitespaces="true" %>
 <%@ include file="bbb_api.jsp" %>
 <?xml version="1.0" ?>
-<% if (request.getParameter("command").equals("isRunning")){ %>
-<response>
-	<running><%= isMeetingRunning(request.getParameter("meetingID")) %></running>
-</response>
-<% } else if(request.getParameter("command").equals("getRecords") && ldap.getAccessLevel() >= 20){%>
+<% if(request.getParameter("command").equals("getRecords") && ldap.getAccessLevel() >= 20){%>
 	<% System.out.println(getRecordings(meets.getRecordingString(ldap.getUserID()))); %>
 	<%= getRecordings(meets.getRecordingString(ldap.getUserID())) %>
 <% } else if(request.getParameter("command").equals("getAllRecords") && ldap.getAccessLevel() >= 100){%>
