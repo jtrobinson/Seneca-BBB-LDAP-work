@@ -37,26 +37,15 @@ with BigBlueButton; if not, If not, see <http://www.gnu.org/licenses/>.
 	<script src="js/jquery.jqGrid.min.js" type="text/javascript"></script>
 	<title>Manage Your Meetings</title>
 	<style type="text/css">
-	#container{
-    	display: table;
-    }
-
-  	#row{
-    	display: table-row;
-    	vertical-align: center;
-    }
-
-  	#cell{
-    	display: table-cell;
-    	padding: 25px;
-    }
+	#container {
+		text-align: left;
+		width:800px;
+	}
 	</style>
 </head>
 <body>
-
 <%@ include file="bbb_api.jsp"%>
 <%@ page import="java.util.regex.*"%>
-
 <%@ include file="auth_header.jsp"%>
 
 <%
@@ -68,30 +57,19 @@ if(ldap.getAccessLevel() < 10) {
 <%
 	if (request.getParameterMap().isEmpty()) {
 %>	
-
 	<div align="center">
 		<div id="container">
-			<div id="row">
-				<h3>Manage Meetings</h3>
-			</div>
-			<div id="row">
-				<input type='button' value='Start Selected' onclick='recordedAction("start");'/>
-				<input type='button' value='Edit Selected' onclick='recordedAction("edit");'/>
-				<input type='button' value='Delete Selected' onclick='recordedAction("delete");'/>
-				<%	if (ldap.getAccessLevel() >= 20) { %>
-					<input type='button' value='Guest URL' onclick='recordedAction("guest");'/>
-				<%	} %>
-			</div>
-			<div id="row">
-				<table id="meetinggrid"></table>
-				<div id="pager"></div>
-			</div>
-			<div id="row">
-				Note: New meetings will appear in the above list after processing.<br/>  Refresh your browser to update the list.
-			</div>
+			<h3>Manage Meetings</h3>
+			<input type='button' value='Start Selected' onclick='recordedAction("start");'/>
+			<input type='button' value='Edit Selected' onclick='recordedAction("edit");'/>
+			<input type='button' value='Delete Selected' onclick='recordedAction("delete");'/>
+			<%	if (ldap.getAccessLevel() >= 20) { %>
+			<input type='button' value='Guest URL' onclick='recordedAction("guest");'/>
+			<%	} %>
+			<table id="meetinggrid"></table>
+			Note: New meetings will appear in the above list after processing.<br/>  Refresh your browser to update the list.
 		</div>
 	</div>
-	
 	<script>
 	function recordedAction(action){
 		if(action=="novalue"){

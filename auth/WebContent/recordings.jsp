@@ -37,19 +37,10 @@ with BigBlueButton; if not, If not, see <http://www.gnu.org/licenses/>.
 	<script src="js/jquery.jqGrid.min.js" type="text/javascript"></script>
 	<title>Manage Your Recordings</title>
 	<style type="text/css">
-	#container{
-    	display: table;
-    }
-
-  	#row{
-    	display: table-row;
-    	vertical-align: center;
-    }
-
-  	#cell{
-    	display: table-cell;
-    	padding: 25px;
-    }
+	#container {
+		text-align: left;
+		width:800px;
+	}
 	</style>
 </head>
 <body>
@@ -70,19 +61,11 @@ if(ldap.getAccessLevel() < 20) {
 %>
 	<div align="center">
 		<div id="container">
-			<div id="row">
-				<h3>Recorded Sessions</h3>
-			</div>
-			<div id="row">
-				<input type='button' value='Delete Selected' onclick='recordedAction("delete");'/>
-			</div>
-			<div id="row">
-				<table id="recordgrid"></table>
-				<div id="pager"></div>
-			</div>
-			<div id="row">
-				Note: New recordings will appear in the above list after processing.<br/>  Refresh your browser to update the list.
-			</div>
+			<h3>Recorded Sessions</h3>
+			<input type='button' value='Delete Selected' onclick='recordedAction("delete");'/>
+			<table id="recordgrid"></table>
+			<div id="pager"></div>
+			Note: New recordings will appear in the above list after processing.<br/>  Refresh your browser to update the list.
 		</div>
 	</div>
 	
