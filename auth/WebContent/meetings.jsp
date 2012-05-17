@@ -67,9 +67,6 @@ if(ldap.getAccessLevel() < 10) {
 
 <%
 	if (request.getParameterMap().isEmpty()) {
-		//
-		// Assume we want to see a list of meetings
-		//
 %>	
 
 	<div align="center">
@@ -87,14 +84,13 @@ if(ldap.getAccessLevel() < 10) {
 			</div>
 			<div id="row">
 				<table id="meetinggrid"></table>
+				<div id="pager"></div>
 			</div>
 			<div id="row">
 				Note: New meetings will appear in the above list after processing.<br/>  Refresh your browser to update the list.
 			</div>
 		</div>
 	</div>
-	
-	<div id="pager"></div>
 	
 	<script>
 	function recordedAction(action){

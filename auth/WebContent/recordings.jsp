@@ -35,7 +35,7 @@ with BigBlueButton; if not, If not, see <http://www.gnu.org/licenses/>.
 	<script type="text/javascript" src="js/jquery-ui.js"></script>
 	<script src="js/grid.locale-en.js" type="text/javascript"></script>
 	<script src="js/jquery.jqGrid.min.js" type="text/javascript"></script>
-	<title>Recording Meeting Demo</title>
+	<title>Manage Your Recordings</title>
 	<style type="text/css">
 	#container{
     	display: table;
@@ -68,7 +68,7 @@ if(ldap.getAccessLevel() < 20) {
 <%
 	if (request.getParameterMap().isEmpty()) {
 %>
-		<div align="center">
+	<div align="center">
 		<div id="container">
 			<div id="row">
 				<h3>Recorded Sessions</h3>

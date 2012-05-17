@@ -35,9 +35,21 @@ with BigBlueButton; if not, If not, see <http://www.gnu.org/licenses/>.
 	<script type="text/javascript" src="js/jquery-ui.js"></script>
 	<script src="js/grid.locale-en.js" type="text/javascript"></script>
 	<script src="js/jquery.jqGrid.min.js" type="text/javascript"></script>
-	<title>Manage Your Meetings</title>
+	<title>Manage All Meetings</title>
 	<style type="text/css">
+	#container{
+    	display: table;
+    }
 
+  	#row{
+    	display: table-row;
+    	vertical-align: center;
+    }
+
+  	#cell{
+    	display: table-cell;
+    	padding: 25px;
+    }
 	</style>
 </head>
 <body>
@@ -52,30 +64,29 @@ if(ldap.getAccessLevel() < 100) {
     response.sendRedirect("login.jsp");	
 }
 %>
-
 <%
 	if (request.getParameterMap().isEmpty()) {
-		//
-		// Assume we want to see a list of meetings
-		//
 %>	
-
-
-	<table align='center'>
-		<tr><td>
-			<h3>Manage All Meetings</h3>
-			<select id="actionscmb" name="actions" onchange="recordedAction(this.value);">
-				<option value="novalue" selected>Actions...</option>
-				<option value="start">Start</option>
-				<option value="edit">Edit</option>
-				<option value="delete">Delete</option>
-				<option value="guest">Guest URL</option>
-			</select>
-			<table id="meetinggrid"></table>
-			<div id="pager"></div>
-			<p>Note: New meetings will appear in the above list after processing.<br/>  Refresh your browser to update the list.</p>
-		</td></tr>
-	</table>
+	<div align="center">
+		<div id="container">
+			<div id="row">
+				<h3>Manage All Meetings</h3>
+			</div>
+			<div id="row">
+				<input type='button' value='Start Selected' onclick='recordedAction("start");'/>
+				<input type='button' value='Edit Selected' onclick='recordedAction("edit");'/>
+				<input type='button' value='Delete Selected' onclick='recordedAction("delete");'/>
+				<input type='button' value='Guest URL' onclick='recordedAction("guest");'/>
+			</div>
+			<div id="row">
+				<table id="meetinggrid"></table>
+				<div id="pager"></div>
+			</div>
+			<div id="row">
+				Note: New meetings will appear in the above list after processing.<br/>  Refresh your browser to update the list.
+			</div>
+		</div>
+	</div>
 	
 	<script>
 	function recordedAction(action){
