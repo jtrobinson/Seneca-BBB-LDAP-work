@@ -39,7 +39,7 @@ with BigBlueButton; if not, If not, see <http://www.gnu.org/licenses/>.
 	<style type="text/css">
 	#container {
 		text-align: left;
-		width:550px;
+		width:620px;
 	}
 	</style>
 </head>
@@ -68,6 +68,7 @@ if(ldap.getAccessLevel() < 10) {
 			<%	} %>
 			<input type='button' value='Show Passwords' onclick='recordedAction("passwords");'/>
 			<table id="meetinggrid"></table>
+			<div id="pager"></div>
 			Note: New meetings will appear in the above list after processing.<br/>  Refresh your browser to update the list.
 		</div>
 	</div>
@@ -167,6 +168,7 @@ if(ldap.getAccessLevel() < 10) {
 			url: "meetings_helper.jsp?command=getMeetings",
 			datatype: "xml",
 			height: 300,
+			width: 600,
 			loadonce: true,
 			sortable: true,
 			autowidth: false,
