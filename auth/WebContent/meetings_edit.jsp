@@ -4,12 +4,32 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>Edit Meeting</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Edit Meeting</title>
 </head>
 <body>
 	<%@ include file="auth_header.jsp" %>
-	<%@ include file="meeting_api.jsp"%>
+	<%@ include file="meeting_api.jsp" %>
+	
+	<script type="text/javascript">
+		function flipModPass(el) {
+			el.form.modpassvis.style.display=el.checked?'':'none';
+			el.form.modpass.style.display=el.checked?'none':'';
+		}
+
+		function syncModPass(el) {
+			el.form[el.name==='modpass'?'modpassvis':'modpass'].value=el.value;
+		}
+
+		function flipViewPass(el) {
+			el.form.viewpassvis.style.display=el.checked?'':'none';
+			el.form.viewpass.style.display=el.checked?'none':'';
+		}
+
+		function syncViewPass(el) {
+			el.form[el.name==='viewpass'?'viewpassvis':'viewpass'].value=el.value;
+		}
+	</script>
 	
 	<%
 	String meetingid = request.getParameter("meetingid");
@@ -90,7 +110,11 @@
 	 			
 	 			<tr>
 	 				<td>Moderator Password</td>
-	 				<td><input type="text" id="modpass" name="modpass" value="<%= modpass %>"/></td>
+	 				<td>
+	 					<input type="password" id="modpass" name="modpass" value="<%= modpass %>" onkeyup="syncModPass(this);"/>
+	 					<input type="text" id="modpassvis" name="modpassvis" value="<%= modpass %>" style="display:none" onkeyup="syncModPass(this);"/>
+	 					<input type="checkbox" onclick="flipModPass(this);" />Show	 				
+	 				</td> 
 	 			</tr>
 	 			<%
 	 			if (!modpassErr.equals("")) { %>
@@ -101,7 +125,11 @@
 	 			} %>
 	 			<tr>
 	 				<td>Viewer Password</td>
-	 				<td><input type="text" id="viewpass" name="viewpass" value="<%= viewpass %>"/></td>
+	 				<td>
+	 					<input type="password" id="viewpass" name="viewpass" value="<%= viewpass %>" onkeyup="syncViewPass(this);"/>
+	 					<input type="text" id="viewpassvis" name="viewpassvis" value="<%= viewpass %>" style="display:none" onkeyup="syncViewPass(this);"/>
+	 					<input type="checkbox" onclick="flipViewPass(this);" />Show	 				
+	 				</td> 
 	 			</tr>
 	 			<%
 	 			if (!viewpassErr.equals("")) { %>
@@ -134,6 +162,7 @@
 	 			<tr align='center'>
 	 				<td colspan='2'>
 	 					<input type='submit' value='Edit'/>
+	 					<input type='button' value='Cancel' onclick="window.location.href='meetings.jsp'"/>
 	 				</td>
 	 			</tr>
 	 		</table>

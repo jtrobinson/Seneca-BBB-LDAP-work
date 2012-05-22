@@ -12,7 +12,6 @@ if(!ldap.getAuthenticated().equals("true")) {
 <%@ include file="bbb_api.jsp" %>
 <?xml version="1.0" ?>
 <% if(request.getParameter("command").equals("getRecords") && ldap.getAccessLevel() >= 20){%>
-	<% System.out.println(getRecordings(meets.getRecordingString(ldap.getUserID()))); %>
 	<%= getRecordings(meets.getRecordingString(ldap.getUserID())) %>
 <% } else if(request.getParameter("command").equals("getAllRecords") && ldap.getAccessLevel() >= 100){%>
 	<%= getRecordings("") %>

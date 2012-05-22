@@ -39,7 +39,7 @@ with BigBlueButton; if not, If not, see <http://www.gnu.org/licenses/>.
 	<style type="text/css">
 	#container {
 		text-align: left;
-		width:800px;
+		width:550px;
 	}
 	</style>
 </head>
@@ -66,6 +66,7 @@ if(ldap.getAccessLevel() < 10) {
 			<%	if (ldap.getAccessLevel() >= 20) { %>
 			<input type='button' value='Guest URL' onclick='recordedAction("guest");'/>
 			<%	} %>
+			<input type='button' value='Show Passwords' onclick='recordedAction("passwords");'/>
 			<table id="meetinggrid"></table>
 			Note: New meetings will appear in the above list after processing.<br/>  Refresh your browser to update the list.
 		</div>
@@ -132,6 +133,9 @@ if(ldap.getAccessLevel() < 10) {
 		}else if(action=="guest"){			
 			alert('The guest url is : "<%= StringUtils.remove(BigBlueButtonURL,"bigbluebutton/") %>auth/o.jsp?m='+meetingid+'"\n\n' +
 						'*Note* Remember to enable guest access before you give out the url.');
+		}else if(action=="passwords"){
+			alert(" Mod Pass: " + d.modpass + "\n" +
+				  "View Pass: " + d.viewpass);
 		}else{
 			sendRecordingAction(meetingid,action);
 		}
@@ -171,11 +175,11 @@ if(ldap.getAccessLevel() < 10) {
 				{name:'id',index:'id', width:50, hidden:true, xmlmap: "meetingid"},
 				{name:'type',index:'type', width:80, xmlmap: "type"},
 				{name:'name',index:'name', width:150, xmlmap: "name"},
-				{name:'modpass',index:'modpass', width:100, xmlmap: "modpass",sortable: false},
-				{name:'viewpass',index:'viewpass', width:100, xmlmap: "viewpass",sortable: false},
+				{name:'modpass',index:'modpass', width:100, xmlmap: "modpass",sortable: false, hidden: true},
+				{name:'viewpass',index:'viewpass', width:100, xmlmap: "viewpass",sortable: false, hidden: true},
 				{name:'guests',index:'guests', width:80, xmlmap: 'guests', sortable:false, align:'right', hidden:<%= student%>},
 				{name:'recorded',index:'recorded', width:80, xmlmap: "recorded", sortable:false, align:"right", hidden:<%= student%>},
-				{name:'date',index:'date', width:120, xmlmap: "date", align:"right"},
+				{name:'date',index:'date', width:150, xmlmap: "date", align:"right"},
 			],
 			xmlReader: {
 				root : "meetings",

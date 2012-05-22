@@ -39,7 +39,7 @@ with BigBlueButton; if not, If not, see <http://www.gnu.org/licenses/>.
 	<style type="text/css">
 	#container {
 		text-align: left;
-		width:800px;
+		width:600px;
 	}
 	</style>
 </head>

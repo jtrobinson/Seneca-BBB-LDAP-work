@@ -62,9 +62,9 @@ if(ldap.getAccessLevel() < 100) {
 		<div id="container">
 			<h3>Manage All Meetings</h3>
 			<input type='button' value='Start Selected' onclick='recordedAction("start");'/>
-			<input type='button' value='Edit Selected' onclick='recordedAction("edit");'/>
 			<input type='button' value='Delete Selected' onclick='recordedAction("delete");'/>
 			<input type='button' value='Guest URL' onclick='recordedAction("guest");'/>
+			<input type='button' value='Show Passwords' onclick='recordedAction("passwords");'/>
 			<table id="meetinggrid"></table>
 			<div id="pager"></div>
 			Note: New meetings will appear in the above list after processing.<br/>  Refresh your browser to update the list.
@@ -100,13 +100,6 @@ if(ldap.getAccessLevel() < 100) {
 				$("#actionscmb").val("novalue");
 				return;
 			}
-		}else if(action=="edit") {
-			window.location.href='meetings_edit.jsp?command=edit&meetingid='+meetingid+
-					  										  "&modpass="+d.modpass+
-					  										  "&viewpass="+d.viewpass+
-					  										  "&guests="+d.guests+
-					 			 							  "&recorded="+d.recorded+
-					 			 							  "&type="+d.type;
 		}else if(action=="start"){
 			var description = "";
 			if (d.recorded=="true"){
@@ -132,6 +125,9 @@ if(ldap.getAccessLevel() < 100) {
 		}else if(action=="guest"){		
 			alert('The guest url is : "<%= StringUtils.remove(BigBlueButtonURL,"bigbluebutton/") %>auth/o.jsp?m='+meetingid+'"\n\n' +
 						'*Note* Remember to enable guest access before you give out the url.');
+		}else if(action=="passwords"){
+			alert(" Mod Pass: " + d.modpass + "\n" +
+				  "View Pass: " + d.viewpass);
 		}else{
 			sendRecordingAction(meetingid,action,"null");
 		}
@@ -171,8 +167,8 @@ if(ldap.getAccessLevel() < 100) {
 				{name:'name',index:'name', width:150, xmlmap: "name"},
 				{name:'creator',index:'creator', width:125, xmlmap: "creatorname", sortable:true},
 				{name:'UID',index:'UID', width:125, xmlmap: 'creatoruid', sortable:true},
-				{name:'modpass',index:'modpass', width:100, xmlmap: "modpass",sortable: false},
-				{name:'viewpass',index:'viewpass', width:100, xmlmap: "viewpass",sortable: false},
+				{name:'modpass',index:'modpass', width:100, xmlmap: "modpass",sortable: false, hidden: true},
+				{name:'viewpass',index:'viewpass', width:100, xmlmap: "viewpass",sortable: false, hidden: true},
 				{name:'guests',index:'guests', width:80, xmlmap: "guests", sortable:false, align:"right"},
 				{name:'recorded',index:'recorded', width:80, xmlmap: "recorded", sortable:false, align:"right"},
 				{name:'date',index:'date', width:120, xmlmap: "date", align:"right"},

@@ -105,7 +105,7 @@
 		   						out.println("</select>");
 		   						out.println("<br/>Password: <input type='password' name='mPassword' value=''/><br/><br/>");
 		   						out.println("<input type='submit' id='meetingBtn' value='Join Meeting'/>");
-	   						}   						
+	   						}
 	   						if(session.getAttribute("fail")!= null){
 	   							if (session.getAttribute("fail").toString().equals("2")){
 	  								session.removeAttribute("fail");
@@ -117,7 +117,8 @@
 	   							}
 	   						}
 	   					%>
-   					</form><br/>
+   					</form>
+   					<br />
 				</div>
 			</div>
 		</div>

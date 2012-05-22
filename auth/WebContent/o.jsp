@@ -67,7 +67,7 @@
 							Password: 
 						</td>
 						<td>
-							<input type='text' name='password' />&nbsp;
+							<input type='password' name='password' />&nbsp;
 							<div style='color:red'><%= errorPassword %></div>
 						</td>
 					</tr>
