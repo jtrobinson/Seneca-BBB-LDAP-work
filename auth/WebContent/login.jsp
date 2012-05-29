@@ -1,11 +1,19 @@
 <jsp:useBean id="ldap" class="ldap.LDAPAuthenticate" scope="session"/>
 
 <%@ include file="help_conf.jsp" %>
+<%@ include file="bbb_api_conf.jsp" %>
+
 <%
-	if (!ldap.getAuthenticated().equals("true")) { 
+	if (!ldap.getAuthenticated().equals("true")) {
 %>
 		<html>
 		<head>
+			<script type="text/javascript">
+			if (window.location.protocol != "https:") {
+			   window.location = 'https://<%=BigBlueButtonURL.substring(BigBlueButtonURL.indexOf('/')+2, BigBlueButtonURL.indexOf('/', BigBlueButtonURL.indexOf('/')+3))%>/auth/login.jsp';
+			}
+			</script>
+			
 			<title>Login</title>
 			<style type="text/css">
 				#container{
