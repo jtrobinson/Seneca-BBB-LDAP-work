@@ -55,7 +55,7 @@
 				<table>
 					<tr>
 						<td>
-							Desired Name: 
+							Your Name: 
 						</td>
 						<td>
 							<input type='text'name='name' value='<%= name %>'/>&nbsp;
