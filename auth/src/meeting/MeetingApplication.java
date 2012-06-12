@@ -131,7 +131,8 @@ public class MeetingApplication {
 		if (jedis.hexists(MEETING_LIST, userId)) {
 			recordingString = jedis.hget(MEETING_LIST, userId);
 		}
-		return recordingString;
+		
+		return StringUtils.replace(recordingString, "~", ",");
 	}
 
 	public void loadMeetingsByUser(String presenterKey){
