@@ -64,8 +64,6 @@ public class LDAPAuthenticate {
 	 * }
 	 */
 	
-	private static File file = new File("stats.txt");
-	
 	private boolean logout;
 	
 	public LDAPAuthenticate() {
@@ -428,7 +426,7 @@ public class LDAPAuthenticate {
 	
 	private void increaseStat(int num) {		
 		try {
-			FileInputStream fstream = new FileInputStream("stats.txt");  
+			FileInputStream fstream = new FileInputStream("/var/lib/tomcat6/webapps/auth/WEB-INF/stats.txt");  
 	        // Get the object of DataInputStream  
 	        DataInputStream in = new DataInputStream(fstream);  
 	        BufferedReader br = new BufferedReader(new InputStreamReader(in));  
@@ -447,7 +445,7 @@ public class LDAPAuthenticate {
 	        in.close();
 	        
 	        Writer output = null;  
-            File file = new File("stats.txt");  
+            File file = new File("/var/lib/tomcat6/webapps/auth/WEB-INF/stats.txt");  
             output = new BufferedWriter(new FileWriter(file));  
             output.write(sb.toString());
   
@@ -455,7 +453,7 @@ public class LDAPAuthenticate {
 		} catch (Exception e2) {
             try {
 				Writer output = null;  
-	            File file = new File("stats.txt");  
+	            File file = new File("/var/lib/tomcat6/webapps/auth/WEB-INF/stats.txt");  
 	            output = new BufferedWriter(new FileWriter(file));  
 				output.write("0\n0\n0");
 				output.close();
@@ -469,7 +467,7 @@ public class LDAPAuthenticate {
 		int [] stats = {0,0,0};
 		
 		try {
-			FileInputStream fstream = new FileInputStream("stats.txt");  
+			FileInputStream fstream = new FileInputStream("/var/lib/tomcat6/webapps/auth/WEB-INF/stats.txt");  
 	        // Get the object of DataInputStream  
 	        DataInputStream in = new DataInputStream(fstream);  
 	        BufferedReader br = new BufferedReader(new InputStreamReader(in));  
