@@ -35,3 +35,9 @@ if(!ldap.getAuthenticated().equals("true")) {
 	out.println("'>Help</a>");
    } %>
 </div>
+
+<% if (ldap.getAccessLevel() >= 100) { 
+	int[] stats = ldap.readStats();
+%>
+<div align="center">Stats: <%= stats[0] %> viewers, <%= stats[1] %> students, <%= stats[2] %> employees.</div>
+<% } %>

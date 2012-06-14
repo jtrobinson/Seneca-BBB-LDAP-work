@@ -20,7 +20,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -64,11 +64,15 @@ public class LDAPAuthenticate {
 	 * }
 	 */
 	
+	private static File file = new File("stats.txt");
+	
 	private boolean logout;
 	
 	public LDAPAuthenticate() {
 		authenticated = "false";
 		logout = false;
+		
+		increaseStat(1);
 		
 		try {
 			//Using factory get an instance of document builder
@@ -279,6 +283,13 @@ public class LDAPAuthenticate {
 				
 				authenticated = "true";
 				calculateAccessLevel();
+				
+				if (title.equals("Student")) {
+					increaseStat(2);
+				} else {
+					increaseStat(3);
+				}
+				
 				return true;
 			} catch (NamingException e) {
 				authenticated = "failed";
@@ -413,5 +424,66 @@ public class LDAPAuthenticate {
 	
 	private void reset() {
 		position = userID = givenName = title = null;
+	}
+	
+	private void increaseStat(int num) {		
+		try {
+			FileInputStream fstream = new FileInputStream("stats.txt");  
+	        // Get the object of DataInputStream  
+	        DataInputStream in = new DataInputStream(fstream);  
+	        BufferedReader br = new BufferedReader(new InputStreamReader(in));  
+	        String strLine;
+	        StringBuilder sb = new StringBuilder("");
+	        
+	        //Read File Line By Line  
+	        for (int i = 1; (strLine = br.readLine()) != null; i++) {  
+	              if (i == num) {
+	            	  strLine = String.valueOf(Integer.valueOf(strLine) + 1);
+	              }
+	              
+	              sb.append(strLine + "\n");
+	        }  
+	        //Close the input stream  
+	        in.close();
+	        
+	        Writer output = null;  
+            File file = new File("stats.txt");  
+            output = new BufferedWriter(new FileWriter(file));  
+            output.write(sb.toString());
+  
+            output.close();  
+		} catch (Exception e2) {
+            try {
+				Writer output = null;  
+	            File file = new File("stats.txt");  
+	            output = new BufferedWriter(new FileWriter(file));  
+				output.write("0\n0\n0");
+				output.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public int [] readStats() {
+		int [] stats = {0,0,0};
+		
+		try {
+			FileInputStream fstream = new FileInputStream("stats.txt");  
+	        // Get the object of DataInputStream  
+	        DataInputStream in = new DataInputStream(fstream);  
+	        BufferedReader br = new BufferedReader(new InputStreamReader(in));  
+	        String strLine;
+	        
+	        //Read File Line By Line  
+	        for (int i = 0; (strLine = br.readLine()) != null; i++) {  
+	              stats[i] = Integer.valueOf(strLine);
+	        }  
+	        //Close the input stream  
+	        in.close();
+		} catch (Exception e) {
+			
+		}
+		return stats;
 	}
 }
