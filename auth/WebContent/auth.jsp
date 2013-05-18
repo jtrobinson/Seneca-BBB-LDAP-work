@@ -1,9 +1,9 @@
 <jsp:useBean id="ldap" class="ldap.LDAPAuthenticate" scope="session"/>
 
 <%
-	if(request.getParameter( "username" ) != null && request.getParameter( "password" ) != null){
+	if(request.getParameter( "SenecaLDAPBBBLogin" ) != null && request.getParameter( "SenecaLDAPBBBLoginPass" ) != null){
 		
-		if (ldap.search(request.getParameter( "username" ),request.getParameter( "password"))) {
+		if (ldap.search(request.getParameter( "SenecaLDAPBBBLogin" ),request.getParameter( "SenecaLDAPBBBLoginPass"))) {
 			if (ldap.getAccessLevel() < 0) {
 				response.sendRedirect("banned.jsp");
 			} else {

@@ -420,8 +420,6 @@ public String endMeeting(String meetingID, String moderatorPassword) {
 
 public String getRecordingsURL(String meetingID) {
 	String record_parameters = "meetingID=" + urlEncode(meetingID);
-	//System.out.println(BigBlueButtonURL + "api/getRecordings?" + record_parameters + "&checksum="
-	//		+ checksum("getRecordings" + record_parameters + salt));
 	return BigBlueButtonURL + "api/getRecordings?" + record_parameters + "&checksum="
 		+ checksum("getRecordings" + record_parameters + salt);
 }
@@ -491,7 +489,7 @@ public String getRecordings(String meetingID) {
 					if (j != 0){
 						playback +=", ";
 					} 
-					playback += StringEscapeUtils.escapeXml("<a href='" + urlP + "'>" + "View" + "</a>");
+					playback += StringEscapeUtils.escapeXml("<a href='" + urlP + "'>" + typeP + "</a>");
 					
 					if(typeP.equalsIgnoreCase("slides")){
 						length = lengthP;

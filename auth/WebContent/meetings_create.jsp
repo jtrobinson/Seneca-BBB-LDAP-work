@@ -36,9 +36,10 @@ if(ldap.getAccessLevel() < 10) {
 			metadata.put("description", request.getParameter("description"));
 		}
 		
+		String welcomeMessage = "Welcome to the BigBlueButton" + (request.getParameter("recorded").equals("true") ? " this meeting is being recorded" : "");
 	%>
 	<script language="javascript" type="text/javascript">
-  		window.location.href="<%=getJoinURL(ldap.getGivenName(), request.getParameter("meetingID"), request.getParameter("recorded"),"Welcome", request.getParameter("modpass"), request.getParameter("viewpass"), metadata, null)%>";
+  		window.location.href="<%=getJoinURL(ldap.getGivenName(), request.getParameter("meetingID"), request.getParameter("recorded"),welcomeMessage, request.getParameter("modpass"), request.getParameter("viewpass"), metadata, null)%>";
 	</script>
 </body>
 </html>

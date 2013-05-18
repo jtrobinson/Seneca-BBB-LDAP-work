@@ -71,7 +71,7 @@
 		   							out.println("<option value='" + rawName + "'>" + displayName + "</option>");
 		   						}
 								out.println("</select>");
-								out.println("<br/>Password: <input type='password' name='lPassword' value=''/><br/><br/>");
+								out.println("<br/>Password: <input type='password' name='SenecaBBBLecturePassword' value=''/><br/><br/>");
 								out.println("<input type='submit' id='lectureBtn' value='Join Lecture'/>");
 	   						}					   						
 	   						if(session.getAttribute("fail")!= null){
@@ -103,7 +103,7 @@
 		   							out.println("<option value='" + rawName + "'>" + displayName + "</option>");
 		   						}
 		   						out.println("</select>");
-		   						out.println("<br/>Password: <input type='password' name='mPassword' value=''/><br/><br/>");
+		   						out.println("<br/>Password: <input type='password' name='SenecaBBBMeetingPassword' value=''/><br/><br/>");
 		   						out.println("<input type='submit' id='meetingBtn' value='Join Meeting'/>");
 	   						}
 	   						if(session.getAttribute("fail")!= null){
@@ -122,6 +122,7 @@
 				</div>
 			</div>
 		</div>
+		To update the lists of lectures and meetings refresh the page.
 	</div>
 </body>
 </html>

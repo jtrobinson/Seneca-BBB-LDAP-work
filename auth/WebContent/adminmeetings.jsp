@@ -1,22 +1,4 @@
-<!--
-XX
-BigBlueButton - http://www.bigbluebutton.org
 
-Copyright (c) 2008-2009 by respective authors (see below). All rights reserved.
-
-BigBlueButton is free software; you can redistribute it and/or modify it under the 
-terms of the GNU Lesser General Public License as published by the Free Software 
-Foundation; either version 3 of the License, or (at your option) any later 
-version. 
-
-BigBlueButton is distributed in the hope that it will be useful, but WITHOUT ANY 
-WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A 
-PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
-
-You should have received a copy of the GNU Lesser General Public License along 
-with BigBlueButton; if not, If not, see <http://www.gnu.org/licenses/>.
-
--->
 <%@page import="org.apache.commons.lang.StringUtils"%>
 
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -28,7 +10,7 @@ with BigBlueButton; if not, If not, see <http://www.gnu.org/licenses/>.
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<link rel="stylesheet" type="text/css" href="css/redmond/jquery-ui-redmond.css" />
 	<link rel="stylesheet" type="text/css" href="css/ui.jqgrid.css" />
 	<script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
@@ -65,6 +47,10 @@ if(ldap.getAccessLevel() < 100) {
 			<input type='button' value='Delete Selected' onclick='recordedAction("delete");'/>
 			<input type='button' value='Guest URL' onclick='recordedAction("guest");'/>
 			<input type='button' value='Show Passwords' onclick='recordedAction("passwords");'/>
+			<div id="guestURL" style="display: none;">
+				Guest URL for the selected meeting:&nbsp;&nbsp;
+				<input type="text" id="guestURLBox" name="guestURL" size="90"/>
+			</div>
 			<table id="meetinggrid"></table>
 			<div id="pager"></div>
 			Note: New meetings will appear in the above list after processing.<br/>  Refresh your browser to update the list.
@@ -73,6 +59,11 @@ if(ldap.getAccessLevel() < 100) {
 	
 	<script>
 	function recordedAction(action){
+		if (document.getElementById) {
+			document.getElementById("guestURL").style.display = "none";
+			document.getElementById("guestURLBox").value = "";
+		}	
+		
 		if(action=="novalue"){
 			return;
 		}
@@ -123,8 +114,14 @@ if(ldap.getAccessLevel() < 100) {
 									'_blank');
 			}
 		}else if(action=="guest"){		
-			alert('The guest url is : "<%= StringUtils.remove(BigBlueButtonURL,"bigbluebutton/") %>auth/o.jsp?m='+meetingid+'"\n\n' +
-						'*Note* Remember to enable guest access before you give out the url.');
+			if (document.getElementById) {
+				document.getElementById("guestURL").style.display = "block";
+				document.getElementById("guestURLBox").value = "<%= StringUtils.remove(BigBlueButtonURL,"bigbluebutton/") %>auth/o.jsp?m="+meetingid;
+			}
+			
+			// alert boxes can't be copied in IE or Chrome
+			// alert('The guest url is : "<%= StringUtils.remove(BigBlueButtonURL,"bigbluebutton/") %>auth/o.jsp?m='+meetingid+'"\n\n' +
+						//'*Note* Remember to enable guest access before you give out the url.');
 		}else if(action=="passwords"){
 			alert(" Mod Pass: " + d.modpass + "\n" +
 				  "View Pass: " + d.viewpass);
@@ -187,6 +184,12 @@ if(ldap.getAccessLevel() < 100) {
 			viewrecords: true,
 			loadComplete: function(){
 				$("#meetinggrid").trigger("reloadGrid");
+			},
+			onSelectRow: function(id){ 
+				if (document.getElementById) {
+					document.getElementById("guestURL").style.display = "none";
+					document.getElementById("guestURLBox").value = "";
+				}
 			}
 		});
 	});

@@ -16,9 +16,9 @@
 	session.removeAttribute("type");
 	String password = null;
 	if (type.equals("1"))
-		password = request.getParameter("lPassword");
+		password = request.getParameter("SenecaBBBLecturePassword");
 	else if (type.equals("2"))
-		password = request.getParameter("mPassword");	
+		password = request.getParameter("SenecaBBBMeetingPassword");	
 	
 	if (password == null){
 		response.sendRedirect("join.jsp");

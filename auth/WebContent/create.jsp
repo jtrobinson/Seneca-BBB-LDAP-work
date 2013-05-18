@@ -7,7 +7,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	
 	<%!
 	public boolean isTextNode(Node n) {
@@ -86,9 +86,11 @@
 	}
 	%>
 	<form action="createAction.jsp" method="post" name="form">
-		<div id='container' width='465'>
+		<div id='container'>
 			<div id='row'>
 				<h3>Create Session</h3>
+			</div>
+			<div id='cell' align='center'><span style='color: red'>*</span> - Required Field
 			</div>
 		<%
 			String checked = "";
@@ -127,7 +129,10 @@
 					out.print("value='" + session.getAttribute("section") + "'");
 					out.print("/>");
 				}
+				
 				out.print("</div></div>");
+				
+				out.println("<div style='width:inherit'><a href='http://zenit.senecac.on.ca/wiki/index.php/Big_Blue_Button#Contributors'>Contact one of us to get your class added</a></div>");
 			} else {
 				// else user sees a textbox with name of the lecture
 				out.print("<div id='row'> <div id='left'>Name of Meeting  <span style='color:red'>*</span></div>");
@@ -193,8 +198,6 @@
 			%>
 			<div id='row' align='right'>
 				<div id='cell'><input type='submit' value='Create' />
-				</div>
-				<div id='cell' align='center'><span style='color: red'>*</span> - Required Field
 				</div>
 			</div>
 		</div>

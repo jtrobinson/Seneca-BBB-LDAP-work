@@ -6,34 +6,51 @@
 <%
 	if (!ldap.getAuthenticated().equals("true")) {
 %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 		<html>
 		<head>
+			<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+			<title>Login Page</title>
+			
 			<script type="text/javascript">
-			if (window.location.protocol != "https:") {
-			   window.location = 'https://<%=BigBlueButtonURL.substring(BigBlueButtonURL.indexOf('/')+2, BigBlueButtonURL.indexOf('/', BigBlueButtonURL.indexOf('/')+3))%>/auth/login.jsp';
-			}
+			//if (window.location.protocol != "https:") {
+			//   window.location = 'https://<%=BigBlueButtonURL.substring(BigBlueButtonURL.indexOf('/')+2, BigBlueButtonURL.indexOf('/', BigBlueButtonURL.indexOf('/')+3))%>/auth/login.jsp';
+			//}
 			</script>
 			
-			<title>Login</title>
 			<style type="text/css">
-				#container{
-			    	display: table;
-			    	width: 300px;
-			    	border: 1px solid #000000;
-			    	background-color: #efefef;
+				div.container{
+					display: table;
+					margin: 0 auto;
+					width: 400px;
+					border: 1px solid #000000;
+					background-color: #efefef;
 			    }
 			
-			  	#row{
+			  	div.row{
 			    	display: table-row;
 			    }
 			
-			  	#cell{
+			  	div.cell{
 			    	display: table-cell;
-			    	padding: 5px;
-			    	vertical-align: middle;
+					padding: 5px;
 			    }
 			    
-			    #bottom-cell{
+			    div.left {
+					display: table-cell;
+					width: 30%;
+					padding: 5px;
+					text-align: right;
+				}
+				
+				div.right {
+					display: table-cell;
+					width: 30%;
+					padding: 5px;
+					vertical-align: middle;
+				}
+			    
+			    div.bottom-cell{
 			    	display: table-cell;
 			    	padding: 5px;
 			    	width: 25%;
@@ -44,36 +61,35 @@
 			<%@ include file="seneca_header.jsp"%>
 			<form name="loginform" method="post" action="auth.jsp">
 				<br/><br/>
-				<div align="center">
-					<div id="container">
-						<div id="row">
-							<div id="cell">
-								<b>Login Name</b>
-							</div>
-							<div id="cell">
-								<input type="text" name="username" value="">
-							</div>							
+
+				<div class="container">
+					<div class="row">
+						<div class="left">
+							<b><label for="SenecaLDAPBBBLogin">Login Name</label></b>
 						</div>
-						<div id="row">
-							<div id="cell">
-								<b>Password</b>
-							</div>
-							<div id="cell">
-								<input type="password" name="password" value="">
-							</div>							
-						</div>
-						<div id="row" align="left">
-							<div id="bottom-cell"></div>
-							<input type="submit" name="Submit" value="Login">							
-							<%
-							out.print("<a href='"+helpURL);
-							if (helpRedirect.containsKey("login.jsp"))
-								out.print("#"+helpRedirect.get("login.jsp"));
-							out.println("'>Help</a>");
-							%>
-						</div>
+						<div class="right">
+							<input type="text" name="SenecaLDAPBBBLogin" id="SenecaCDAPBBBLogin" value="">
+						</div>							
 					</div>
-				</div>			
+					<div class="row">
+						<div class="left">
+							<b><label>Password</label></b>
+						</div>
+						<div class="right">
+							<input type="password" name="SenecaLDAPBBBLoginPass" id="SenecaLDAPBBBLoginPass" value="">
+						</div>							
+					</div>
+					<div class="row">
+						<div class="bottom-cell"></div>
+						<input type="submit" name="Submit" value="Login">							
+						<%
+						out.print("<a href='"+helpURL);
+						if (helpRedirect.containsKey("login.jsp"))
+							out.print("#"+helpRedirect.get("login.jsp"));
+						out.println("'>Help</a>");
+						%>
+					</div>
+				</div>		
 			</form>
 			<%
 				if (ldap.getAuthenticated().equals("failed")) {
@@ -88,17 +104,6 @@
 			   		out.print("<div style='color:green' align='center'> You are logged out!</div>");
 			   	}
 			%>
-			
-			<% if (request.getHeader("User-Agent").indexOf("MSIE") != -1) { %>
-				<br/>
-				<div id="container">
-					<div id="row">
-						<div id="cell">
-							For best results please use Firefox or Chrome.
-						</div>
-					</div>
-				</div>
-			<% } %>
 		</body>
 		</html>
 <%

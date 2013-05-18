@@ -60,32 +60,35 @@ public class MeetingApplication {
 	}
 
 	public void loadAllMeetings(){
+		
 		// Create an ArrayList for lectures and one for ordinary meetings
 		Jedis jedis = dbConnect();
 		ArrayList <String> lectureList = new ArrayList <String> ();
 		ArrayList <String> meetingList = new ArrayList <String> ();
 
-		// Goes through all keys in Redis
-		for (String eachKey : jedis.keys(USERID_HEADER+"*")){
-			int compareResult = jedis.type(eachKey).compareTo("hash");
-			// Checks if the current key is a hash, and if it contains any meetings
-			if (compareResult == 0 && jedis.hexists(eachKey, "meeting1")){
-				// Goes through each meeting in the current hash
-				for (int i = 1; i <= jedis.hlen(eachKey); i++){
-					// Extracts the meeting data string from the current meeting
-					String rawMeeting = jedis.hget(eachKey, "meeting"+i) + DELIMITER+StringUtils.removeStart(eachKey, String.valueOf(USERID_HEADER));
-					// Adds the data string to either lectureList or meetingList depending on the presence of the PROF_SYMBOL
-					if (rawMeeting.charAt(0) == PROF_SYMBOL){
-						lectureList.add(rawMeeting);
-					}
-					else{
-						meetingList.add(rawMeeting);
+		
+		if (jedis != null) { // dbConnect() returns null if it can't connect to redis
+			// Goes through all keys in Redis
+			for (String eachKey : jedis.keys(USERID_HEADER+"*")){
+				int compareResult = jedis.type(eachKey).compareTo("hash");
+				// Checks if the current key is a hash, and if it contains any meetings
+				if (compareResult == 0 && jedis.hexists(eachKey, "meeting1")){
+					// Goes through each meeting in the current hash
+					for (int i = 1; i <= jedis.hlen(eachKey); i++){
+						// Extracts the meeting data string from the current meeting
+						String rawMeeting = jedis.hget(eachKey, "meeting"+i) + DELIMITER+StringUtils.removeStart(eachKey, String.valueOf(USERID_HEADER));
+						// Adds the data string to either lectureList or meetingList depending on the presence of the PROF_SYMBOL
+						if (rawMeeting.charAt(0) == PROF_SYMBOL){
+							lectureList.add(rawMeeting);
+						}
+						else{
+							meetingList.add(rawMeeting);
+						}
 					}
 				}
 			}
-		
 		}
-
+		
 		// Sort the lecture and meeting lists alphabetically
 		Collections.sort(lectureList);
 		Collections.sort(meetingList);
@@ -128,8 +131,10 @@ public class MeetingApplication {
 		
 		userId = USERID_HEADER + userId;
 		
-		if (jedis.hexists(MEETING_LIST, userId)) {
-			recordingString = jedis.hget(MEETING_LIST, userId);
+		if (jedis != null) { // dbConnect() returns null if it can't connect to redis
+			if (jedis.hexists(MEETING_LIST, userId)) {
+				recordingString = jedis.hget(MEETING_LIST, userId);
+			}
 		}
 		
 		return StringUtils.replace(recordingString, "~", ",");
@@ -141,19 +146,21 @@ public class MeetingApplication {
 		Jedis jedis = dbConnect();
 		ArrayList <String> lectureList = new ArrayList <String> ();
 		ArrayList <String> meetingList = new ArrayList <String> ();
-
-		// Checks if the current key is a hash, and if it contains any meetings
-		if (jedis.type(presenterKey).equals("hash")){
-			// Goes through each meeting in the current hash
-			for (int i = 1; i <= jedis.hlen(presenterKey); i++){
-				// Extracts the meeting data string from the current meeting
-				String rawMeeting = jedis.hget(presenterKey, "meeting"+i) + DELIMITER+StringUtils.removeStart(presenterKey, String.valueOf(USERID_HEADER));
-				
-				// Adds the data string to either lectureList or meetingList depending on the presence of the PROF_SYMBOL
-				if (rawMeeting.charAt(0) == PROF_SYMBOL)
-					lectureList.add(rawMeeting);
-				else
-					meetingList.add(rawMeeting);
+		
+		if (jedis != null) { // dbConnect() returns null if it can't connect to redis
+			// Checks if the current key is a hash, and if it contains any meetings
+			if (jedis.type(presenterKey).equals("hash")){
+				// Goes through each meeting in the current hash
+				for (int i = 1; i <= jedis.hlen(presenterKey); i++){
+					// Extracts the meeting data string from the current meeting
+					String rawMeeting = jedis.hget(presenterKey, "meeting"+i) + DELIMITER+StringUtils.removeStart(presenterKey, String.valueOf(USERID_HEADER));
+					
+					// Adds the data string to either lectureList or meetingList depending on the presence of the PROF_SYMBOL
+					if (rawMeeting.charAt(0) == PROF_SYMBOL)
+						lectureList.add(rawMeeting);
+					else
+						meetingList.add(rawMeeting);
+				}
 			}
 		}
 
@@ -204,11 +211,11 @@ public class MeetingApplication {
 		} else {	
 			loadMeetingsByUser(uid);
 		}
-
-		String newXMLdoc = convertMeetingList(getLectures(), "Lecture");
+		String newXMLdoc = "";
+		newXMLdoc += convertMeetingList(getLectures(), "Lecture");
 		newXMLdoc += convertMeetingList(getMeetings(), "Meeting");
 
-		if (!newXMLdoc.equals(""))
+		//if (!newXMLdoc.equals(""))
 			newXMLdoc = "<meetings>" + newXMLdoc + "</meetings>";
 		
 		return newXMLdoc;

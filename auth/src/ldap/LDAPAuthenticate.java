@@ -13,7 +13,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.WordUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -21,7 +21,6 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Hashtable;
@@ -43,9 +42,6 @@ public class LDAPAuthenticate {
 	private String userID;
 	private String givenName;
 	private String title;
-	
-	private String positionList[];
-	private String titleList[];
 	
 	private Date lastAccess;
 	private Integer timeoutTime;
@@ -171,13 +167,10 @@ public class LDAPAuthenticate {
 			
 			
 		} catch (ParserConfigurationException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} catch (SAXException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -240,9 +233,11 @@ public class LDAPAuthenticate {
 			return true;
 		}
 		
+		//user = user.toLowerCase();
+		
 		search(user);
 		
-		if (authenticated.equals("true") && user.equals(userID)) {
+		if (authenticated.equals("true") && user.toLowerCase().equals(userID.toLowerCase())) {
 			try {
 				env = new Hashtable<Object, Object>();
 				env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
@@ -250,7 +245,7 @@ public class LDAPAuthenticate {
 				// specify where the ldap server is running
 				env.put(Context.PROVIDER_URL, url);
 				env.put(Context.SECURITY_AUTHENTICATION, "simple");
-				String userIDString = userIDField + "=" + userID;
+				String userIDString = userIDField + "=" + user;
 				String positionString = positionField + "=" + position;
 	
 				env.put(Context.SECURITY_PRINCIPAL, userIDString + ", " + positionString + ", o="+o);
@@ -258,14 +253,14 @@ public class LDAPAuthenticate {
 				
 				// this command will throw an exception if the password is incorrect
 				DirContext ldapContext = new InitialDirContext(env);
-				
 				NamingEnumeration<SearchResult> results = ldapContext.search("o=" + o, "(&(" + userIDField + "=" + user + "))", searchCtrl);
 				
 				if (!results.hasMore()) // search failed
 					throw new NamingException();
-				
+
 				SearchResult sr = results.next();
 				Attributes at = sr.getAttributes();
+				
 				givenName = at.get(givenNameField).toString().split(": ")[1];
 				
 				if (at.get(titleField) != null) {
@@ -275,11 +270,11 @@ public class LDAPAuthenticate {
 				}
 				
 				//prints out all possible attributes
-			//	for(NamingEnumeration i = at.getAll(); i.hasMore(); ) {
-			//		System.out.println((Attribute) i.next());
-			//	}
+				for(NamingEnumeration i = at.getAll(); i.hasMore(); ) {
+					System.out.println((Attribute) i.next());
+				}
 				
-				authenticated = "true";
+				authenticated = "true"; //TODO
 				calculateAccessLevel();
 				
 				if (title.equals("Student")) {
@@ -291,9 +286,11 @@ public class LDAPAuthenticate {
 				return true;
 			} catch (NamingException e) {
 				authenticated = "failed";
+				e.printStackTrace();
 			} catch (Exception e) {
 				//e.printStackTrace();
 				authenticated = "error";
+				e.printStackTrace();
 			}
 		}
 		
@@ -311,6 +308,11 @@ public class LDAPAuthenticate {
 				
 				SearchResult sr = results.next();
 				Attributes at = sr.getAttributes();
+				
+				//System.out.println("position=" +position);
+				for(NamingEnumeration i = at.getAll(); i.hasMore(); ) {
+					System.out.println((Attribute) i.next());
+				}
 				
 				position = ((sr.getName().split(","))[1].split("="))[1];
 				userID = at.get(userIDField).toString().split(": ")[1];
@@ -457,8 +459,8 @@ public class LDAPAuthenticate {
 	            output = new BufferedWriter(new FileWriter(file));  
 				output.write("0\n0\n0");
 				output.close();
-			} catch (IOException e) {
-				e.printStackTrace();
+			} catch (Exception e) { // the file could not be accessed
+				System.out.println("Could not access stats.txt, if developing ignore message");
 			}
 		}
 	}
