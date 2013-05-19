@@ -233,24 +233,38 @@ public class MeetingApplication {
 			date
 		 */
 		for (String[] meet : meetings) {
-
-
-			String [] parts = meet[0].split("\\^");
-			
-			
-			convMeetings += "<meeting>";
-			convMeetings += "<meetingid>" + meet[0] + "</meetingid>";
-			convMeetings += "<type>" + type + "</type>";
-			convMeetings += "<name>" + StringUtils.removeStart(parts[0], String.valueOf(PROF_SYMBOL)) + "</name>";
-			convMeetings += "<creatorname>" + parts[1] + "</creatorname>";
-			convMeetings += "<creatoruid>" + meet[6] + "</creatoruid>";
-			convMeetings += "<modpass>" + meet[1] + "</modpass>";
-			convMeetings += "<viewpass>" + meet[2] + "</viewpass>";
-			convMeetings += "<guests>" + meet[3] + "</guests>";
-			convMeetings += "<recorded>" + meet[4] + "</recorded>";
-			convMeetings += "<date>" + meet[5] + "</date>";
-
-			convMeetings += "</meeting>";
+			if (meet.length == 7) {
+				String [] parts = meet[0].split("\\^");
+				if (parts.length == 2) {
+					convMeetings += "<meeting>";
+					convMeetings += "<meetingid>" + meet[0] + "</meetingid>";
+					convMeetings += "<type>" + type + "</type>";
+					convMeetings += "<name>" + StringUtils.removeStart(parts[0], String.valueOf(PROF_SYMBOL)) + "</name>";
+					convMeetings += "<creatorname>" + parts[1] + "</creatorname>";
+					convMeetings += "<creatoruid>" + meet[6] + "</creatoruid>";
+					convMeetings += "<modpass>" + meet[1] + "</modpass>";
+					convMeetings += "<viewpass>" + meet[2] + "</viewpass>";
+					convMeetings += "<guests>" + meet[3] + "</guests>";
+					convMeetings += "<recorded>" + meet[4] + "</recorded>";
+					convMeetings += "<date>" + meet[5] + "</date>";
+					convMeetings += "</meeting>";
+				} else {
+					convMeetings += "\n\n<failedparts>\n";
+					for (int i=0; i < meet.length; i++) {
+						convMeetings += "\t<attr>" + meet[i] + "</attr>\n";
+					}
+					for (int j=0; j < parts.length; j++) {
+						convMeetings += "\t<parts>" + meet[j] + "</parts>\n";
+					}
+					convMeetings += "</failedparts>\n\n";
+				}
+			} else {
+				convMeetings += "\n\n<failedmeet>\n";
+				for (int i=0; i < meet.length; i++) {
+					convMeetings += "\t<attr>" + meet[i] + "</attr>\n";
+				}
+				convMeetings += "</failedmeet>\n\n";
+			}
 		}
 
 		return convMeetings;
